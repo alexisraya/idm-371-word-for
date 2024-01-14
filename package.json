@@ -1,0 +1,28 @@
+{
+  "name": "idm-371-word-for",
+  "version": "1.0.0",
+  "description": "UXID Junior Project. WordFor is a web app that provides dynamic, in-depth translations for multi-lingual speakers. This webapp will utilize Open AI and ReactJS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexisraya/idm-371-word-for.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexisraya/idm-371-word-for/issues"
+  },
+  "homepage": "https://github.com/alexisraya/idm-371-word-for#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": "16.16.0"
+  }
+}
