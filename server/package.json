@@ -4,6 +4,6 @@
     "build": "cd client && npm install && npm run build"
   },
   "engines": {
-    "node": "20.x"
+    "node": "18.x"
   }
 }
