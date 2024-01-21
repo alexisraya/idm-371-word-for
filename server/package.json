@@ -1,9 +1,0 @@
-{
-"scripts": {
-    "start": "node index.js",
-    "build": "cd client && npm install && npm run build"
-  },
-  "engines": {
-    "node": "18.x"
-  }
-}
