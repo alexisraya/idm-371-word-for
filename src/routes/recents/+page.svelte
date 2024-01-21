@@ -1,0 +1,1 @@
+<h1>Recent Searches</h1>
