@@ -1,43 +1,14 @@
 <script>
-	let languages = [
-		{ id: 1, text: `English` },
-		{ id: 2, text: `Spanish` }
-	];
+    import { LANGUAGES } from "./constants/languages";
+    import { CONTEXTS } from "./constants/contexts";
+    import { REGIONS } from "./constants/regions";
+  import { intros } from "svelte/internal";
 
-    let contexts = [
-		{ id: 1, text: `Casual` },
-		{ id: 2, text: `Formal` },
-        { id: 3, text: `Honorific` },
-        { id: 4, text: `Romantic` },
-        { id: 5, text: `Friendly` },
-        { id: 6, text: `Professional` },
-	];
+	let languages = LANGUAGES;
+    let contexts = CONTEXTS;
+    let regions = REGIONS.spanish;
+	let selectedOrigin = {}
 
-    let regions = [
-		{ id: 1, text: `Argentina` },
-		{ id: 2, text: `Bolivia` },
-        { id: 3, text: `Chile` },
-        { id: 4, text: `Colombia` },
-        { id: 5, text: `Costa Rica` },
-        { id: 6, text: `Cuba` },
-        { id: 7, text: `Dominican Republic` },
-        { id: 8, text: `Ecuador` },
-        { id: 9, text: `El Salvador` },
-        { id: 10, text: `Equatorial Guinea` },
-        { id: 11, text: `Guatemala` },
-        { id: 12, text: `Honduras` },
-        { id: 13, text: `Mexico` },
-        { id: 14, text: `Nicaragua` },
-        { id: 15, text: `Panama` },
-        { id: 16, text: `Paraguay` },
-        { id: 17, text: `Peru` },
-        { id: 18, text: `Puerto Rico` },
-        { id: 19, text: `Spain` },
-        { id: 20, text: `Uruguay` },
-        { id: 21, text: `Venezuela` }
-	];
-
-	let selectedOrigin = {};
     let selectedTranslate = {};
     let selectedContext = [];
     let selectedRegion = [];
