@@ -37,10 +37,11 @@
         { id: 21, text: `Venezuela` }
 	];
 
-	let selectedOrigin;
-    let selectedTranslate;
+	let selectedOrigin = {};
+    let selectedTranslate = {};
     let selectedContext = [];
     let selectedRegion = [];
+    let phrase = '';
 
     function joinContext(selectedContext) {
 		if (selectedContext.length === 1) return selectedContext[0];
@@ -52,10 +53,33 @@
 		return `${selectedRegion.slice(0, -1).join(', ')} and ${selectedRegion[selectedRegion.length - 1]}`;
 	}
 
-	let phrase = '';
-
 	function handleSubmit() {
-		return;
+        let originLanguage = selectedOrigin.text;
+        let translateLanguage = selectedTranslate.text;
+
+        let contexts = (selectedContext.length < 1) ? `any` : '';
+        if (contexts !== `any`){
+            selectedContext.forEach(context => {
+                let str = `, ` + context.text;
+                contexts += str;
+            });
+            contexts = contexts.substring(2);
+        }
+
+        let regions = (selectedRegion.length < 1) ? `any` : '';
+        if (regions !== `any`){
+            selectedRegion.forEach(region => {
+                let str = `, ` + region.text;
+                regions += str;
+            });
+            regions = regions.substring(2);
+        }
+
+        console.log(originLanguage);
+        console.log(translateLanguage);
+        console.log(contexts);
+        console.log(regions);
+        console.log(phrase);
 	}
 </script>
 
@@ -122,7 +146,9 @@
 
 	<input bind:value={phrase} placeholder="Enter text here"/>
 
-	<button disabled={!phrase} type="submit"> Translate </button>
+	<button disabled={!phrase} type="submit">
+    Translate
+    </button>
 </form>
 
 <style>
