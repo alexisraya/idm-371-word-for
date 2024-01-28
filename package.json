@@ -31,5 +31,10 @@
 		"vite": "^4.0.0",
 		"vitest": "^0.25.3"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"ai": "^2.2.31",
+		"dotenv": "^16.4.1",
+		"openai": "^4.26.0"
+	}
 }
