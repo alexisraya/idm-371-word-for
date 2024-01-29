@@ -19,3 +19,4 @@
 {#each translationResults as result}
     <TranslationResult description={result.description} partSpeech={result.part_of_speech} phoneticSpelling={result.phonetic_spelling} word={result.translation}/>
 {/each}
+<p>test</p>
