@@ -87,33 +87,6 @@
                 }
             }
     }
-    // const handleSubmit = async () => {
-    //     loading = true;
-    //     try{
-    //         const result = await Promise.race([generateTextResponse,
-    //         new Promise((_,reject) =>
-    //             setTimeout(() => reject(new Error('API call timed out')), TIMEOUT_MS)
-    //         )
-    //         ]);
-
-    //         let resultObject = JSON.parse(JSON.stringify(result));
-
-    //         if (resultObject.status == 200) {
-    //             if (resultObject.data.response) {
-    //                 response = resultObject.data.response;
-    //                 formData.set({ value: response });
-    //                 goto('./translation-results');
-    //             }
-    //         } else {
-    //             alert('An error occurred, please try again.');
-    //         }
-    //     } catch (error) {
-    //         console.error('API call failed:', error);
-    //         alert('An error occurred, please try again.');
-    //     } finally {
-    //         loading = false;
-    //     }
-    // };
 </script>
 
 {#if loading === false}

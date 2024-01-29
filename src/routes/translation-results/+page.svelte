@@ -12,6 +12,7 @@
   console.log(dataObject);
   // Translation results{ description: "formal greeting used in the afternoon", part_of_speech: "phrase", phonetic_spelling: "bweh-nas tar-des", word: "buenas tardes"
   let translationResults = JSON.parse(dataObject).translations;
+  console.log(translationResults);
 
 </script>
 
@@ -19,4 +20,3 @@
 {#each translationResults as result}
     <TranslationResult description={result.description} partSpeech={result.part_of_speech} phoneticSpelling={result.phonetic_spelling} word={result.translation}/>
 {/each}
-<p>test</p>
