@@ -8,7 +8,8 @@ const openai = new OpenAI({
   });
 
 const formPrompt = (phrase:string, lang1:string, lang2:string, contexts:string, regions:string) => {
-    return (`Please give all ${contexts} translations of "${phrase}" from ${lang1} to ${lang2} that are used in ${regions}.Include phonetic spelling, description, and part of speech. Deliver the result in JSON format.`);
+    // Provide casual translations of 'Hello' from English to Spanish used in Cuba. Include phonetic spelling, description, and part of speech. Return the results in JSON format.
+    return (`Provide all ${contexts} translations of "${phrase}" from ${lang1} to ${lang2} used in ${regions}. Return the results in JSON format with the properties of translation, part_of_speech, description, and phonetic_spelling.`);
 };
 
 export const actions = {
@@ -25,7 +26,7 @@ export const actions = {
         const textResponse = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [{role: "user", content: prompt}],
-            temperature: 0.7
+            temperature: 0.3
         });
 
         return{
