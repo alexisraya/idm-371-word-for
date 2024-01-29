@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '$env/static/private';
+
 import type { Actions } from './$types';
 
 const openai = new OpenAI({
