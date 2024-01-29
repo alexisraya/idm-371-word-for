@@ -7,21 +7,21 @@ const openai = new OpenAI({
     apiKey: OPENAI_API_KEY,
   });
 
+const formPrompt = (phrase:string, lang1:string, lang2:string, contexts:string, regions:string) => {
+    return (`Please give all ${contexts} translations of "${phrase}" from ${lang1} to ${lang2} that are used in ${regions}.Include phonetic spelling, description, and part of speech. Deliver the result in JSON format.`);
+};
+
 export const actions = {
     submit: async ({ request } : any) => {
         const promptFormData = await request.formData();
         const phrase = promptFormData.get('phrase') as string;
         const origin = promptFormData.get('origin') as string;
         const translateLang = promptFormData.get('translate') as string;
-        const contexts = promptFormData.get('origin') as string;
+        const contexts = promptFormData.get('contexts') as string;
         const regions = promptFormData.get('regions') as string;
 
-        console.log("this is the prompt:");
-        console.log(regions);
+        const prompt = formPrompt(phrase, origin, translateLang, contexts, regions);
 
-        const prompt = `Please give all ${contexts} translations of "${phrase}" from ${origin} to ${translateLang} that are used in ${regions}. Deliver the result in a JSON format and include phonetic spelling, description, and part of speech.`;
-
-        console.log(prompt);
         const textResponse = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [{role: "user", content: prompt}],

@@ -3,5 +3,6 @@
 		"src/routes/+page.server.ts"
 	],
 	"/bookmarked": [],
-	"/recents": []
+	"/recents": [],
+	"/translation-results": []
 }

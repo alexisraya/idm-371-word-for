@@ -1,14 +1,17 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
+    import { goto } from '$app/navigation';
     import { LANGUAGES } from "$lib/constants/languages";
     import { CONTEXTS } from "$lib/constants/contexts";
     import { REGIONS } from "$lib/constants/regions";
 
+    import { formData, resetFormData } from "../stores/translateStore";
+
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
     let regions = REGIONS.spanish;
-	let selectedOrigin = {};
-    let selectedTranslate = {};
+	let selectedOrigin = languages[0];
+    let selectedTranslate = languages[1];
     let selectedContext = [];
     let selectedRegion = [];
     let phrase = '';
@@ -61,28 +64,28 @@
     $: originLanguage = selectedOrigin.text;
     $: translateLanguage = selectedTranslate.text;
 
-
     let loading = false;
 
 	const handleSubmit = async() => {
         loading = true;
+        return async ({ action, result }: any) => {
+                resetFormData();
+                let resultObject = JSON.parse(JSON.stringify(result));
 
-  return async ({ action, result }) => {
-            let resultObject = JSON.parse(JSON.stringify(result));
-
-            if (action.search == "?/submit") {
-                if (resultObject.status == 200) {
-                    if (resultObject.data.response) {
-                        response = resultObject.data.response;
+                if (action.search == "?/submit") {
+                    if (resultObject.status == 200) {
+                        if (resultObject.data.response) {
+                            response = resultObject.data.response;
+                            formData.set({ value: response });
+                            goto('./translation-results');
+                        }
+                        loading = false;
+                    } else {
+                        loading = false;
+                        alert("An error occurred, please try again.");
                     }
-                    
-                    loading = false;
-                } else {
-                    loading = false;
-                    alert("An error occurred, please try again.");
                 }
             }
-        }
     }
 </script>
 
