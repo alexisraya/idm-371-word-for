@@ -1,18 +1,15 @@
 <script>
   import { formData } from "../../stores/translateStore";
   import TranslationResult from "$lib/TranslationResult.svelte";
+  
   // Subscribe to changes in the store
-
   let formDataValue = {};
   formData.subscribe(value => {
     formDataValue = value;
   });
 
-  let dataObject = formDataValue.value;
-  console.log(dataObject);
-  // Translation results{ description: "formal greeting used in the afternoon", part_of_speech: "phrase", phonetic_spelling: "bweh-nas tar-des", word: "buenas tardes"
-  let translationResults = JSON.parse(dataObject).translations;
-  console.log(translationResults);
+  const dataObject = formDataValue.value;
+  const translationResults = JSON.parse(dataObject).translations;
 
 </script>
 

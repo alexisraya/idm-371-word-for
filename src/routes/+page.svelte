@@ -6,6 +6,7 @@
     import { REGIONS } from "$lib/constants/regions";
 
     import { formData, resetFormData } from "../stores/translateStore";
+    import { translatePhrase } from '$lib/helpers/translate';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -63,35 +64,26 @@
     $: translateLanguage = selectedTranslate.text;
 
     let loading = false;
-    const TIMEOUT_MS = 30000;
-    let response = '';
 
-	const handleSubmit = async() => {
+    const handleSubmit = async() => {
         loading = true;
-        return async ({ action, result }: any) => {
-                resetFormData();
-                let resultObject = JSON.parse(JSON.stringify(result));
+        resetFormData();
+        const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
+        if (response == null){
+            loading = false;
+            alert("An error occurred, please try again.");
+        }
+        else{
+            let result = response.response;
+            formData.set({ value: result });
+            goto('./translation-results');
+        }
+    };
 
-                if (action.search == "?/submit") {
-                    if (resultObject.status == 200) {
-                        if (resultObject.data.response) {
-                            response = resultObject.data.response;
-                            formData.set({ value: response });
-                            goto('./translation-results');
-                        }
-                        loading = false;
-                    } else {
-                        loading = false;
-                        alert("An error occurred, please try again.");
-                    }
-                }
-            }
-    }
 </script>
 
 {#if loading === false}
-    <!-- <form on:submit|preventDefault={handleSubmit}> -->
-    <form  action="?/submit" method="POST" enctype="multipart/form-data" use:enhance={handleSubmit}>
+    <form on:submit|preventDefault={handleSubmit}>
         <select bind:value={selectedOrigin}>
             {#each languages as language}
                 <option value={language}>
@@ -135,20 +127,11 @@
                 </ul>
             </fieldset>
         </details>
-
-        <input bind:value={phrase} id="phrase" name="phrase" placeholder="Enter text here"/>
-        <input hidden bind:value={selectedRegions} id="regions" name="regions"/>
-        <input hidden bind:value={selectedContexts} id="contexts" name="contexts"/>
-        <input hidden bind:value={originLanguage} id="origin" name="origin"/>
-        <input hidden bind:value={translateLanguage} id="translate" name="translate"/>
+        <input bind:value={phrase} placeholder="Enter text here"/>
         <button disabled={!phrase} type="submit">
         Translate
         </button>
     </form>
-    {#if response != ""}
-        <h2>Text Response</h2>
-        <p>{response}</p>
-    {/if}
 {:else}
     <h2>Translating... please wait</h2>
 {/if}

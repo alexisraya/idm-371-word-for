@@ -1,8 +1,0 @@
-{
-	"/": [
-		"src/routes/+page.server.ts"
-	],
-	"/bookmarked": [],
-	"/recents": [],
-	"/translation-results": []
-}
