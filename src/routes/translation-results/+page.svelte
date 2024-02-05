@@ -1,7 +1,6 @@
 <script>
   import { formData } from "../../stores/translateStore";
   import TranslationResult from "$lib/TranslationResult.svelte";
-  import { each } from "svelte/internal";
   
   // Subscribe to changes in the store
   let formDataValue = {};
@@ -17,5 +16,5 @@
 
 <h1>Translation Results</h1>
 {#each translationResults as result}
-    <TranslationResult description={result.description} partSpeech={result.part_of_speech} phoneticSpelling={result.phonetic_spelling} word={result.translation} region={result.region} context={result.context}/>
+    <TranslationResult description={result.definition} partSpeech={result.part_of_speech} phoneticSpelling={result.phonetic_spelling} word={result.translation} region={result.region} context={result.context} examples={result.examples} originalLanguage={result.original_language} translateLanguage={result.translate_language}/>
 {/each}
