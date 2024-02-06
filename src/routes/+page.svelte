@@ -4,6 +4,8 @@
     import { LANGUAGES } from "$lib/constants/languages";
     import { CONTEXTS } from "$lib/constants/contexts";
     import { REGIONS } from "$lib/constants/regions";
+    import { COLORS } from "$lib/constants/colors";
+    import { onMount } from 'svelte';
 
     import { formData, resetFormData } from "../stores/translateStore";
     import { translatePhrase } from '$lib/helpers/translate';
@@ -11,11 +13,25 @@
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
     let regions = REGIONS.spanish;
+    let colors = COLORS;
 	let selectedOrigin = languages[0];
     let selectedTranslate = languages[1];
     let selectedContext = [];
     let selectedRegion = [];
     let phrase = '';
+
+    // Function to set CSS variables for colors from colors.ts
+    const setCSSCustomProperties = () => {
+        const css_root = document.documentElement;
+        for (const [key, value] of Object.entries(colors)) {
+        css_root.style.setProperty(`--${key.replace('_', '-')}`, value);
+        }
+    };
+
+    // Call the function to set CSS custom properties
+    onMount(() => {
+        setCSSCustomProperties();
+    });
 
     function sanitize(str: String) {
         const map = {
@@ -145,9 +161,11 @@
     <h2>Translating... please wait</h2>
 {/if}
 <style>
-    li{
+
+    li {
         list-style: none;
     }
+
     .dropdown-wide {
         /* Reset. */
         border: unset;
@@ -163,7 +181,8 @@
         /* Style */
         list-style-type: none;
         border-radius: 1.5rem;
-        background: var(--Pure-White, #FFF);
+        background: var(--white);
+        color: var(--text-black);
         box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
     }
 
@@ -209,7 +228,8 @@
 
         /* Style */
         border-radius: 1.5rem;
-        background: var(--Pure-White, #FFF);
+        background: var(--white);
+        color: var(--text-black);
         box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
 
         /* Arrow */
@@ -279,5 +299,56 @@
         /* Layout */
         padding: 0.5rem 0;
     }
+
+    input[type="checkbox"] {
+        /* Hide the default checkbox */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 12px; /* Width of the checkbox */
+        height: 12px; /* Height of the checkbox */
+        position: relative;  
+        margin-right: 0.5rem;
+    }
+
+    input[type="checkbox"]::before, input[type="checkbox"]::after {
+        /* Style the custom checkbox */
+        content: '';
+        position: absolute;
+        top: 0.125rem;
+        left: 0;
+        width: 12px; /* Width of the checkbox */
+        height: 12px; /* Height of the checkbox */
+        border: 1px solid var(--primary-black);
+        border-radius: 3.55px;
+        background-color: transparent;
+        transition: transform 0.2s ease;
+    }
+
+    input[type="checkbox"]::before {
+        /* Style the inner part of the checkbox */
+        background-color: transparent;
+        transform-origin: center;
+        }
+
+    input[type="checkbox"]::after {
+        border: none;
+    }
+
+    @keyframes scaleIn {
+        from {
+            transform: scale(0);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+
+    input[type="checkbox"]:checked::before {
+        background-color: var(--primary-black);
+        transform: scale(0);
+        animation: scaleIn 0.2s ease 1ms forwards;
+    }
+
 
 </style>
