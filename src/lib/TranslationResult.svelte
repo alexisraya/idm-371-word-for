@@ -31,7 +31,7 @@
                 translateLanguage
             }
         })
-        goto('./result')
+        goto('/result')
     };
 </script>
 
