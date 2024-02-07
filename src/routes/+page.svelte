@@ -152,16 +152,21 @@
             </details>
         </div>
 
-        <input bind:value={phrase} placeholder="Enter text here"/>
-        <button disabled={!phrase} type="submit">
-        Translate
-        </button>
+        <div>
+            <input bind:value={phrase} placeholder="Enter text here"/>
+        </div>
+
+        <div>
+            <button disabled={!phrase} type="submit">
+            Translate
+            </button>
+        </div>
     </form>
 {:else}
     <h2>Translating... please wait</h2>
 {/if}
-<style>
 
+<style>
     li {
         list-style: none;
     }
@@ -184,6 +189,11 @@
         background: var(--white);
         color: var(--text-black);
         box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
+    }
+
+    .dropdown-wide[open] {
+        /* Test around to see if we can make dropdowns overlap */
+        position: relative;
     }
 
     .dropdown-wide summary {
@@ -231,6 +241,11 @@
         background: var(--white);
         color: var(--text-black);
         box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
+        font-family: "Fira Sans";
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 1.25rem;
 
         /* Arrow */
         appearance: none;
@@ -301,10 +316,12 @@
     }
 
     input[type="checkbox"] {
-        /* Hide the default checkbox */
+        /* Reset*/
         appearance: none;
         -webkit-appearance: none;
         -moz-appearance: none;
+
+        /* Layout */
         width: 12px; /* Width of the checkbox */
         height: 12px; /* Height of the checkbox */
         position: relative;  
@@ -332,6 +349,7 @@
         }
 
     input[type="checkbox"]::after {
+        /* Remove border from after */
         border: none;
     }
 
@@ -345,6 +363,7 @@
     }
 
     input[type="checkbox"]:checked::before {
+        /* Style + Animation */
         background-color: var(--primary-black);
         transform: scale(0);
         animation: scaleIn 0.2s ease 1ms forwards;
