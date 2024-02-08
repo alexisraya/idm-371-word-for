@@ -123,19 +123,6 @@
                     {/each}
                 </select>
             </div>
-            <details class="dropdown-wide">
-                <summary>Context</summary>
-                <fieldset>
-                    <ul>
-                        {#each contexts as context}
-                            <li>
-                                <input type="checkbox" id={context.text} name={context.text} value={context} bind:group={selectedContext}/>
-                                <label for={context.text}>{context.text}</label>
-                            </li>
-                        {/each}
-                    </ul>
-                </fieldset>
-            </details>
 
             <details class="dropdown-wide">
                 <summary>Region</summary>
@@ -145,6 +132,20 @@
                             <li>
                                 <input type="checkbox" id={region.text} name={region.text} value={region} bind:group={selectedRegion}/>
                                 <label for={region.text}>{region.text}</label>
+                            </li>
+                        {/each}
+                    </ul>
+                </fieldset>
+            </details>
+
+            <details class="dropdown-wide">
+                <summary>Context</summary>
+                <fieldset>
+                    <ul>
+                        {#each contexts as context}
+                            <li>
+                                <input type="checkbox" id={context.text} name={context.text} value={context} bind:group={selectedContext}/>
+                                <label for={context.text}>{context.text}</label>
                             </li>
                         {/each}
                     </ul>
@@ -167,6 +168,8 @@
 {/if}
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap');
+
     li {
         list-style: none;
     }
@@ -189,11 +192,13 @@
         background: var(--white);
         color: var(--text-black);
         box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
-    }
 
-    .dropdown-wide[open] {
-        /* Test around to see if we can make dropdowns overlap */
-        position: relative;
+        /* Font */
+        font-family: "Fira Sans";
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 1.25rem;
     }
 
     .dropdown-wide summary {
@@ -211,7 +216,9 @@
         content: '';
         width: 32px;
         height: 32px;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32" fill="none"><path d="M8.14189 12.1303C8.09822 12.1721 8.06322 12.2221 8.0389 12.2774C8.01457 12.3327 8.00138 12.3923 8.0001 12.4527C7.99882 12.5132 8.00947 12.5732 8.03143 12.6296C8.05339 12.6859 8.08624 12.7373 8.12809 12.7809L15.758 20.7373C15.8009 20.7821 15.8525 20.8178 15.9096 20.8422C15.9667 20.8666 16.0281 20.8792 16.0902 20.8792C16.1523 20.8792 16.2137 20.8666 16.2708 20.8422C16.3279 20.8178 16.3795 20.7821 16.4224 20.7373L24.05 12.7786C24.1345 12.6905 24.1805 12.5724 24.1779 12.4504C24.1753 12.3284 24.1243 12.2124 24.0362 12.128C23.9481 12.0436 23.8301 11.9976 23.7081 12.0002C23.5861 12.0028 23.4701 12.0537 23.3857 12.1418L16.0891 19.7556L8.79247 12.1441C8.75068 12.1004 8.70069 12.0654 8.64537 12.0411C8.59004 12.0168 8.53046 12.0036 8.47004 12.0023C8.40961 12.001 8.34953 12.0117 8.29322 12.0336C8.23691 12.0556 8.18549 12.0885 8.14189 12.1303Z" fill="black"/></svg>'), no-repeat;
+        padding: 0;
+        margin: 0;
+        background: url('$lib/assets/chevron.svg'), no-repeat;
         background-size: 2rem auto;
         position: absolute;
         left: 21.125rem;
@@ -220,6 +227,7 @@
 
     .dropdown-wide[open] > summary::after {
         /* Arrow Animation */
+        transform-origin: center;
         transform: rotate(180deg);
     }
 
@@ -249,7 +257,7 @@
 
         /* Arrow */
         appearance: none;
-        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M8.14189 12.1303C8.09822 12.1721 8.06322 12.2221 8.0389 12.2774C8.01457 12.3327 8.00138 12.3923 8.0001 12.4527C7.99882 12.5132 8.00947 12.5732 8.03143 12.6296C8.05339 12.6859 8.08624 12.7373 8.12809 12.7809L15.758 20.7373C15.8009 20.7821 15.8525 20.8178 15.9096 20.8422C15.9667 20.8666 16.0281 20.8792 16.0902 20.8792C16.1523 20.8792 16.2137 20.8666 16.2708 20.8422C16.3279 20.8178 16.3795 20.7821 16.4224 20.7373L24.05 12.7786C24.1345 12.6905 24.1805 12.5724 24.1779 12.4504C24.1753 12.3284 24.1243 12.2124 24.0362 12.128C23.9481 12.0436 23.8301 11.9976 23.7081 12.0002C23.5861 12.0028 23.4701 12.0537 23.3857 12.1418L16.0891 19.7556L8.79247 12.1441C8.75068 12.1004 8.70069 12.0654 8.64537 12.0411C8.59004 12.0168 8.53046 12.0036 8.47004 12.0023C8.40961 12.001 8.34953 12.0117 8.29322 12.0336C8.23691 12.0556 8.18549 12.0885 8.14189 12.1303Z" fill="black"/></svg>');
+        background-image: url('$lib/assets/chevron.svg');
         background-repeat: no-repeat;
         background-position: right 0.7rem top 50%;
         background-size: 2rem auto;
