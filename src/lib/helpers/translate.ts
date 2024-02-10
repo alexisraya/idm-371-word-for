@@ -27,7 +27,7 @@ export const translatePhrase = async(phrase:string, origin:string, translateLang
 export const textToSpeech = async(phrase:string) => {
     const response = await openai.audio.speech.create({
         model: "tts-1",
-        voice: "shimmer",
+        voice: "alloy",
         input: phrase
     });
 
