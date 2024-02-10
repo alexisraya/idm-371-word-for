@@ -1,5 +1,6 @@
 <script>
     import { resultData } from "../../stores/translateStore";
+    import { textToSpeech } from "$lib/helpers/translate";
     import Tags from "$lib/Tags.svelte";
 
     import speaker from '$lib/assets/speaker.png';
@@ -11,7 +12,6 @@
     });
     
     resultObj = resultObj.result;
-    console.log(resultObj);
 
     const word = resultObj.word;
     const region = resultObj.region;
@@ -23,14 +23,35 @@
     const originalLanguage = resultObj.originalLanguage
     const translateLanguage = resultObj.translateLanguage
 
+    let speechOutput = '';
+
+    const handleSpeak = async() => {
+        if (speechOutput !==''){
+            let audio = new Audio(speechOutput);
+            audio.play();
+        }
+        else{
+            try {
+                speechOutput = await textToSpeech(word);
+            } catch (error) {
+                console.error('Error:', error);
+                speechOutput = 'Error occurred during text-to-speech conversion.';
+            }
+        }
+    }
 </script>
 
 <div class="container">
     <div class="text-container">
         <div class="title">
             <h1 class="result">{word}</h1>
-            <img class="speaker icon" alt="speacker icon" src={speaker} />
-            <img class="speaker icon" alt="bookmark icon" src={emptyBookmark} />
+            <button on:click={handleSpeak}>
+                <img class="speaker" alt="speacker icon" src={speaker} />
+            </button>
+            {#if speechOutput!== ''}
+                <audio autoplay><source type="audio/mpeg" src={speechOutput}></audio>
+            {/if}
+            <img class="bookmark icon" alt="bookmark icon" src={emptyBookmark} />
         </div>
         <div class="subtitle">
             <h3 class="subtitle-text phonetic">{phoneticSpelling}</h3>
@@ -62,6 +83,17 @@
 <style>
     h2{
         margin: 0;
+    }
+
+    button{
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+    }
+
+    button:hover{
+        cursor: pointer;
     }
 
     .container{

@@ -2,6 +2,7 @@
     import { COLORS } from "./constants/colors";
     import Tags from "./Tags.svelte";
     import { goto } from '$app/navigation';
+    import { textToSpeech } from "./helpers/translate";
 
     import speaker from '$lib/assets/speaker.png';
     import cheveron from '$lib/assets/chevron.png';
@@ -16,6 +17,23 @@
     export let examples: {};
     export let originalLanguage: string;
     export let translateLanguage: string;
+
+    let speechOutput = '';
+
+    const handleSpeak = async() => {
+        if (speechOutput !==''){
+            let audio = new Audio(speechOutput);
+            audio.play();
+        }
+        else{
+            try {
+                speechOutput = await textToSpeech(word);
+            } catch (error) {
+                console.error('Error:', error);
+                speechOutput = 'Error occurred during text-to-speech conversion.';
+            }
+        }
+    }
 
     const handleClick = () => {
         resultData.set({
@@ -39,7 +57,12 @@
     <div class="text-container">
         <div class="title">
             <h1 class="result">{word}</h1>
-            <img class="speaker" alt="speacker icon" src={speaker} />
+            <button on:click={handleSpeak}>
+                <img class="speaker" alt="speacker icon" src={speaker} />
+            </button>
+            {#if speechOutput!== ''}
+                <audio autoplay><source type="audio/mpeg" src={speechOutput}></audio>
+            {/if}
         </div>
         <div class="subtitle">
             <h3 class="subtitle-text phonetic">{phoneticSpelling}</h3>
@@ -62,6 +85,17 @@
 </div>
 
 <style>
+    button{
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+    }
+
+    button:hover{
+        cursor: pointer;
+    }
+
     .container{
         padding: 24px;
         width: 342px;
