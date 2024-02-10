@@ -6,6 +6,7 @@
     import { REGIONS } from "$lib/constants/regions";
     import { COLORS } from "$lib/constants/colors";
     import { onMount } from 'svelte';
+    import swapLanguage from '$lib/assets/swapLanguage.svg'
 
     import { formData, resetFormData } from "../stores/translateStore";
     import { translatePhrase } from '$lib/helpers/translate';
@@ -110,7 +111,7 @@
                     {/each}
                 </select>
                 <div class="swap-icon-container">
-                    <img src="../src/lib/assets/swap-language.svg" alt="swap-languages">
+                    <img src={swapLanguage} alt="swap-languages">
                 </div>
                 <select class="dropdown-thin" bind:value={selectedTranslate}>
                     {#each languages.reverse() as language}
