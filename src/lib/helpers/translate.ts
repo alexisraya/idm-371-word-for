@@ -21,3 +21,14 @@ export const translatePhrase = async(phrase:string, origin:string, translateLang
         response: textResponse.choices[0].message.content
     };
 }
+
+export const textToSpeech = async(phrase:string) => {
+    const response = await openai.audio.speech.create({
+        model: "tts-1",
+        voice: "shimmer",
+        input: phrase
+    });
+
+    const audioStream = await response.blob();
+    return URL.createObjectURL(audioStream);
+}
