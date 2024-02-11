@@ -151,8 +151,13 @@
             </details>
         </div>
 
-        <div>
-            <input bind:value={phrase} placeholder="Enter text here"/>
+        <div class="translate-text-field-container">
+            <input class="translate-text-field" bind:value={phrase} placeholder="Enter text here" id="translateText"/>
+            <div class="or-separator-container">
+                <hr>
+                <p class="or-separator">OR</p>
+                <hr>
+            </div>
         </div>
 
         <div>
@@ -375,5 +380,78 @@
         animation: scaleIn 0.2s ease 1ms forwards;
     }
 
+
+    /* Styles for text input field */
+
+    .translate-text-field {
+        /* Layout */
+        width: 100%;
+        height: 12.375rem;
+        flex-shrink: 0;
+
+        /* Style */
+        border-radius: 1rem;
+        border-color: transparent;
+        text-align: center;
+        background: var(--white, #FFF);
+        color: var(--text-black);
+
+        /* H1 Fira */
+        font-family: "Fira Sans";
+        font-size: 2.5rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .translate-text-field::placeholder {
+        color: var(--stone-grey, #979797);
+    }
+
+    .translate-text-field:focus {
+        /* Dropshadow on select */
+        filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.15));
+    }
+
+    .translate-text-field-container {
+        margin-top: 2rem;
+        max-width: 22.875rem;
+    }
+
+    /* OR separator */
+
+    .or-separator {
+        /* Layout */
+        margin: 0;
+        padding: 0 0.5rem;
+        /* Font Styles */
+        color: var(--dust-grey, #CDCDCD);
+        font-family: "Fira Sans";
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .or-separator-container hr {
+        /* Layout */
+        margin: 0;
+        width: 2.0625rem;
+        height: 0.0625rem;
+        display: flex;
+        align-self: center;
+
+        /* Style */
+        background-color: var(--dust-grey, #CDCDCD);
+        border: var(--dust-grey, #CDCDCD);
+    }
+
+    .or-separator-container {
+        /* Layout */
+        width: 6.75rem;
+        display: flex;
+        justify-content: center;
+        margin: auto;
+    }
 
 </style>
