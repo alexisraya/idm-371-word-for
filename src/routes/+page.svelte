@@ -100,72 +100,74 @@
 </script>
 
 {#if loading === false}
-    <form on:submit|preventDefault={handleSubmit}>
-        <div class="dropdown-container">
-            <div class="dropdown-language-container">
-                <select class="dropdown-thin" bind:value={selectedOrigin}>
-                    {#each languages as language}
-                        <option value={language}>
-                            {language.text}
-                        </option>
-                    {/each}
-                </select>
-                <div class="swap-icon-container">
-                    <img src={swapLanguage} alt="swap-languages">
+    <div class="home-form-container">
+        <form on:submit|preventDefault={handleSubmit}>
+            <div class="dropdown-container">
+                <div class="dropdown-language-container">
+                    <select class="dropdown-thin" bind:value={selectedOrigin}>
+                        {#each languages as language}
+                            <option value={language}>
+                                {language.text}
+                            </option>
+                        {/each}
+                    </select>
+                    <div class="swap-icon-container">
+                        <img src={swapLanguage} alt="swap-languages">
+                    </div>
+                    <select class="dropdown-thin" bind:value={selectedTranslate}>
+                        {#each languages.reverse() as language}
+                            <option value={language}>
+                                {language.text}
+                            </option>
+                        {/each}
+                    </select>
                 </div>
-                <select class="dropdown-thin" bind:value={selectedTranslate}>
-                    {#each languages.reverse() as language}
-                        <option value={language}>
-                            {language.text}
-                        </option>
-                    {/each}
-                </select>
+
+                <details class="dropdown-wide">
+                    <summary><div>Region</div></summary>
+                    <fieldset>
+                        <ul>
+                            {#each regions as region}
+                                <li>
+                                    <input type="checkbox" id={region.text} name={region.text} value={region} bind:group={selectedRegion}/>
+                                    <label for={region.text}>{region.text}</label>
+                                </li>
+                            {/each}
+                        </ul>
+                    </fieldset>
+                </details>
+
+                <details class="dropdown-wide">
+                    <summary><div>Context</div></summary>
+                    <fieldset>
+                        <ul>
+                            {#each contexts as context}
+                                <li>
+                                    <input type="checkbox" id={context.text} name={context.text} value={context} bind:group={selectedContext}/>
+                                    <label for={context.text}>{context.text}</label>
+                                </li>
+                            {/each}
+                        </ul>
+                    </fieldset>
+                </details>
             </div>
 
-            <details class="dropdown-wide">
-                <summary>Region</summary>
-                <fieldset>
-                    <ul>
-                        {#each regions as region}
-                            <li>
-                                <input type="checkbox" id={region.text} name={region.text} value={region} bind:group={selectedRegion}/>
-                                <label for={region.text}>{region.text}</label>
-                            </li>
-                        {/each}
-                    </ul>
-                </fieldset>
-            </details>
-
-            <details class="dropdown-wide">
-                <summary>Context</summary>
-                <fieldset>
-                    <ul>
-                        {#each contexts as context}
-                            <li>
-                                <input type="checkbox" id={context.text} name={context.text} value={context} bind:group={selectedContext}/>
-                                <label for={context.text}>{context.text}</label>
-                            </li>
-                        {/each}
-                    </ul>
-                </fieldset>
-            </details>
-        </div>
-
-        <div class="translate-text-field-container">
-            <input class="translate-text-field" bind:value={phrase} placeholder="Enter text here" id="translateText"/>
-            <div class="or-separator-container">
-                <hr>
-                <p class="or-separator">OR</p>
-                <hr>
+            <div class="translate-text-field-container">
+                <input class="translate-text-field" bind:value={phrase} placeholder="Enter text here" id="translateText"/>
+                <div class="or-separator-container">
+                    <hr>
+                    <p class="or-separator">OR</p>
+                    <hr>
+                </div>
             </div>
-        </div>
 
-        <div>
-            <button disabled={!phrase} type="submit">
-            Translate
-            </button>
-        </div>
-    </form>
+            <div class="translate-button-container">
+                <button class="translate-button" disabled={!phrase} type="submit">
+                Translate
+                </button>
+            </div>
+        </form>
+    </div>
 {:else}
     <h2>Translating... please wait</h2>
 {/if}
@@ -220,11 +222,10 @@
         width: 32px;
         height: 32px;
         padding: 0;
-        margin: 0;
+        margin-left: 19.75rem;
         background: url('$lib/assets/chevron.svg'), no-repeat;
         background-size: 2rem auto;
         position: absolute;
-        left: 21.125rem;
         transition: 0.2s;
     }
 
@@ -451,6 +452,52 @@
         width: 6.75rem;
         display: flex;
         justify-content: center;
+        margin: auto;
+    }
+
+    /* Translate Button Styles (copy for component in future)*/
+    .translate-button {
+        /* Layout */
+        width: 100%;
+        height: 2.75rem;
+        padding: 0.75rem 8.5rem;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+
+        /* Styles */
+        border-radius: 1.5rem;
+        border: 0.66px solid var(--primary-black, #000);
+        color: var(--white, #FFF);
+        background: var(--primary-black, #000);
+
+        /* Font Styles */
+        font-family: "Fira Sans";
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+
+        /* Animation */
+        transition: .2s ease;
+    }
+
+    .translate-button:disabled {
+        border: 1px solid var(--stone-grey, #979797);
+        background: var(--white, #FFF);
+        color: var(--stone-grey);
+    }
+
+    .translate-button-container {
+        width: 22.875rem;
+        position: absolute;
+        bottom: 2.125rem;
+        z-index: -1;
+    }
+
+    .home-form-container {
+        width: fit-content;
+        padding: 1rem;
         margin: auto;
     }
 
