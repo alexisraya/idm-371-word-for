@@ -8,7 +8,7 @@
     import swapLanguage from '$lib/assets/swapLanguage.svg'
 
     import { formData, resetFormData } from "../stores/translateStore";
-    import { translatePhrase } from '$lib/helpers/translate';
+    import { speechToText, translatePhrase } from '$lib/helpers/translate';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -22,6 +22,7 @@
 
     let media = [];
     let audioRecorder: null;
+    let isRecording = false;
 
     // Function to set CSS variables for colors from colors.ts
     const setCSSCustomProperties = () => {
@@ -38,19 +39,17 @@
         audioRecorder = new MediaRecorder(stream);
         audioRecorder.ondataavailable = (e) => media.push(e.data)
         audioRecorder.onstop = function(){
-            const audio = document.querySelector('audio');
-            const blob = new Blob(media, {'type' : 'audio/ogg; codecs=opus'});
-            media = [];
-            audio.src = window.URL.createObjectURL(blob);
-        }
+            handleTranscription();
+        };
     });
 
     const startRecording = () => {
+        isRecording = true;
         audioRecorder.start();
     }
     const stopRecording = () => {
+        isRecording = false;
         audioRecorder.stop();
-        console.log(media);
     }
 
     function sanitize(str: String) {
@@ -115,6 +114,25 @@
             goto('./translation-results');
         }
     };
+
+    const handleTranscription = async() => {
+        if (media.length<=0){
+            return;
+        }
+        const blob = new Blob(media, {'type' : 'audio/ogg; codecs=opus'});
+        media = [];
+        let src = window.URL.createObjectURL(blob);
+        phrase = await speechToText(blob);
+    }
+
+    const handleAudio = () => {
+        if(!isRecording){
+            startRecording();
+        }
+        else{
+            stopRecording();
+        }
+    }
 
 </script>
 
@@ -185,9 +203,7 @@
             </button>
         </div>
     </form>
-    <audio controls />
-    <button on:click={startRecording}>Record Start</button>
-    <button on:click={stopRecording}>Record Stop</button>
+    <button on:click={handleAudio}>Record</button>
 {:else}
     <h2>Translating... please wait</h2>
 {/if}
