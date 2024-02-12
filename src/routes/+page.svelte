@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { enhance } from '$app/forms';
     import { goto } from '$app/navigation';
     import { LANGUAGES } from "$lib/constants/languages";
     import { CONTEXTS } from "$lib/constants/contexts";
@@ -21,6 +20,9 @@
     let selectedRegion = [];
     let phrase = '';
 
+    let media = [];
+    let audioRecorder: null;
+
     // Function to set CSS variables for colors from colors.ts
     const setCSSCustomProperties = () => {
         const css_root = document.documentElement;
@@ -30,9 +32,26 @@
     };
 
     // Call the function to set CSS custom properties
-    onMount(() => {
+    onMount(async () => {
         setCSSCustomProperties();
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioRecorder = new MediaRecorder(stream);
+        audioRecorder.ondataavailable = (e) => media.push(e.data)
+        audioRecorder.onstop = function(){
+            const audio = document.querySelector('audio');
+            const blob = new Blob(media, {'type' : 'audio/ogg; codecs=opus'});
+            media = [];
+            audio.src = window.URL.createObjectURL(blob);
+        }
     });
+
+    const startRecording = () => {
+        audioRecorder.start();
+    }
+    const stopRecording = () => {
+        audioRecorder.stop();
+        console.log(media);
+    }
 
     function sanitize(str: String) {
         const map = {
@@ -166,6 +185,9 @@
             </button>
         </div>
     </form>
+    <audio controls />
+    <button on:click={startRecording}>Record Start</button>
+    <button on:click={stopRecording}>Record Stop</button>
 {:else}
     <h2>Translating... please wait</h2>
 {/if}
