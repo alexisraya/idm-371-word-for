@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { enhance } from '$app/forms';
     import { goto } from '$app/navigation';
     import { LANGUAGES } from "$lib/constants/languages";
     import { CONTEXTS } from "$lib/constants/contexts";
@@ -9,7 +8,7 @@
     import swapLanguage from '$lib/assets/swapLanguage.svg'
 
     import { formData, resetFormData } from "../stores/translateStore";
-    import { translatePhrase } from '$lib/helpers/translate';
+    import { speechToText, translatePhrase } from '$lib/helpers/translate';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -21,6 +20,10 @@
     let selectedRegion = [];
     let phrase = '';
 
+    let media = [];
+    let audioRecorder: null;
+    let isRecording = false;
+
     // Function to set CSS variables for colors from colors.ts
     const setCSSCustomProperties = () => {
         const css_root = document.documentElement;
@@ -30,9 +33,24 @@
     };
 
     // Call the function to set CSS custom properties
-    onMount(() => {
+    onMount(async () => {
         setCSSCustomProperties();
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioRecorder = new MediaRecorder(stream);
+        audioRecorder.ondataavailable = (e) => media.push(e.data)
+        audioRecorder.onstop = function(){
+            handleTranscription();
+        };
     });
+
+    const startRecording = () => {
+        isRecording = true;
+        audioRecorder.start();
+    }
+    const stopRecording = () => {
+        isRecording = false;
+        audioRecorder.stop();
+    }
 
     function sanitize(str: String) {
         const map = {
@@ -97,6 +115,25 @@
         }
     };
 
+    const handleTranscription = async() => {
+        if (media.length<=0){
+            return;
+        }
+        const blob = new Blob(media, {'type' : 'audio/ogg; codecs=opus'});
+        media = [];
+        let src = window.URL.createObjectURL(blob);
+        phrase = await speechToText(blob);
+    }
+
+    const handleAudio = () => {
+        if(!isRecording){
+            startRecording();
+        }
+        else{
+            stopRecording();
+        }
+    }
+
 </script>
 
 {#if loading === false}
@@ -152,14 +189,15 @@
                 </details>
             </div>
 
-            <div class="translate-text-field-container">
-                <input class="translate-text-field" bind:value={phrase} placeholder="Enter text here" id="translateText"/>
-                <div class="or-separator-container">
-                    <hr>
-                    <p class="or-separator">OR</p>
-                    <hr>
-                </div>
+        <div class="translate-text-field-container">
+            <input class="translate-text-field" bind:value={phrase} placeholder="Enter text here" id="translateText"/>
+            <div class="or-separator-container">
+                <hr>
+                <p class="or-separator">OR</p>
+                <hr>
             </div>
+            <button type="button" on:click={handleAudio}>Record</button>
+        </div>
 
             <div class="translate-button-container">
                 <button class="translate-button" disabled={!phrase} type="submit">

@@ -34,3 +34,16 @@ export const textToSpeech = async(phrase:string) => {
     const audioStream = await response.blob();
     return URL.createObjectURL(audioStream);
 }
+
+type Uploadable = string | Blob;
+
+export const speechToText = async (audioSrc: Blob) => {
+    const audioFile = new File([audioSrc], 'audio.ogg', { type: 'audio/ogg', lastModified: Date.now() });
+
+    const transcript = await openai.audio.transcriptions.create({
+        model: "whisper-1",
+        file: audioFile
+    })
+    
+    return(transcript.text);
+}
