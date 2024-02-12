@@ -195,6 +195,7 @@
                 <p class="or-separator">OR</p>
                 <hr>
             </div>
+            <button type="button" on:click={handleAudio}>Record</button>
         </div>
 
         <div>
@@ -203,7 +204,6 @@
             </button>
         </div>
     </form>
-    <button on:click={handleAudio}>Record</button>
 {:else}
     <h2>Translating... please wait</h2>
 {/if}
