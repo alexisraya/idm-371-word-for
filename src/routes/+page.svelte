@@ -200,8 +200,11 @@
                 <hr>
             </div>
             <button class="record-button" type="button" on:click={handleAudio}>
-                <img class="record-icon-inactive" src={microphone} alt="record-icon">
+                {#if isRecording}
                 <img class="record-icon-active" src={microphoneActive} alt="record-icon">
+                {:else}
+                <img class="record-icon-inactive" src={microphone} alt="record-icon">
+                {/if}
             </button>
         </div>
 
@@ -553,9 +556,24 @@
     /* Record button */
 
     .record-button {
-        width: 8.125rem;
-        height: 8.125rem;
+        /* Clear Styles */
+        background: none;
+        color: inherit;
+        border: none;
+        padding-top: 3rem;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+
+        /* Layout */
+        width: 8.8rem;
+        height: 8.8rem;
+        align-items: center;
         flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        margin: auto;
+
     }
 
 
