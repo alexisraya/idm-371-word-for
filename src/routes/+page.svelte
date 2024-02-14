@@ -136,7 +136,6 @@
         }
     }
 
-
 </script>
 
 {#if loading === false}
@@ -542,7 +541,7 @@
 
     .translate-button-container {
         width: 22.875rem;
-        position: absolute;
+        margin: 6rem 0 2rem;
         bottom: 2.125rem;
         z-index: -1;
     }
@@ -560,7 +559,7 @@
         background: none;
         color: inherit;
         border: none;
-        padding-top: 3rem;
+        padding: 0;
         font: inherit;
         cursor: pointer;
         outline: inherit;
@@ -572,8 +571,26 @@
         flex-shrink: 0;
         display: flex;
         justify-content: center;
-        margin: auto;
+        margin: 3rem auto 0;
 
+        /* Animation */
+        transition: 0.2s;
+
+    }
+
+    @keyframes scaleImage {
+        0% {
+            transform: scale(0.7);
+            opacity: 0.8;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .record-icon-active, .record-icon-inactive {
+        animation: 0.225s cubic-bezier(.51,.92,.24,1.15) 0s 1 scaleImage;
     }
 
 
