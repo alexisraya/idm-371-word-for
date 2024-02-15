@@ -6,6 +6,8 @@
     import { COLORS } from "$lib/constants/colors";
     import { onMount } from 'svelte';
     import swapLanguage from '$lib/assets/swapLanguage.svg'
+    import microphone from '$lib/assets/microphone.svg'
+    import microphoneActive from '$lib/assets/microphoneActive.svg'
 
     import { formData, resetFormData } from "../stores/translateStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
@@ -196,7 +198,13 @@
                 <p class="or-separator">OR</p>
                 <hr>
             </div>
-            <button type="button" on:click={handleAudio}>Record</button>
+            <button class="record-button" type="button" on:click={handleAudio}>
+                {#if isRecording}
+                <img class="record-icon-active" src={microphoneActive} alt="record-icon">
+                {:else}
+                <img class="record-icon-inactive" src={microphone} alt="record-icon">
+                {/if}
+            </button>
         </div>
 
             <div class="translate-button-container">
@@ -265,6 +273,11 @@
         background-size: 2rem auto;
         position: absolute;
         transition: 0.2s;
+    }
+
+    .dropdown-wide summary::-webkit-details-marker {
+        /* Remove default arrow on safari */
+        display: none;
     }
 
     .dropdown-wide[open] > summary::after {
@@ -528,7 +541,7 @@
 
     .translate-button-container {
         width: 22.875rem;
-        position: absolute;
+        margin: 6rem 0 2rem;
         bottom: 2.125rem;
         z-index: -1;
     }
@@ -538,5 +551,47 @@
         padding: 1rem;
         margin: auto;
     }
+
+    /* Record button */
+
+    .record-button {
+        /* Clear Styles */
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+
+        /* Layout */
+        width: 8.8rem;
+        height: 8.8rem;
+        align-items: center;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        margin: 3rem auto 0;
+
+        /* Animation */
+        transition: 0.2s;
+
+    }
+
+    @keyframes scaleImage {
+        0% {
+            transform: scale(0.7);
+            opacity: 0.8;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .record-icon-active, .record-icon-inactive {
+        animation: 0.225s cubic-bezier(.51,.92,.24,1.15) 0s 1 scaleImage;
+    }
+
 
 </style>
