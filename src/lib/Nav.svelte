@@ -9,6 +9,8 @@
     }
 </script>
 
+<div class="shadow" class:active={isOpen}></div>
+
 <nav>
     <div class="back-container">
         <!-- NEED FUNCTIONALITY -->
@@ -27,19 +29,27 @@
     </div>
 
     <div class="menu" class:active={isOpen}>
+        <img src="{logo}" alt="word-for-logo">
+
         <ul>
+            <hr>
             <li><a href="/">Translate</a></li>
-            <li><a href="/bookmarked">Bookmarked</a></li>
+            <hr>
+            <li><a href="/bookmarked">Bookmarks</a></li>
+            <hr>
             <li><a href="/recents">Recent Searches</a></li>
+            <hr>
             <!-- <li><a href="/about">About</a></li> -->
         </ul>
     </div>
 </nav>
 
+
 <style>
     nav {
         height: 4.25rem;
         background: linear-gradient(180deg, #F1F1F1 50%, rgba(243, 243, 243, 0.00) 100%);
+
     }
 
     .back-container {
@@ -74,19 +84,36 @@
         transform: translateX(0%);
     }
 
+    .menu img {
+        padding: 1.5rem 2rem 0;
+    }
+
+    .menu hr {
+        background-color: var(--cloud-grey);
+        border-top: 0.0625rem var(--cloud-grey);
+    }
+
     .menu ul {
         list-style: none;
-        padding: 20px;
+        padding: 0;
+        margin: 0;
     }
 
     .menu li {
+        margin: 0;
+        padding: 0.75rem 1.5rem;
         margin-bottom: 10px;
     }
 
     .menu a {
         text-decoration: none;
-        color: #333;
         font-size: 18px;
+        color: var(--text-black);
+        font-family: "Fira Sans";
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 200;
+        line-height: normal;
     }
 
     .hamburger {
@@ -118,5 +145,19 @@
 
     .hamburger.active span:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .shadow {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background-color: black;
+        opacity: 0;
+        z-index: 2;
+        transition: 0.2s;
+    }
+
+    .shadow.active {
+        opacity: 0.75;
     }
 </style>
