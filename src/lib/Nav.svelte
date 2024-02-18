@@ -11,45 +11,51 @@
 
 <div class="shadow" class:active={isOpen}></div>
 
+<div class="nav-bg"></div>
+
 <nav>
-    <div class="back-container">
-        <!-- NEED FUNCTIONALITY -->
-        <img src="{arrow}" alt="back-arrow">
-    </div>
+        <div class="back-container">
+            <!-- NEED FUNCTIONALITY -->
+            <img src="{arrow}" alt="back-arrow">
+        </div>
 
-    <div class="logo-container">
-        <!-- Does this link to home page? -->
-        <img src="{logo}" alt="word-for-logo">
-    </div>
+        <div class="logo-container">
+            <!-- Does this link to home page? -->
+            <img src="{logo}" alt="word-for-logo">
+        </div>
 
-    <div class="hamburger" on:click={toggleMenu} class:active={isOpen}>
-        <span />
-        <span />
-        <span />
-    </div>
+        <div class="hamburger" on:click={toggleMenu} class:active={isOpen}>
+            <span />
+            <span />
+            <span />
+        </div>
 
-    <div class="menu" class:active={isOpen}>
-        <img src="{logo}" alt="word-for-logo">
+        <div class="menu" class:active={isOpen}>
+            <img src="{logo}" alt="word-for-logo">
 
-        <ul>
-            <hr>
-            <li><a href="/">Translate</a></li>
-            <hr>
-            <li><a href="/bookmarked">Bookmarks</a></li>
-            <hr>
-            <li><a href="/recents">Recent Searches</a></li>
-            <hr>
-            <!-- <li><a href="/about">About</a></li> -->
-        </ul>
-    </div>
+            <ul>
+                <hr>
+                <li><a href="/">Translate</a></li>
+                <hr>
+                <li><a href="/bookmarked">Bookmarks</a></li>
+                <hr>
+                <li><a href="/recents">Recent Searches</a></li>
+                <hr>
+                <!-- <li><a href="/about">About</a></li> -->
+            </ul>
+        </div>
 </nav>
-
 
 <style>
     nav {
-        height: 4.25rem;
-        background: linear-gradient(180deg, #F1F1F1 50%, rgba(243, 243, 243, 0.00) 100%);
+    }
 
+    .nav-bg {
+        height: 4.25rem;
+        background: linear-gradient(180deg, #F1F1F1 70%, rgba(243, 243, 243, 0.00) 100%);
+        position: sticky;
+        top: 0;
+        z-index: 1;
     }
 
     .back-container {
@@ -57,6 +63,7 @@
         top: 1rem;
         left: 1rem;
         padding: 0.5rem 0.9rem;
+        z-index: 1;
     }
 
     .logo-container {
@@ -65,6 +72,7 @@
         left: 50%;
         transform: translateX(-50%);
         padding: 0.5rem 0;
+        z-index: 1;
     }
 
     .menu {
@@ -149,15 +157,17 @@
 
     .shadow {
         position: fixed;
-        width: 100vw;
-        height: 100vh;
         background-color: black;
         opacity: 0;
+        width: 0;
+        height: 0;
         z-index: 2;
-        transition: 0.2s;
+        transition: 0.2s opacity;
     }
 
     .shadow.active {
+        width: 100vw;
+        height: 100vh;
         opacity: 0.75;
     }
 </style>
