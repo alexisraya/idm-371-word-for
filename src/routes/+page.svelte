@@ -540,8 +540,8 @@
     }
 
     .translate-button-container {
-        width: 22.875rem;
-        margin: 6rem 0 2rem;
+        max-width: 22.875rem;
+        margin: 6rem auto 2rem;
         bottom: 2.125rem;
         z-index: -1;
     }
