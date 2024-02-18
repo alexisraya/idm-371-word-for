@@ -9,6 +9,7 @@
 
     import { formData, resetFormData } from "../stores/translateStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
+    import { updateRecentSearch } from '../stores/recentSearchStore';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -103,6 +104,7 @@
     const handleSubmit = async() => {
         loading = true;
         resetFormData();
+        updateRecentSearch({phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions})
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
         if (response == null){
             loading = false;
