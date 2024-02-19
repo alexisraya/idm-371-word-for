@@ -5,6 +5,7 @@
     import { textToSpeech } from "./helpers/translate";
 
     import speaker from '$lib/assets/speaker.png';
+    import speakerFill from '$lib/assets/speakerFill.png';
     import chevron from '$lib/assets/chevron.svg';
     import { resultData } from "../stores/translateStore";
 
