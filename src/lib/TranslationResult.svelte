@@ -61,7 +61,9 @@
                 <div class="title">
                     <h2 class="result">{word}</h2>
                     <button on:click={handleSpeak}>
-                        <img class="speaker" alt="speacker icon" src={speaker} />
+                        <div class="speaker-container">
+                            <img class="speaker" alt="speacker icon" src={speaker} />
+                        </div>
                     </button>
                     {#if speechOutput!== ''}
                         <audio autoplay><source type="audio/mpeg" src={speechOutput}></audio>
@@ -87,6 +89,10 @@
         <div class="arrow-container" on:click={handleClick} on:keydown={handleClick}>
             <img class="arrow" alt="arrow icon" src={chevron} />
         </div>
+    </div>
+
+    <div class="alternative-title">
+        <p class="alternative">Alternative Translations</p>
     </div>
 
 
@@ -134,6 +140,27 @@
         margin-bottom: 0.5rem;
     }
 
+    .alternative-title:not(:nth-child(2)){
+        height: 0;
+        width: 0;
+        opacity: 0;
+        display: none;
+    }
+
+    .alternative {
+        color: var(--text-black, #141414);
+
+        /* Uppercase Small */
+        font-family: "Fira Sans";
+        font-size: 0.875rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        text-transform: uppercase;
+        padding-top: 0.5rem;
+        margin: 0 0 0.75rem;
+    }
+
     .arrow-container{
         cursor: pointer;
     }
@@ -176,14 +203,13 @@
         line-height: normal;
         text-transform: uppercase;
         margin: 0 0 0.35rem;
-        text-transform: uppercase
     }
 
     .title{
         display: flex;
         flex-direction: row;
         align-items: center;
-        height: 1.75rem;
+        /* height: 1.75rem; */
         margin: 0 0 0.25rem;
     }
 
@@ -209,6 +235,12 @@
     .speaker{
         height: 30px;
         padding: 7px;
+    }
+
+    .speaker-container {
+        max-height: 1.5rem;
+        display: flex;
+        align-items: center;
     }
 
     .subtitle{
