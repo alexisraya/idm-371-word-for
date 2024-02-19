@@ -5,6 +5,8 @@
 
     import speaker from '$lib/assets/speaker.png';
     import emptyBookmark from '$lib/assets/emptyBookmark.png';
+    import filledBookmark from '$lib/assets/filledBookmark.png';
+    import { isBookmarked, updatebookmark } from "../../stores/bookmarkStore";
 
     let resultObj = {};
     resultData.subscribe(result => {
@@ -20,8 +22,33 @@
     const phoneticSpelling = resultObj.phoneticSpelling;
     const description = resultObj.description;
     const examples = Object.values(resultObj.examples);
-    const originalLanguage = resultObj.originalLanguage
-    const translateLanguage = resultObj.translateLanguage
+    const originalLanguage = resultObj.originalLanguage;
+    const translateLanguage = resultObj.translateLanguage;
+
+    let bookmarkItem = {
+            originLanguage: originalLanguage,
+            translateLanguage,
+            phrase: word,
+            region,
+            context,
+            partSpeech,
+            phoneticSpelling,
+            examples,
+            description
+    }
+
+    let isInBookmarks = isBookmarked(bookmarkItem);
+
+    let bookmarkIcon = emptyBookmark;
+
+    $:{
+        if(isInBookmarks){
+            bookmarkIcon = filledBookmark
+        }
+        else{
+            bookmarkIcon = emptyBookmark;
+        }
+    }
 
     let speechOutput = '';
 
@@ -39,6 +66,11 @@
             }
         }
     }
+
+    const handleBookmark = () => {
+        updatebookmark(bookmarkItem);
+        isInBookmarks = !isInBookmarks;
+    }
 </script>
 
 <div class="container">
@@ -51,7 +83,9 @@
             {#if speechOutput!== ''}
                 <audio autoplay><source type="audio/mpeg" src={speechOutput}></audio>
             {/if}
-            <img class="bookmark icon" alt="bookmark icon" src={emptyBookmark} />
+            <button on:click={handleBookmark}>
+                <img class="bookmark icon" alt="bookmark icon" src={bookmarkIcon} />
+            </button>
         </div>
         <div class="subtitle">
             <h3 class="subtitle-text phonetic">{phoneticSpelling}</h3>
