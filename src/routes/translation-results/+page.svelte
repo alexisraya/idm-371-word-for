@@ -1,9 +1,9 @@
 <script>
   import { formData } from "../../stores/translateStore";
   import TranslationResult from "$lib/TranslationResult.svelte";
+  import Tags from "$lib/Tags.svelte";
   import arrow from '$lib/assets/lineArrow.svg'
   import gradient from '$lib/assets/gradient.svg';
-
 
 
   
@@ -104,6 +104,21 @@
     scale: 100%;
     filter: blur(3rem);
     z-index: -1;
+    animation: fadeInAnimation cubic-bezier(.39, -1.05, .58, 1.95) 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    transform-origin: center;
   }
+
+  @keyframes fadeInAnimation {
+    0% {
+      opacity: 0;
+      transform: scale3d(.75,.75,1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale3d(1,1,1);
+    }
+}
 
 </style>
