@@ -8,16 +8,25 @@
 
 <style>
     .tag-container{
-        display: inline-flex;
-        height: 21px; 
+        display: flex;
+        height: 1.3125rem;
+        padding: 0rem 0.58rem;
         align-items: center;
-        padding: 0px 9px;
-        border:1px solid black;
-        border-radius: 26px;
+        gap: 0.44388rem;
+
+        border-radius: 1.64388rem;
+        border: .75px solid var(--Text-Black, #141414);
     }
 
     .tag-name{
-        margin: 3px 0 0 0;
+        color: var(--Text-Black, #141414);
+        margin: 0;
+        /* Uppercase XSmall */
+        font-family: "Fira Sans";
+        font-size: 0.75rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
         text-transform: uppercase;
     }
 </style>
