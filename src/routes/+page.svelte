@@ -231,7 +231,8 @@
 
         /* Layout */
         display: flex;
-        width: 21.375rem;
+        width: 100%;
+        max-width: 19.5rem;
         padding: 0 1rem;
         min-height: 2.75rem;
         justify-content: space-between;
@@ -268,7 +269,7 @@
         width: 32px;
         height: 32px;
         padding: 0;
-        margin-left: 19.75rem;
+        margin-left: 17.825rem;
         background: url('$lib/assets/chevron.svg'), no-repeat;
         background-size: 2rem auto;
         position: absolute;
@@ -321,6 +322,7 @@
 
     .dropdown-container {
         /* Layout */
+        
         display: inline-flex;
         flex-direction: column;
         align-items: flex-start;
@@ -330,6 +332,7 @@
     .dropdown-language-container {
         /* Layout */
         width: 100%;
+        max-width: 21.5rem;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -438,6 +441,7 @@
     .translate-text-field {
         /* Layout */
         width: 100%;
+        max-width: 21rem;
         height: 12.375rem;
         flex-shrink: 0;
 
@@ -467,7 +471,8 @@
 
     .translate-text-field-container {
         margin-top: 2rem;
-        max-width: 22.875rem;
+        max-width: 21.5rem;
+        width: 100%;
     }
 
     /* OR separator */
@@ -510,6 +515,7 @@
     .translate-button {
         /* Layout */
         width: 100%;
+        max-width: 21.5rem;
         height: 2.75rem;
         padding: 0.75rem 8.5rem;
         justify-content: space-between;
