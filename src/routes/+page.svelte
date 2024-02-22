@@ -66,9 +66,6 @@
         const reg = /[&<>"'/]/ig;
         return str.replace(reg, (match)=>(map[match]));
     }
-    $: if (phrase != ''){
-        phrase = sanitize(phrase);
-    }
 
     let selectedRegions = "";
 
@@ -104,6 +101,7 @@
 
     const handleSubmit = async() => {
         loading = true;
+        phrase = sanitize(phrase);
         resetFormData();
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
         if (response == null){
