@@ -19,13 +19,16 @@
     export let originalLanguage: string;
     export let translateLanguage: string;
 
+    let isAudioPlaying = false;
 
     let speechOutput = '';
 
+
     const handleSpeak = async() => {
+        isAudioPlaying = true;
         if (speechOutput !==''){
             let audio = new Audio(speechOutput);
-            audio.play();
+            await audio.play();
         }
         else{
             try {
@@ -35,7 +38,10 @@
                 speechOutput = 'Error occurred during text-to-speech conversion.';
             }
         }
+
+        setTimeout(() => {isAudioPlaying = false}, 1000)
     }
+
 
     const handleClick = () => {
         resultData.set({
@@ -63,7 +69,11 @@
                     <h2 class="result">{word}</h2>
                     <button on:click={handleSpeak}>
                         <div class="speaker-container">
-                            <img class="speaker" alt="speacker icon" src={speaker} />
+                            {#if isAudioPlaying}
+                            <img class="speaker" alt="speaker icon" src={speakerFill} />
+                            {:else}
+                            <img class="speaker" alt="speaker icon" src={speaker} />
+                            {/if}
                         </div>
                     </button>
                     {#if speechOutput!== ''}

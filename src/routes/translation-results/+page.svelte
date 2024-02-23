@@ -1,5 +1,6 @@
 <script>
   import { formData } from "../../stores/translateStore";
+  import { inputData } from "../../stores/inputStore"
   import TranslationResult from "$lib/TranslationResult.svelte";
   import Tags from "$lib/Tags.svelte";
   import arrow from '$lib/assets/lineArrow.svg'
@@ -13,6 +14,13 @@
     formDataValue = value;
   });
 
+  let inputDataValue = {};
+  inputData.subscribe(value => {
+    inputDataValue = value;
+  })
+
+  console.log(inputDataValue);
+
   const dataObject = formDataValue.value;
   const translationResults = JSON.parse(dataObject).translations;
 
@@ -21,13 +29,21 @@
 <div class="page-container">
   <div class="search-overview">
     <div class="language-overview">
-        <span><i>Language 1</i></span>
+        <span><i>{inputDataValue.lang1}</i></span>
         <div class="arrow-container">
           <img src="{arrow}" alt="arrow">
         </div>
-        <span><i>Language 2</i></span>
+        <span><i>{inputDataValue.lang2}</i></span>
     </div>
-    <h1>Lorem Ipsum</h1>
+    <h1>{inputDataValue.phrase}</h1>
+    <!-- Tags -->
+    {#each inputDataValue.regions as region}
+      <Tags tagName={region.text} />
+    {/each}
+    
+    {#each inputDataValue.contexts as context}
+      <Tags tagName={context.text} />
+    {/each}
   </div>
 
   <div class="results-container">
