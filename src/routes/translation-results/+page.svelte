@@ -37,13 +37,15 @@
     </div>
     <h1>{inputDataValue.phrase}</h1>
     <!-- Tags -->
-    {#each inputDataValue.regions as region}
-      <Tags tagName={region.text} />
-    {/each}
-    
-    {#each inputDataValue.contexts as context}
-      <Tags tagName={context.text} />
-    {/each}
+    <div class={`tags ${(!inputDataValue.regions.length && !inputDataValue.contexts.length) ? 'no-tags' : ''}`}>
+      {#each inputDataValue.regions as region}
+        <Tags tagName={region.text} />
+      {/each}
+      
+      {#each inputDataValue.contexts as context}
+        <Tags tagName={context.text} />
+      {/each}
+    </div>
   </div>
 
   <div class="results-container">
@@ -97,6 +99,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    text-transform: capitalize;
   }
 
   .search-overview {
@@ -136,5 +139,19 @@
       transform: scale3d(1,1,1);
     }
 }
+
+.tags {
+        display: flex;
+        flex-direction: row;
+        column-gap: 8px;
+        margin-top: 0.5rem;
+    }
+
+    .no-tags {
+      display: flex;
+      flex-direction: row;
+      column-gap: 8px;
+      margin-top: 0;
+    }
 
 </style>
