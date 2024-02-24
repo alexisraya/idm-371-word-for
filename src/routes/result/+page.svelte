@@ -5,6 +5,7 @@
 
     import speaker from '$lib/assets/speaker.png';
     import emptyBookmark from '$lib/assets/emptyBookmark.png';
+    import gradient from '$lib/assets/gradient.svg';
 
     let resultObj = {};
     resultData.subscribe(result => {
@@ -68,20 +69,48 @@
         </div>
         <div class="definition">
             <h3>DEFINITIONS</h3>
-            <p class="definition">{description}</p>
+            <p class="definition-description">{description}</p>
         </div>
         <div class="definition">
             <h3>EXAMPLES</h3>
             <h4>{originalLanguage}</h4>
-            <p>{examples[0]}</p>
+            <p class="examples">{examples[0]}</p>
             <h4>{translateLanguage}</h4>
-            <p>{examples[1]}</p>
+            <p class="examples">{examples[1]}</p>
         </div>
     </div>
 </div>
 
+<div class="accuracy">
+    <button class="accurate">
+        Accurate
+    </button>
+    <button class="inaccurate">
+        Inaccurate
+    </button>
+</div>
+
+<div class="gradient-bg">
+    <img src="{gradient}" alt="gradient">
+</div>
+
 <style>
-    h2{
+    h1 {
+        color: var(--text-black, #141414);
+
+        /* H1 TNR */
+        font-family: "Times New Roman";
+        font-size: 2.5rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    h1::first-letter {
+        text-transform: uppercase;
+    }
+
+    h2, h3{
         margin: 0;
     }
 
@@ -101,19 +130,63 @@
         max-width: 100vw;
         display: flex;
         flex-direction: row;
-        align-items: center;
         justify-content: space-between;
+        min-height: calc( 100vh - 12rem);
     }
 
     .text-container{
-        max-width: 270px;
         display: flex;
         flex-direction: column;
     }
 
     .definition{
+        margin-top: 2rem;
         overflow: hidden;
         -webkit-line-clamp: 2;
+    }
+
+    .definition h3 {
+        color: var(--Primary-Black, #000);
+
+        /* Uppercase */
+        font-family: "Fira Sans";
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .definition p {
+        color: var(--Text-Black, #141414);
+
+        /* Body */
+        font-family: "Fira Sans";
+        font-size: 1rem;
+        font-weight: 300;
+        line-height: 1.25rem; /* 125% */
+        margin: 0;
+    }
+
+    .definition p::first-letter {
+        text-transform: uppercase;
+    }
+
+    .definition h4 {
+        color: var(--Stone-Grey, #979797);
+
+        /* Body */
+        font-family: "Fira Sans";
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 1.25rem; /* 125% */
+        margin: 0.75rem 0;
+    }
+
+    .examples {
+        font-style: italic;
     }
 
     .title{
@@ -131,17 +204,19 @@
     }
 
     .subtitle{
-        display: flex;
-        flex-direction: row;
+        display: inline-flex;
         align-items: center;
-        justify-content: left;
-        column-gap: 8px;
-        padding: 8px 0 12px 0;
+        gap: 1rem;
     }
 
     .subtitle-text{
+        color: var(--text-black, #141414);
+
+        /* Body Large Italic */
+        font-family: "Times New Roman";
+        font-size: 1.25rem;
         font-style: italic;
-        height: 22px;
+        font-weight: 400;
         margin: 0;
     }
 
@@ -150,4 +225,68 @@
         flex-direction: row;
         column-gap: 8px;
     }
+
+    .gradient-bg img {
+        bottom: -25rem;
+        left: -5rem;
+        position: fixed;
+        scale: 100%;
+        filter: blur(3rem);
+        z-index: -1;
+        animation: fadeInAnimation cubic-bezier(.39, -1.05, .58, 1.95) 1s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
+        transform-origin: center;
+    }
+
+  @keyframes fadeInAnimation {
+        0% {
+        opacity: 0;
+        transform: scale3d(.75,.75,1);
+        }
+        100% {
+        opacity: 1;
+        transform: scale3d(1,1,1);
+        }
+    }
+
+
+
+
+    .accuracy {
+        max-width: 21.375rem;
+        margin: auto;
+        height: 2.75rem;
+        flex-shrink: 0;
+
+        /* Style */
+        border-radius: 12.5rem;
+        border: 1px solid var(--Primary-Black, #000);
+        background: rgba(255, 255, 255, 0.40);
+        display: flex;
+    }
+
+    .accuracy button {
+        color: var(--Primary-Black, #000);
+
+        /* Body Alt */
+        font-family: "Fira Sans";
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        cursor: pointer;
+        width: 50%;
+    }
+
+    .accurate {
+        border-right: 0.66px solid var(--Primary-Black, #000);
+    }
+
+    .inaccurate {
+        border-left: 0.66px solid var(--Primary-Black, #000);
+    }
+
+
+
 </style>
