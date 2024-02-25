@@ -4,7 +4,7 @@
     import Tags from "$lib/Tags.svelte";
 
     import speaker from '$lib/assets/speaker.png';
-    import emptyBookmark from '$lib/assets/emptyBookmark.png';
+    import emptyBookmark from '$lib/assets/emptyBookmark.svg';
     import gradient from '$lib/assets/gradient.svg';
 
     let resultObj = {};
@@ -59,7 +59,7 @@
             <h2>•</h2>
             <h3 class="subtitle-text">{partSpeech}</h3>
         </div>
-        <div class="tags">
+        <div class={`tags ${(region.length===0 && context.length===0) ? 'no-tags' : ''}`}>
             {#if region.length<=12 && region!="all regions"}
                 <Tags tagName={region}/>
             {/if}
@@ -189,12 +189,6 @@
         font-style: italic;
     }
 
-    .title{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
     .result{
         margin: 0;
     }
@@ -220,41 +214,36 @@
         margin: 0;
     }
 
-    .tags{
+    .tags {
         display: flex;
         flex-direction: row;
         column-gap: 8px;
+        margin-top: 0.75rem;
+    }
+
+    .no-tags {
+        margin-top: 0;
+        height: 0;
     }
 
     .gradient-bg img {
-        bottom: -25rem;
+        bottom: -20rem;
         left: -5rem;
         position: fixed;
         scale: 100%;
         filter: blur(3rem);
         z-index: -1;
-        animation: fadeInAnimation cubic-bezier(.39, -1.05, .58, 1.95) 1s;
         animation-iteration-count: 1;
         animation-fill-mode: forwards;
         transform-origin: center;
-    }
-
-  @keyframes fadeInAnimation {
-        0% {
-        opacity: 0;
-        transform: scale3d(.75,.75,1);
-        }
-        100% {
-        opacity: 1;
-        transform: scale3d(1,1,1);
-        }
     }
 
 
 
 
     .accuracy {
-        max-width: 21.375rem;
+        width: calc(100vw - 3rem);
+        max-width: 30rem;
         margin: auto;
         height: 2.75rem;
         flex-shrink: 0;
@@ -287,6 +276,21 @@
         border-left: 0.66px solid var(--Primary-Black, #000);
     }
 
+    .title {
+        display: grid;
+        grid-template-columns: 1fr 2.75rem 2rem;
+        flex-direction: row;
+        align-items: center;
+    }
 
+
+    .bookmark {
+        height: 1.5rem;
+        margin: auto;
+    }
+
+    .speaker {
+        padding-top: 0.15rem;
+    }
 
 </style>
