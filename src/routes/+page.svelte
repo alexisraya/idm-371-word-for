@@ -445,6 +445,7 @@
         height: 12.375rem;
         flex-shrink: 0;
         padding: 0;
+        margin-bottom: 1rem;
 
         /* Style */
         border-radius: 1rem;
