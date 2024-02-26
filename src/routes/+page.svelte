@@ -231,6 +231,7 @@
         display: flex;
         width: 100%;
         max-width: 19.5rem;
+        /* max-width: calc(100vw - 1rem); */
         padding: 0 1rem;
         min-height: 2.75rem;
         justify-content: space-between;
@@ -268,6 +269,7 @@
         height: 32px;
         padding: 0;
         margin-left: 17.825rem;
+        /* margin-left: calc(100vw - 3rem); */
         background: url('$lib/assets/chevron.svg'), no-repeat;
         background-size: 2rem auto;
         position: absolute;
@@ -442,6 +444,7 @@
         max-width: 21rem;
         height: 12.375rem;
         flex-shrink: 0;
+        padding: 0;
 
         /* Style */
         border-radius: 1rem;
