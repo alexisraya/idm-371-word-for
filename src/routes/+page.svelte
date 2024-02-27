@@ -8,8 +8,8 @@
     import swapLanguage from '$lib/assets/swapLanguage.svg'
     import microphone from '$lib/assets/microphone.svg'
     import microphoneActive from '$lib/assets/microphoneActive.svg'
-
     import { formData, resetFormData } from "../stores/translateStore";
+    import { inputData, updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
 
     let languages = LANGUAGES;
@@ -103,6 +103,8 @@
         loading = true;
         phrase = sanitize(phrase);
         resetFormData();
+        updateInputs(originLanguage, translateLanguage, selectedRegion, selectedContext, phrase);
+
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
         if (response == null){
             loading = false;
