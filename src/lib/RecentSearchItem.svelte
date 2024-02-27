@@ -53,7 +53,9 @@
             <h1>{phrase}</h1>
         </div>
         <div class="tags">
-            <Tags tagName={context}/>
+            {#if context.length>0}
+                <Tags tagName={context}/>
+            {/if}
             <Tags tagName={region}/>
         </div>
         <div class="dayTime">
