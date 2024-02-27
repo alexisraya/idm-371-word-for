@@ -1,5 +1,6 @@
 <script>
   import { formData } from "../../stores/translateStore";
+  import { inputData } from "../../stores/inputStore"
   import TranslationResult from "$lib/TranslationResult.svelte";
   import Tags from "$lib/Tags.svelte";
   import arrow from '$lib/assets/lineArrow.svg'
@@ -13,21 +14,40 @@
     formDataValue = value;
   });
 
+  let inputDataValue = {};
+  inputData.subscribe(value => {
+    inputDataValue = value;
+  })
+
+  console.log(inputDataValue);
+
   const dataObject = formDataValue.value;
   const translationResults = JSON.parse(dataObject).translations;
+
+  console.log(translationResults)
 
 </script>
 
 <div class="page-container">
   <div class="search-overview">
     <div class="language-overview">
-        <span><i>Language 1</i></span>
+        <span><i>{inputDataValue.lang1}</i></span>
         <div class="arrow-container">
           <img src="{arrow}" alt="arrow">
         </div>
-        <span><i>Language 2</i></span>
+        <span><i>{inputDataValue.lang2}</i></span>
     </div>
-    <h1>Lorem Ipsum</h1>
+    <h1>{inputDataValue.phrase}</h1>
+    <!-- Tags -->
+    <div class={`tags ${(!inputDataValue.regions.length && !inputDataValue.contexts.length) ? 'no-tags' : ''}`}>
+      {#each inputDataValue.regions as region}
+        <Tags tagName={region.text} />
+      {/each}
+      
+      {#each inputDataValue.contexts as context}
+        <Tags tagName={context.text} />
+      {/each}
+    </div>
   </div>
 
   <div class="results-container">
@@ -81,6 +101,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    text-transform: capitalize;
   }
 
   .search-overview {
@@ -120,5 +141,19 @@
       transform: scale3d(1,1,1);
     }
 }
+
+.tags {
+        display: flex;
+        flex-direction: row;
+        column-gap: 8px;
+        margin-top: 0.5rem;
+    }
+
+    .no-tags {
+      display: flex;
+      flex-direction: row;
+      column-gap: 8px;
+      margin-top: 0;
+    }
 
 </style>

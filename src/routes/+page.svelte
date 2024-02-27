@@ -10,9 +10,10 @@
     import microphoneActive from '$lib/assets/microphoneActive.svg'
     import Tags from "$lib/Tags.svelte";
 
-
     import { formData, resetFormData } from "../stores/translateStore";
+    import { inputData, updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
+    import { updateRecentSearch } from '../stores/recentSearchStore';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -101,10 +102,26 @@
 
     let loading = false;
 
+    const findDayTime = () => {
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const date = new Date();
+        const month = monthNames[date.getMonth()];
+        const day = date.getDate();
+        let time = date.toLocaleTimeString('en-US');
+        const meridiem = time.slice(-2);
+        time = time.slice(0,-6);
+        time = time + meridiem;
+        const dayTime = month+" "+day+" "+time;
+        return(dayTime);
+    }
+
     const handleSubmit = async() => {
         loading = true;
         phrase = sanitize(phrase);
+        const dayTime = findDayTime();
         resetFormData();
+        updateRecentSearch({phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions, dayTime});
+        updateInputs(originLanguage, translateLanguage, selectedRegion, selectedContext, phrase);
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
         if (response == null){
             loading = false;
@@ -292,6 +309,7 @@
         display: flex;
         width: 100%;
         max-width: 19.5rem;
+        /* max-width: calc(100vw - 1rem); */
         padding: 0 1rem;
         min-height: 2.75rem;
         justify-content: space-between;
@@ -335,6 +353,7 @@
         padding: 0;
         margin-top: -0.25rem;
         margin-left: 17.825rem;
+        /* margin-left: calc(100vw - 3rem); */
         background: url('$lib/assets/chevron.svg'), no-repeat;
         background-size: 2rem auto;
         position: absolute;
@@ -509,6 +528,8 @@
         max-width: 21rem;
         height: 12.375rem;
         flex-shrink: 0;
+        padding: 0;
+        margin-bottom: 1rem;
 
         /* Style */
         border-radius: 1rem;

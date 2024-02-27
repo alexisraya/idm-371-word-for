@@ -52,7 +52,7 @@
 
     .nav-bg {
         height: 4.25rem;
-        background: linear-gradient(180deg, #F1F1F1 70%, rgba(243, 243, 243, 0.00) 100%);
+        background: linear-gradient(180deg, #FFFFFF 70%, rgba(243, 243, 243, 0.00) 100%);
         position: sticky;
         top: 0;
         z-index: 1;
