@@ -8,10 +8,13 @@
     import swapLanguage from '$lib/assets/swapLanguage.svg'
     import microphone from '$lib/assets/microphone.svg'
     import microphoneActive from '$lib/assets/microphoneActive.svg'
+    import Tags from "$lib/Tags.svelte";
+
     import { formData, resetFormData } from "../stores/translateStore";
     import { inputData, updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
     import { updateRecentSearch } from '../stores/recentSearchStore';
+  import { removeDuplicates } from '$lib/helpers/helperFunctions';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -71,6 +74,7 @@
     let selectedRegions = "";
 
     $: if (selectedRegion.length >0){
+        selectedRegion = removeDuplicates(selectedRegion);
         let regionStr = "";
         selectedRegion.forEach(region => {
             let str = `, ` + region.text;
@@ -85,6 +89,7 @@
 
     let selectedContexts = "";
     $: if (selectedContext.length >0){
+        selectedContext = removeDuplicates(selectedContext);
         let contextStr = "";
         selectedContext.forEach(context => {
             if (!selectedContexts.includes(context)){
@@ -151,6 +156,41 @@
         }
     }
 
+    let selectedTags = [];
+
+  // Compute selected tags
+    $: {
+        selectedTags = selectedRegion.map(region => region.text);
+        selectedTags = [...new Set(selectedTags)]; // Filter out duplicates
+
+    }
+
+    // Event handler for checkbox change
+    function handleCheckboxChange(event, region) {
+        if (event.target.checked) {
+        selectedRegion = [...selectedRegion, region];
+        } else {
+        selectedRegion = selectedRegion.filter(selected => selected !== region);
+        }
+    }
+
+    let selectedTagsContext = []; // Define selectedTagsContext array
+
+    // Compute selected tags for Context
+    $: {
+        selectedTagsContext = selectedContext.map(context => context.text);
+        selectedTagsContext = [...new Set(selectedTagsContext)]; // Filter out duplicates
+    }
+
+    // Event handler for checkbox change for Context
+    function handleCheckboxChangeContext(event, context) {
+        if (event.target.checked) {
+            selectedContext = [...selectedContext, context];
+        } else {
+            selectedContext = selectedContext.filter(selected => selected !== context);
+        }
+    }
+
 </script>
 
 {#if loading === false}
@@ -178,12 +218,24 @@
                 </div>
 
                 <details class="dropdown-wide">
-                    <summary><div>Region</div></summary>
+                    <summary>
+                        <div class="dropdown-title">Region</div>
+                        <div class="tags">
+                            {#each selectedTags as tag}
+                                <Tags tagName={tag}/> 
+                            {/each}
+                        </div>
+                    </summary>
                     <fieldset>
                         <ul>
                             {#each regions as region}
                                 <li>
-                                    <input type="checkbox" id={region.text} name={region.text} value={region} bind:group={selectedRegion}/>
+                                    <input type="checkbox" id={region.text} name={region.text} value={region} bind:group={selectedRegion}
+
+                                    checked={selectedRegion.includes(region.text)}
+
+                                    on:change={(e) => handleCheckboxChange(e, region)}/>
+                                    
                                     <label for={region.text}>{region.text}</label>
                                 </li>
                             {/each}
@@ -192,12 +244,24 @@
                 </details>
 
                 <details class="dropdown-wide">
-                    <summary><div>Context</div></summary>
+                    <summary>
+                        <div class="dropdown-title">Context</div>
+                        <div class="tags">
+                            {#each selectedTagsContext as tag}
+                                <Tags tagName={tag}/> 
+                            {/each}
+                        </div>
+                    </summary>
                     <fieldset>
                         <ul>
                             {#each contexts as context}
                                 <li>
-                                    <input type="checkbox" id={context.text} name={context.text} value={context} bind:group={selectedContext}/>
+                                    <input type="checkbox" id={context.text} name={context.text} value={context} bind:group={selectedContext}
+                                    
+                                    checked={selectedContext.includes(context)}
+
+                                    on:change={(e) => handleCheckboxChangeContext(e, context)}/>
+
                                     <label for={context.text}>{context.text}</label>
                                 </li>
                             {/each}
@@ -272,11 +336,16 @@
     .dropdown-wide summary {
         /* Layout */
         display: flex; /* also removes the list marker */
-        align-items: center;
+        align-items: top;
         padding: 0.75rem 0;
 
         /* Style */
         list-style: none;
+    }
+
+    .dropdown-wide .dropdown-title {
+        height: 1.4rem;
+        line-height: 1.325rem;
     }
 
     .dropdown-wide summary::after {
@@ -285,6 +354,7 @@
         width: 32px;
         height: 32px;
         padding: 0;
+        margin-top: -0.25rem;
         margin-left: 17.825rem;
         /* margin-left: calc(100vw - 3rem); */
         background: url('$lib/assets/chevron.svg'), no-repeat;
@@ -616,6 +686,14 @@
 
     .record-icon-active, .record-icon-inactive {
         animation: 0.225s cubic-bezier(.51,.92,.24,1.15) 0s 1 scaleImage;
+    }
+
+    .tags {
+        display: inline-flex;
+        flex-wrap: wrap;
+        max-width: 14.4rem;
+        padding-left: 0.5rem;
+        gap: 0.5rem;
     }
 
 

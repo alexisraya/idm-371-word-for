@@ -9,7 +9,7 @@
 <style>
     .tag-container{
         display: flex;
-        height: 1.3125rem;
+        height: 1.325rem;
         padding: 0rem 0.58rem;
         align-items: center;
         gap: 0.44388rem;
