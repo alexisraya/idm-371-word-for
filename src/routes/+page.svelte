@@ -8,6 +8,8 @@
     import swapLanguage from '$lib/assets/swapLanguage.svg'
     import microphone from '$lib/assets/microphone.svg'
     import microphoneActive from '$lib/assets/microphoneActive.svg'
+    import Tags from "$lib/Tags.svelte";
+
 
     import { formData, resetFormData } from "../stores/translateStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
@@ -134,6 +136,41 @@
         }
     }
 
+    let selectedTags = [];
+
+  // Compute selected tags
+    $: {
+        selectedTags = selectedRegion.map(region => region.text);
+        selectedTags = [...new Set(selectedTags)]; // Filter out duplicates
+
+    }
+
+    // Event handler for checkbox change
+    function handleCheckboxChange(event, region) {
+        if (event.target.checked) {
+        selectedRegion = [...selectedRegion, region];
+        } else {
+        selectedRegion = selectedRegion.filter(selected => selected !== region);
+        }
+    }
+
+    let selectedTagsContext = []; // Define selectedTagsContext array
+
+    // Compute selected tags for Context
+    $: {
+        selectedTagsContext = selectedContext.map(context => context.text);
+        selectedTagsContext = [...new Set(selectedTagsContext)]; // Filter out duplicates
+    }
+
+    // Event handler for checkbox change for Context
+    function handleCheckboxChangeContext(event, context) {
+        if (event.target.checked) {
+            selectedContext = [...selectedContext, context];
+        } else {
+            selectedContext = selectedContext.filter(selected => selected !== context);
+        }
+    }
+
 </script>
 
 {#if loading === false}
@@ -161,12 +198,24 @@
                 </div>
 
                 <details class="dropdown-wide">
-                    <summary><div>Region</div></summary>
+                    <summary>
+                        <div>Region</div>
+                        <div class="tags">
+                            {#each selectedTags as tag}
+                                <Tags tagName={tag}/> 
+                            {/each}
+                        </div>
+                    </summary>
                     <fieldset>
                         <ul>
                             {#each regions as region}
                                 <li>
-                                    <input type="checkbox" id={region.text} name={region.text} value={region} bind:group={selectedRegion}/>
+                                    <input type="checkbox" id={region.text} name={region.text} value={region} bind:group={selectedRegion}
+
+                                    checked={selectedRegion.includes(region.text)}
+
+                                    on:change={(e) => handleCheckboxChange(e, region)}/>
+                                    
                                     <label for={region.text}>{region.text}</label>
                                 </li>
                             {/each}
@@ -175,12 +224,24 @@
                 </details>
 
                 <details class="dropdown-wide">
-                    <summary><div>Context</div></summary>
+                    <summary>
+                        <div>Context</div>
+                        <div class="tags">
+                            {#each selectedTagsContext as tag}
+                                <Tags tagName={tag}/> 
+                            {/each}
+                        </div>
+                    </summary>
                     <fieldset>
                         <ul>
                             {#each contexts as context}
                                 <li>
-                                    <input type="checkbox" id={context.text} name={context.text} value={context} bind:group={selectedContext}/>
+                                    <input type="checkbox" id={context.text} name={context.text} value={context} bind:group={selectedContext}
+                                    
+                                    checked={selectedContext.includes(context)}
+
+                                    on:change={(e) => handleCheckboxChangeContext(e, context)}/>
+
                                     <label for={context.text}>{context.text}</label>
                                 </li>
                             {/each}
@@ -595,6 +656,14 @@
 
     .record-icon-active, .record-icon-inactive {
         animation: 0.225s cubic-bezier(.51,.92,.24,1.15) 0s 1 scaleImage;
+    }
+
+    .tags {
+        display: inline-flex;
+        flex-wrap: wrap;
+        max-width: 14.4rem;
+        padding-left: 0.5rem;
+        gap: 0.5rem
     }
 
 
