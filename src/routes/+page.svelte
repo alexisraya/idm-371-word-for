@@ -8,9 +8,10 @@
     import swapLanguage from '$lib/assets/swapLanguage.svg'
     import microphone from '$lib/assets/microphone.svg'
     import microphoneActive from '$lib/assets/microphoneActive.svg'
-
     import { formData, resetFormData } from "../stores/translateStore";
+    import { inputData, updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
+    import { updateRecentSearch } from '../stores/recentSearchStore';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -66,9 +67,6 @@
         const reg = /[&<>"'/]/ig;
         return str.replace(reg, (match)=>(map[match]));
     }
-    $: if (phrase != ''){
-        phrase = sanitize(phrase);
-    }
 
     let selectedRegions = "";
 
@@ -102,9 +100,26 @@
 
     let loading = false;
 
+    const findDayTime = () => {
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const date = new Date();
+        const month = monthNames[date.getMonth()];
+        const day = date.getDate();
+        let time = date.toLocaleTimeString('en-US');
+        const meridiem = time.slice(-2);
+        time = time.slice(0,-6);
+        time = time + meridiem;
+        const dayTime = month+" "+day+" "+time;
+        return(dayTime);
+    }
+
     const handleSubmit = async() => {
         loading = true;
+        phrase = sanitize(phrase);
+        const dayTime = findDayTime();
         resetFormData();
+        updateRecentSearch({phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions, dayTime});
+        updateInputs(originLanguage, translateLanguage, selectedRegion, selectedContext, phrase);
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
         if (response == null){
             loading = false;
@@ -231,7 +246,9 @@
 
         /* Layout */
         display: flex;
-        width: 21.375rem;
+        width: 100%;
+        max-width: 19.5rem;
+        /* max-width: calc(100vw - 1rem); */
         padding: 0 1rem;
         min-height: 2.75rem;
         justify-content: space-between;
@@ -268,7 +285,8 @@
         width: 32px;
         height: 32px;
         padding: 0;
-        margin-left: 19.75rem;
+        margin-left: 17.825rem;
+        /* margin-left: calc(100vw - 3rem); */
         background: url('$lib/assets/chevron.svg'), no-repeat;
         background-size: 2rem auto;
         position: absolute;
@@ -321,6 +339,7 @@
 
     .dropdown-container {
         /* Layout */
+        
         display: inline-flex;
         flex-direction: column;
         align-items: flex-start;
@@ -330,6 +349,7 @@
     .dropdown-language-container {
         /* Layout */
         width: 100%;
+        max-width: 21.5rem;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -438,8 +458,11 @@
     .translate-text-field {
         /* Layout */
         width: 100%;
+        max-width: 21rem;
         height: 12.375rem;
         flex-shrink: 0;
+        padding: 0;
+        margin-bottom: 1rem;
 
         /* Style */
         border-radius: 1rem;
@@ -467,7 +490,8 @@
 
     .translate-text-field-container {
         margin-top: 2rem;
-        max-width: 22.875rem;
+        max-width: 21.5rem;
+        width: 100%;
     }
 
     /* OR separator */
@@ -510,6 +534,7 @@
     .translate-button {
         /* Layout */
         width: 100%;
+        max-width: 21.5rem;
         height: 2.75rem;
         padding: 0.75rem 8.5rem;
         justify-content: space-between;
