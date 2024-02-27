@@ -11,6 +11,7 @@
     import { formData, resetFormData } from "../stores/translateStore";
     import { inputData, updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
+    import { updateRecentSearch } from '../stores/recentSearchStore';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -99,12 +100,26 @@
 
     let loading = false;
 
+    const findDayTime = () => {
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const date = new Date();
+        const month = monthNames[date.getMonth()];
+        const day = date.getDate();
+        let time = date.toLocaleTimeString('en-US');
+        const meridiem = time.slice(-2);
+        time = time.slice(0,-6);
+        time = time + meridiem;
+        const dayTime = month+" "+day+" "+time;
+        return(dayTime);
+    }
+
     const handleSubmit = async() => {
         loading = true;
         phrase = sanitize(phrase);
+        const dayTime = findDayTime();
         resetFormData();
+        updateRecentSearch({phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions, dayTime});
         updateInputs(originLanguage, translateLanguage, selectedRegion, selectedContext, phrase);
-
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
         if (response == null){
             loading = false;

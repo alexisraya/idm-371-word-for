@@ -24,6 +24,8 @@
   const dataObject = formDataValue.value;
   const translationResults = JSON.parse(dataObject).translations;
 
+  console.log(translationResults)
+
 </script>
 
 <div class="page-container">
