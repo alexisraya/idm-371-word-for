@@ -104,7 +104,8 @@
         loading = true;
         phrase = sanitize(phrase);
         resetFormData();
-        updateRecentSearch({phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions})
+        updateRecentSearch({phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions});
+        updateInputs(originLanguage, translateLanguage, selectedRegion, selectedContext, phrase);
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
         if (response == null){
             loading = false;
