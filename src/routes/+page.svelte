@@ -14,6 +14,7 @@
     import { inputData, updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
     import { updateRecentSearch } from '../stores/recentSearchStore';
+  import { removeDuplicates } from '$lib/helpers/helperFunctions';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -73,6 +74,7 @@
     let selectedRegions = "";
 
     $: if (selectedRegion.length >0){
+        selectedRegion = removeDuplicates(selectedRegion);
         let regionStr = "";
         selectedRegion.forEach(region => {
             let str = `, ` + region.text;
@@ -87,6 +89,7 @@
 
     let selectedContexts = "";
     $: if (selectedContext.length >0){
+        selectedContext = removeDuplicates(selectedContext);
         let contextStr = "";
         selectedContext.forEach(context => {
             if (!selectedContexts.includes(context)){
