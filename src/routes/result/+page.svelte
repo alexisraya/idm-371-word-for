@@ -6,7 +6,7 @@
     import speaker from '$lib/assets/speaker.png';
     import emptyBookmark from '$lib/assets/emptyBookmark.svg';
     import gradient from '$lib/assets/gradient.svg';
-    import filledBookmark from '$lib/assets/filledBookmark.png';
+    import filledBookmark from '$lib/assets/filledBookmark.svg';
     import { isBookmarked, updatebookmark } from "../../stores/bookmarkStore";
 
     let resultObj = {};
