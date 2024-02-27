@@ -4,6 +4,7 @@ interface SearchItem {
     phrase: string;
     selectedContexts: string;
     selectedRegions: string;
+    dayTime: string;
 }
   
 export default SearchItem;

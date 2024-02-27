@@ -25,7 +25,7 @@
 {#if !isEmpty}
     <div class="recent-item-container">
         {#each recentSearches as recentSearch}
-            <RecentSearchItem phrase={recentSearch.phrase} region={recentSearch.selectedRegions} context={recentSearch.selectedContexts} originLanguage={recentSearch.originLanguage} translateLanguage={recentSearch.translateLanguage}/>
+            <RecentSearchItem phrase={recentSearch.phrase} region={recentSearch.selectedRegions} context={recentSearch.selectedContexts} originLanguage={recentSearch.originLanguage} translateLanguage={recentSearch.translateLanguage} dayTime={recentSearch.dayTime}/>
         {/each}
     </div>
 {:else}

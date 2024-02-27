@@ -12,6 +12,7 @@
     export let context: string;
     export let originLanguage: string;
     export let translateLanguage: string;
+    export let dayTime: string;
 
     const handleSubmit = async() => {
         resetFormData();
@@ -32,7 +33,8 @@
             selectedRegions: region,
             selectedContexts: context,
             originLanguage,
-            translateLanguage
+            translateLanguage,
+            dayTime
         }
         deleteRecentSearchItem(recentSearchItem);
     }
@@ -53,6 +55,9 @@
         <div class="tags">
             <Tags tagName={context}/>
             <Tags tagName={region}/>
+        </div>
+        <div class="dayTime">
+            <p>{dayTime}</p>
         </div>
     </div>
     <button class="trash-icon-container" on:click={handleDelete}>
