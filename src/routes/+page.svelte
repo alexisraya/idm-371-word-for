@@ -199,7 +199,7 @@
 
                 <details class="dropdown-wide">
                     <summary>
-                        <div>Region</div>
+                        <div class="dropdown-title">Region</div>
                         <div class="tags">
                             {#each selectedTags as tag}
                                 <Tags tagName={tag}/> 
@@ -225,7 +225,7 @@
 
                 <details class="dropdown-wide">
                     <summary>
-                        <div>Context</div>
+                        <div class="dropdown-title">Context</div>
                         <div class="tags">
                             {#each selectedTagsContext as tag}
                                 <Tags tagName={tag}/> 
@@ -315,11 +315,16 @@
     .dropdown-wide summary {
         /* Layout */
         display: flex; /* also removes the list marker */
-        align-items: center;
+        align-items: top;
         padding: 0.75rem 0;
 
         /* Style */
         list-style: none;
+    }
+
+    .dropdown-wide .dropdown-title {
+        height: 1.4rem;
+        line-height: 1.325rem;
     }
 
     .dropdown-wide summary::after {
@@ -328,6 +333,7 @@
         width: 32px;
         height: 32px;
         padding: 0;
+        margin-top: -0.25rem;
         margin-left: 17.825rem;
         background: url('$lib/assets/chevron.svg'), no-repeat;
         background-size: 2rem auto;
@@ -663,7 +669,7 @@
         flex-wrap: wrap;
         max-width: 14.4rem;
         padding-left: 0.5rem;
-        gap: 0.5rem
+        gap: 0.5rem;
     }
 
 
