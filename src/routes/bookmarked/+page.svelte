@@ -12,6 +12,7 @@ import bookmarkStore from "../../stores/bookmarkStore";
     let isEmpty = dataLength<0;
 </script>
 
+<div class="page-container">
 <div class="header-container">
     <h1>Bookmarks</h1>
 </div>
@@ -24,3 +25,12 @@ import bookmarkStore from "../../stores/bookmarkStore";
 {:else}
     <p>No Bookmarks</p>
 {/if}
+
+</div>
+
+<style>
+    .page-container {
+        margin: auto;
+        padding: 0 1.5rem 0;
+    }
+</style>
