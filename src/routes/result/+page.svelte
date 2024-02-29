@@ -85,12 +85,12 @@
         <div class="definition">
             <h3>EXAMPLES</h3>
             <h4>{originalLanguage}</h4>
-            <div>
+            <div class="example-container">
                 <p class="examples">{examples[0]}</p>
                 <Speaker phrase={examples[0]} />
             </div>
             <h4>{translateLanguage}</h4>
-            <div>
+            <div class="example-container">
                 <p class="examples">{examples[1]}</p>
                 <Speaker phrase={examples[1]} />
             </div>
@@ -303,4 +303,7 @@
         margin: auto;
     }
 
+    .example-container {
+        display: flex;
+    }
 </style>
