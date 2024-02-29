@@ -1,9 +1,8 @@
 <script>
     import { resultData } from "../../stores/translateStore";
-    import { textToSpeech } from "$lib/helpers/translate";
     import Tags from "$lib/Tags.svelte";
+    import Speaker from "$lib/Speaker.svelte";
 
-    import speaker from '$lib/assets/speaker.png';
     import emptyBookmark from '$lib/assets/emptyBookmark.svg';
     import gradient from '$lib/assets/gradient.svg';
     import filledBookmark from '$lib/assets/filledBookmark.svg';
@@ -51,23 +50,6 @@
         }
     }
 
-    let speechOutput = '';
-
-    const handleSpeak = async() => {
-        if (speechOutput !==''){
-            let audio = new Audio(speechOutput);
-            audio.play();
-        }
-        else{
-            try {
-                speechOutput = await textToSpeech(word);
-            } catch (error) {
-                console.error('Error:', error);
-                speechOutput = 'Error occurred during text-to-speech conversion.';
-            }
-        }
-    }
-
     const handleBookmark = () => {
         updatebookmark(bookmarkItem);
         isInBookmarks = !isInBookmarks;
@@ -78,12 +60,7 @@
     <div class="text-container">
         <div class="title">
             <h1 class="result">{word}</h1>
-            <button on:click={handleSpeak}>
-                <img class="speaker" alt="speacker icon" src={speaker} />
-            </button>
-            {#if speechOutput!== ''}
-                <audio autoplay><source type="audio/mpeg" src={speechOutput}></audio>
-            {/if}
+            <Speaker phrase={word} />
             <button on:click={handleBookmark}>
                 <img class="bookmark icon" alt="bookmark icon" src={bookmarkIcon} />
             </button>
@@ -108,9 +85,15 @@
         <div class="definition">
             <h3>EXAMPLES</h3>
             <h4>{originalLanguage}</h4>
-            <p class="examples">{examples[0]}</p>
+            <div>
+                <p class="examples">{examples[0]}</p>
+                <Speaker phrase={examples[0]} />
+            </div>
             <h4>{translateLanguage}</h4>
-            <p class="examples">{examples[1]}</p>
+            <div>
+                <p class="examples">{examples[1]}</p>
+                <Speaker phrase={examples[1]} />
+            </div>
         </div>
     </div>
 </div>
@@ -272,9 +255,6 @@
         transform-origin: center;
     }
 
-
-
-
     .accuracy {
         width: calc(100vw - 3rem);
         max-width: 30rem;
@@ -321,10 +301,6 @@
     .bookmark {
         height: 1.5rem;
         margin: auto;
-    }
-
-    .speaker {
-        padding-top: 0.15rem;
     }
 
 </style>
