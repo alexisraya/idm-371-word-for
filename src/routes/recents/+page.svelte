@@ -14,7 +14,7 @@
     let isEmpty = dataLength<0;
     let isModalOpen = false; // this is a boolean that tracks the "are you sure" modal
     let isEditModalOpen = false; // this is a boolean that tracks the "are you sure" modal
-    let isLoading = false;
+    let isLoading = false; //TODO: implement loader
 
     const closeModal = () => {
         isModalOpen = false;
