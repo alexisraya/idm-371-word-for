@@ -3,6 +3,7 @@
     import dots from '$lib/assets/dots.svg';
     import recentSearchStore, { deleteRecentStore } from "../../stores/recentSearchStore";
     import RecentSearchItem from "$lib/RecentSearchItem.svelte";
+    import Skeleton from '$lib/Skeleton.svelte';
 
     let recentSearches = {};
     recentSearchStore.subscribe(result => {
@@ -13,6 +14,7 @@
     let isEmpty = dataLength<0;
     let isModalOpen = false; // this is a boolean that tracks the "are you sure" modal
     let isEditModalOpen = false; // this is a boolean that tracks the "are you sure" modal
+    let isLoading = false; //TODO: implement loader
 
     const closeModal = () => {
         isModalOpen = false;
