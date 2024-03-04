@@ -14,7 +14,8 @@
     import { inputData, updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
     import { updateRecentSearch } from '../stores/recentSearchStore';
-  import { removeDuplicates } from '$lib/helpers/helperFunctions';
+    import { removeDuplicates } from '$lib/helpers/helperFunctions';
+    import Skeleton from '$lib/Skeleton.svelte';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -294,7 +295,7 @@
         </form>
     </div>
 {:else}
-    <h2>Translating... please wait</h2>
+    <Skeleton />
 {/if}
 
 <style>

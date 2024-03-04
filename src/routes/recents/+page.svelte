@@ -2,6 +2,7 @@
     import exit from '$lib/assets/exit.svg';
     import recentSearchStore, { deleteRecentStore } from "../../stores/recentSearchStore";
     import RecentSearchItem from "$lib/RecentSearchItem.svelte";
+    import Skeleton from '$lib/Skeleton.svelte';
 
     let recentSearches = {};
     recentSearchStore.subscribe(result => {
@@ -11,6 +12,7 @@
     let dataLength = Object.keys(recentSearches).length
     let isEmpty = dataLength<0;
     let isModalOpen = false; // this is a boolean that tracks the "are you sure" modal
+    let isLoading = false;
 
     const closeModal = () => {
         isModalOpen = false;
@@ -27,33 +29,37 @@
     }
 </script>
 
-<div class="header-container">
-    <h1>Recent Searches</h1>
-    <button class="clear-history-btn" disabled={isEmpty} on:click={openModal}>
-        Clear All History
-    </button>
-</div>
-{#if !isEmpty}
-    <div class="recent-item-container">
-        {#each recentSearches as recentSearch}
-            <RecentSearchItem phrase={recentSearch.phrase} region={recentSearch.selectedRegions} context={recentSearch.selectedContexts} originLanguage={recentSearch.originLanguage} translateLanguage={recentSearch.translateLanguage} dayTime={recentSearch.dayTime}/>
-        {/each}
+{#if !isLoading}
+    <div class="header-container">
+        <h1>Recent Searches</h1>
+        <button class="clear-history-btn" disabled={isEmpty} on:click={openModal}>
+            Clear All History
+        </button>
     </div>
-    {#if isModalOpen}
-        <!-- TODO: this is janky... fix in a later build -->
-        <div class="recent-search-modal-container">
-            <div class="modal-header">
-                <h1 class="modal-title">Would you like to clear all recent searches</h1>
-                <button class="modal-close-btn" on:click={closeModal}>
-                    <img src={exit} alt="exit symbol">
-                </button>
-            </div>
-            <button on:click={handleDelete}>Yes,Clear All History</button>
-            <button on:click={closeModal}>No</button>
+    {#if !isEmpty}
+        <div class="recent-item-container">
+            {#each recentSearches as recentSearch}
+                <RecentSearchItem phrase={recentSearch.phrase} region={recentSearch.selectedRegions} context={recentSearch.selectedContexts} originLanguage={recentSearch.originLanguage} translateLanguage={recentSearch.translateLanguage} dayTime={recentSearch.dayTime}/>
+            {/each}
         </div>
+        {#if isModalOpen}
+            <!-- TODO: this is janky... fix in a later build -->
+            <div class="recent-search-modal-container">
+                <div class="modal-header">
+                    <h1 class="modal-title">Would you like to clear all recent searches</h1>
+                    <button class="modal-close-btn" on:click={closeModal}>
+                        <img src={exit} alt="exit symbol">
+                    </button>
+                </div>
+                <button on:click={handleDelete}>Yes,Clear All History</button>
+                <button on:click={closeModal}>No</button>
+            </div>
+        {/if}
+    {:else}
+        <p>No recent searches</p>
     {/if}
 {:else}
-    <p>No recent searches</p>
+    <Skeleton />
 {/if}
 
 <style>
