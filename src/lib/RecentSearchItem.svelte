@@ -42,24 +42,26 @@
 
 <div class="container" on:click={handleSubmit} on:keydown={handleSubmit}>
     <div class="text-container">
-        <div class="languages-container">
-            <p>{originLanguage}</p>
-            <div class="arrow-icon-container">
-                <img src={translateArrow} alt="translate arrow sign">
+        <div class="align-container">
+            <div class="languages-container">
+                <p>{originLanguage}</p>
+                <div class="arrow-icon-container">
+                    <img src={translateArrow} alt="translate arrow sign">
+                </div>
+                <p>{translateLanguage}</p>
             </div>
-            <p>{translateLanguage}</p>
+            <div class="dayTime">
+                <p>{dayTime}</p>
+            </div>
         </div>
         <div class="title">
             <h1>{phrase}</h1>
         </div>
         <div class="tags">
+            <Tags tagName={region}/>
             {#if context.length>0}
                 <Tags tagName={context}/>
             {/if}
-            <Tags tagName={region}/>
-        </div>
-        <div class="dayTime">
-            <p>{dayTime}</p>
         </div>
     </div>
     <button class="trash-icon-container" on:click={handleDelete}>
@@ -71,17 +73,26 @@
     p, h1{
         margin: 0;
     }
+
+    .trash-icon-container{
+        position: absolute;
+        right: 1.5rem;
+        bottom: 1.25rem;
+    }
+
     .container{
+        position: relative;
         padding: 24px;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 1px solid black;
+        border-bottom: 0.5px solid var(--Stone-Grey, #979797);
         cursor: pointer;
     }
 
     .text-container{
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -93,6 +104,16 @@
         flex-direction: row;
         align-items: center;
         column-gap: 8px;
+    }
+    .languages-container p {
+        color: var(--Text-Black, #141414);
+
+        /* Body Italic TNR */
+        font-family: "Times New Roman";
+        font-size: 1rem;
+        font-style: italic;
+        font-weight: 400;
+        line-height: normal;
     }
 
     .arrow-icon-container{
@@ -106,13 +127,58 @@
         flex-direction: row;
         align-items: center;
     }
+
+    .title h1 {
+        color: var(--Text-Black, #141414);
+
+        /* H2 Fira */
+        font-family: "Fira Sans";
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .title h1::first-letter {
+        text-transform: capitalize;
+    }
     .tags{
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
+        row-gap: 8px;
         column-gap: 8px;
+        max-width: calc(100% - 2.5rem);
     }
 
-    @media screen and (min-width: 680px){
+    .dayTime p {
+        color: var(--Stone-Grey, #979797);
+
+        /* Body XSmall */
+        font-family: "Fira Sans";
+        font-size: 0.75rem;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 1.125rem; /* 150% */
+    }
+
+    button {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+    }
+
+    .align-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* @media screen and (min-width: 680px){
         .container{
             padding: 24px 40px;
             width: 80%;
@@ -133,5 +199,5 @@
             justify-content: space-between;
             align-items: center;
         }
-    }
+    } */
 </style>
