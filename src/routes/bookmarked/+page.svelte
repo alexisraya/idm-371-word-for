@@ -78,6 +78,16 @@
         align-items: center;
     }
 
+    .header-container h1 {
+        color: var(--Text-Black, #141414);
+
+        font-family: "Times New Roman";
+        font-size: 2.5rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
     .header-container img{
         padding-bottom: 0.5rem;
     }
