@@ -4,7 +4,7 @@
   import { goto } from '$app/navigation';
   import { resultData } from "../stores/translateStore";
   import speaker from '$lib/assets/speaker.png';
-  import chevron from '$lib/assets/chevron.svg';
+  import chevronBold from '$lib/assets/chevronBold.svg';
 
     export let originLanguage: string;
     export let translateLanguage: string;
@@ -50,7 +50,7 @@
         goto('/result')
     };
 </script>
-
+<div class="bookmark-container">
     <details class="dropdown-wide">
         <summary class="text-container">
             <div class="title">
@@ -69,17 +69,19 @@
             </div>
             <div class="tags">
                 <Tags tagName={region}/>
+                {#if context}
                 <Tags tagName={context}/>
+                {/if}
             </div>
         </summary>
         <p class="definition-title">Definitions</p>
         <p class="definition">{description}</p>
         <button class="learn-more-btn" on:click={handleClick}>
             Learn More
-            <img class="side-arrow" src="{chevron}" alt="chevron">
+            <img class="side-arrow" src="{chevronBold}" alt="chevron">
         </button>
     </details>
-
+</div>
 <style>
     button{
         border: 0;
@@ -92,7 +94,7 @@
         cursor: pointer;
     }
 
-    .container{
+    /* .container{
         padding: 24px;
         width: 342px;
         display: flex;
@@ -102,7 +104,7 @@
         border-color: black;
         box-shadow: 0px 5px 15px 4px rgba(0, 0, 0, 0.10);
         border-radius: 20px;
-    }
+    } */
 
     .text-container{
         max-width: 270px;
@@ -136,6 +138,14 @@
 
     .result{
         margin: 0;
+        color: var(--Text-Black, #141414);
+
+        /* H2 TNR */
+        font-family: "Times New Roman";
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
     }
 
     .result::first-letter {
@@ -144,7 +154,7 @@
 
     .speaker{
         height: 30px;
-        padding: 7px;
+        padding: 7px 7px 0;
     }
 
     .subtitle{
@@ -154,7 +164,7 @@
         justify-content: left;
         column-gap: 8px;
         height: 1.5rem;
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.5rem;
     }
 
     .subtitle i {
@@ -185,17 +195,7 @@
         column-gap: 8px;
     }
 
-    .container{
-        padding: 24px;
-        width: 342px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        border: .5px;
-        border-color: black;
-        box-shadow: 0px 5px 15px 4px rgba(0, 0, 0, 0.10);
-        border-radius: 20px;
-    }
+
 
     .text-container{
         max-width: 270px;
@@ -210,9 +210,8 @@
 
         /* Layout */
         display: flex;
-        width: 100%;
-        max-width: 19.5rem;
-        /* max-width: calc(100vw - 1rem); */
+        position: relative;
+
         padding: 24px;
         min-height: 2.75rem;
         justify-content: space-between;
@@ -240,11 +239,6 @@
         margin: 0;
     }
 
-    .dropdown-wide .dropdown-title {
-        height: 1.4rem;
-        line-height: 1.325rem;
-    }
-
     .dropdown-wide summary::after {
         /* Arrow */
         content: '';
@@ -252,8 +246,8 @@
         height: 32px;
         padding: 0;
         margin-top: -0.25rem;
-        margin-left: 17.825rem;
-        /* margin-left: calc(100vw - 3rem); */
+        /* margin-left: 19.5rem; */
+        margin-left: calc(100% - 4.5rem);
         background: url('$lib/assets/chevron.svg'), no-repeat;
         background-size: 2rem auto;
         position: absolute;
@@ -303,9 +297,15 @@
     .side-arrow {
         transform: rotate(-90deg);
         fill: var(--Primary-Black, #000);
-        stroke-width: 3px;
-        stroke: var(--Primary-Black, #000); 
+        width: 1.5rem;
         flex-shrink: 0;
+    }
+
+    .bookmark-container {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 342px;
+        margin-bottom: 1.5rem;
     }
     
 </style>
