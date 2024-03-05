@@ -143,11 +143,14 @@
     }
 
     .container{
+        box-sizing: border-box;
+        margin: auto;
         padding: 24px;
-        max-width: 100vw;
+        width: 100%;
+        /* width: calc(100vw - 3rem); */
+        max-width: 30rem;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         min-height: calc( 100vh - 12rem);
     }
 
