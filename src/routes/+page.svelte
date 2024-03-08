@@ -14,7 +14,7 @@
     import { inputData, updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
     import { updateRecentSearch } from '../stores/recentSearchStore';
-  import { removeDuplicates } from '$lib/helpers/helperFunctions';
+    import { removeDuplicates } from '$lib/helpers/helperFunctions';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;

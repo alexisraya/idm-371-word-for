@@ -4,8 +4,8 @@
   import TranslationResult from "$lib/TranslationResult.svelte";
   import Tags from "$lib/Tags.svelte";
   import arrow from '$lib/assets/lineArrow.svg'
-  import gradient from '$lib/assets/gradients/default.svg';
-  import regionalGradient from '$lib/assets/gradients/defaultNew.svg';
+  import { GRADIENTS } from "$lib/constants/gradients";
+  import { getGradient } from "$lib/helpers/helperFunctions";
 
 
   
@@ -21,6 +21,12 @@
   })
 
   console.log(inputDataValue);
+
+  let source = GRADIENTS.default.source;
+  if (inputDataValue.regions.length !== 0){
+    const region = inputDataValue.regions[0].text.slice(0,-5);
+    source = getGradient(region);
+  }
 
   const dataObject = formDataValue.value;
   const translationResults = JSON.parse(dataObject).translations;
@@ -59,7 +65,7 @@
 </div>
 
 <div class="gradient-bg">
-  <img src="{regionalGradient}" alt="gradient">
+  <img src="{source}" alt="gradient">
 </div>
 
 <style>
