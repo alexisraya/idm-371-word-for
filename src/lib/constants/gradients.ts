@@ -116,6 +116,6 @@ export const GRADIENTS: {[key: string]: { source: string }} = {
         source: unitedKingdom
     },
     unitedstates: {
-        source unitedStates
+        source: unitedStates
     }
 }
