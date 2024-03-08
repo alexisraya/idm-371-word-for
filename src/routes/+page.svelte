@@ -15,6 +15,7 @@
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
     import { updateRecentSearch } from '../stores/recentSearchStore';
     import { removeDuplicates } from '$lib/helpers/helperFunctions';
+    import Skeleton from '$lib/Skeleton.svelte';
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -22,6 +23,13 @@
     let colors = COLORS;
 	let selectedOrigin = languages[0];
     let selectedTranslate = languages[1];
+
+    $: if(selectedOrigin == languages[0]){
+        selectedTranslate = languages[1];
+    } else {
+        selectedTranslate = languages[0];
+    }
+
     let selectedContext = [];
     let selectedRegion = [];
     let phrase = '';
@@ -64,10 +72,9 @@
             '<': '&lt;',
             '>': '&gt;',
             '"': '&quot;',
-            "'": '&#x27;',
             "/": '&#x2F;',
         };
-        const reg = /[&<>"'/]/ig;
+        const reg = /[&<>"/]/ig;
         return str.replace(reg, (match)=>(map[match]));
     }
 
@@ -100,8 +107,8 @@
         selectedContexts = contextStr.substring(2);
     }
 
-    $: originLanguage = selectedOrigin.text;
-    $: translateLanguage = selectedTranslate.text;
+    $: originLanguage = selectedOrigin;
+    $: translateLanguage = selectedTranslate;
 
     let loading = false;
 
@@ -191,6 +198,16 @@
         }
     }
 
+    const swapLanguages = () =>{
+        if(selectedOrigin == languages[1]){
+            selectedTranslate = languages[1];
+            selectedOrigin = languages[0];
+        } else {
+            selectedTranslate = languages[0];
+            selectedOrigin = languages[1];
+        }
+    }
+
 </script>
 
 {#if loading === false}
@@ -201,17 +218,17 @@
                     <select class="dropdown-thin" bind:value={selectedOrigin}>
                         {#each languages as language}
                             <option value={language}>
-                                {language.text}
+                                {language}
                             </option>
                         {/each}
                     </select>
-                    <div class="swap-icon-container">
+                    <div class="swap-icon-container" on:click={swapLanguages} on:keydown={swapLanguages}>
                         <img src={swapLanguage} alt="swap-languages">
                     </div>
                     <select class="dropdown-thin" bind:value={selectedTranslate}>
                         {#each languages.reverse() as language}
                             <option value={language}>
-                                {language.text}
+                                {language}
                             </option>
                         {/each}
                     </select>
@@ -294,7 +311,7 @@
         </form>
     </div>
 {:else}
-    <h2>Translating... please wait</h2>
+    <Skeleton />
 {/if}
 
 <style>

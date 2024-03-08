@@ -7,6 +7,7 @@
     import gradient from '$lib/assets/gradient.svg';
     import filledBookmark from '$lib/assets/filledBookmark.svg';
     import { isBookmarked, updatebookmark } from "../../stores/bookmarkStore";
+  import ToastMessage from "$lib/ToastMessage.svelte";
 
     let resultObj = {};
     resultData.subscribe(result => {
@@ -41,18 +42,71 @@
 
     let bookmarkIcon = emptyBookmark;
 
+    let toastMessage = ""
+    let isToastShowing = false;
+
     $:{
         if(isInBookmarks){
             bookmarkIcon = filledBookmark
+            toastMessage = "Bookmarked!"
         }
         else{
             bookmarkIcon = emptyBookmark;
+            toastMessage = "Bookmark Removed!"
         }
+    }
+
+    const displayToast = () => {
+        isToastShowing = true;
+        setTimeout(()=>{isToastShowing=false}, 4500);
     }
 
     const handleBookmark = () => {
         updatebookmark(bookmarkItem);
         isInBookmarks = !isInBookmarks;
+        displayToast();
+    }
+
+    const handleAccurate = () => {
+        const accurateBtn = document.getElementById("accurate-btn");
+        const inaccurateBtn = document.getElementById("inaccurate-btn");
+        if (accurateBtn && inaccurateBtn){
+            const currentBackgroundColor = accurateBtn.style.backgroundColor;
+            if (currentBackgroundColor !== "black"){
+                accurateBtn.style.backgroundColor = "black"; 
+                accurateBtn.style.color = "white";  
+                inaccurateBtn.style.backgroundColor = "transparent"; 
+                inaccurateBtn.style.color = "black";
+
+                toastMessage= "Submission Recieved!";
+                displayToast();
+            }
+            else{
+                accurateBtn.style.backgroundColor = "transparent"; 
+                accurateBtn.style.color = "black";
+            }
+        }
+    }
+
+    const handleInaccurate = () => {
+        const accurateBtn = document.getElementById("accurate-btn");
+        const inaccurateBtn = document.getElementById("inaccurate-btn");
+        if (accurateBtn && inaccurateBtn){
+            const currentBackgroundColor = inaccurateBtn.style.backgroundColor;
+            if (currentBackgroundColor !== "black"){
+                inaccurateBtn.style.backgroundColor = "black"; 
+                inaccurateBtn.style.color = "white";  
+                accurateBtn.style.backgroundColor = "transparent"; 
+                accurateBtn.style.color = "black";
+
+                toastMessage= "Submission Recieved!";
+                displayToast();
+            }
+            else{
+                inaccurateBtn.style.backgroundColor = "transparent"; 
+                inaccurateBtn.style.color = "black";
+            }
+        }
     }
 </script>
 
@@ -98,11 +152,15 @@
     </div>
 </div>
 
+{#if isToastShowing}
+    <ToastMessage message={toastMessage} />
+{/if}
+
 <div class="accuracy">
-    <button class="accurate">
+    <button class="accurate" id="accurate-btn" on:click={handleAccurate}>
         Accurate
     </button>
-    <button class="inaccurate">
+    <button class="inaccurate" id="inaccurate-btn" on:click={handleInaccurate}>
         Inaccurate
     </button>
 </div>
@@ -286,10 +344,12 @@
     }
 
     .accurate {
+        border-radius: 12.5rem 0 0 12.5rem;
         border-right: 0.66px solid var(--Primary-Black, #000);
     }
 
     .inaccurate {
+        border-radius: 0 12.5rem 12.5rem 0;
         border-left: 0.66px solid var(--Primary-Black, #000);
     }
 
