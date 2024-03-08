@@ -1,8 +1,11 @@
 export const REGIONAL_GRADIENTS = {
-    // countries: Argentina, Bolivia, Chile, Colombia, Costa Rica, Cuba, Dominican Republic, Ecuador, El Salvador, Equatorial Guinea., Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Peru, Puerto Rico, Uruguay, Venezuela, Spain
+    // countries: Argentina, Bolivia, Chile, Colombia, Costa Rica, Cuba, Dominican Republic, Ecuador, El Salvador, Equatorial Guinea, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Peru, Puerto Rico, Uruguay, Venezuela, Spain
+
+
     default: {
         src: "$lib/assets/gradients/default.svg"
     },
+    // Spanish
     argentina: {
         src: "$lib/assets/gradients/argentina.svg"
     },
@@ -30,8 +33,8 @@ export const REGIONAL_GRADIENTS = {
     elSalvador: {
         src: "$lib/assets/gradients/elSalvador.svg"
     },
-    equitorialGuinea: {
-        src: "$lib/assets/gradients/equitorialGuinea.svg"
+    equatorialGuinea: {
+        src: "$lib/assets/gradients/equatorialGuinea.svg"
     },
     guatemala: {
         src: "$lib/assets/gradients/guatemala.svg"
@@ -66,4 +69,24 @@ export const REGIONAL_GRADIENTS = {
     spain: {
         src: "$lib/assets/gradients/spain.svg"
     },
+    // English
+    australia: {
+        src: "$lib/assets/gradients/australia.svg"
+    },
+    canada: {
+        src: "$lib/assets/gradients/canada.svg"
+    },
+    ireland: {
+        src: "$lib/assets/gradients/ireland.svg"
+    },
+    newZealand: {
+        src: "$lib/assets/gradients/newZealand.svg"
+    },
+    unitedStates: {
+        src: "$lib/assets/gradients/unitedStates.svg"
+    },
+    unitedKingdom: {
+        src: "$lib/assets/gradients/unitedKingdom.svg"
+    },
+
 }

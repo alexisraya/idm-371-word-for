@@ -4,7 +4,8 @@
   import TranslationResult from "$lib/TranslationResult.svelte";
   import Tags from "$lib/Tags.svelte";
   import arrow from '$lib/assets/lineArrow.svg'
-  import gradient from '$lib/assets/gradient.svg';
+  import gradient from '$lib/assets/gradients/default.svg';
+  import regionalGradient from '$lib/assets/gradients/defaultNew.svg';
 
 
   
@@ -58,7 +59,7 @@
 </div>
 
 <div class="gradient-bg">
-  <img src="{gradient}" alt="gradient">
+  <img src="{regionalGradient}" alt="gradient">
 </div>
 
 <style>
@@ -119,16 +120,33 @@
   }
 
   .gradient-bg img {
-    bottom: -20rem;
+    bottom: -15rem;
     left: -5rem;
     position: fixed;
     scale: 100%;
-    filter: blur(3rem);
+    rotate: -40deg;
+    filter: blur(56px);
     z-index: -1;
     animation: fadeInAnimation cubic-bezier(.39, -1.05, .58, 1.95) 1s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     transform-origin: center;
+  }
+
+  @media screen and (width > 900px) {
+    .gradient-bg img {
+    bottom: -45rem;
+    left: 10%;
+    position: fixed;
+    scale: 200%;
+    rotate: -10deg;
+    filter: blur(60px);
+    z-index: -1;
+    animation: fadeInAnimation cubic-bezier(.39, -1.05, .58, 1.95) 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    transform-origin: center;
+  }
   }
 
   @keyframes fadeInAnimation {
