@@ -8,6 +8,7 @@
     import filledBookmark from '$lib/assets/filledBookmark.svg';
     import { isBookmarked, updatebookmark } from "../../stores/bookmarkStore";
   import ToastMessage from "$lib/ToastMessage.svelte";
+  import { getGradient } from "$lib/helpers/helperFunctions";
 
     let resultObj = {};
     resultData.subscribe(result => {
@@ -44,6 +45,8 @@
 
     let toastMessage = ""
     let isToastShowing = false;
+
+    const source = getGradient(region);
 
     $:{
         if(isInBookmarks){
@@ -166,7 +169,7 @@
 </div>
 
 <div class="gradient-bg">
-    <img src="{gradient}" alt="gradient">
+    <img src="{source}" alt="gradient">
 </div>
 
 <style>
