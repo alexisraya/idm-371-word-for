@@ -4,6 +4,7 @@
     import recentSearchStore, { deleteRecentStore } from "../../stores/recentSearchStore";
     import RecentSearchItem from "$lib/RecentSearchItem.svelte";
     import Skeleton from '$lib/Skeleton.svelte';
+    import { fade , slide } from 'svelte/transition';
 
     let recentSearches = {};
     recentSearchStore.subscribe(result => {
@@ -57,7 +58,7 @@
     </div>
     {#if isEditModalOpen}
         <!-- TODO: this is janky... fix in a later build -->
-        <div class="modal-container">
+        <div class="modal-container" transition:slide={{ delay: 200, duration: 300 }}>
             <div class="modal-header">
                 <h1 class="modal-title">Manage recent searches</h1>
                 <button class="modal-close-btn" on:click={closeEditModal}>
@@ -69,11 +70,11 @@
             </button>
             <button class="dark-btn" on:click={closeEditModal}>Edit</button>
         </div>
-        <div class="bg-dark"></div>
+        <div class="bg-dark" transition:fade={{ delay: 200, duration: 300 }}></div>
     {/if}
     {#if isModalOpen}
     <!-- TODO: this is janky... fix in a later build -->
-    <div class="modal-container">
+    <div class="modal-container" transition:slide={{ delay: 200, duration: 300 }}>
         <div class="modal-header">
             <h1 class="modal-title">Would you like to clear all recent searches?</h1>
             <button class="modal-close-btn" on:click={closeModal}>
@@ -83,7 +84,7 @@
         <button class="empty-btn" on:click={handleDelete}>Yes, Clear all History</button>
         <button class="dark-btn" on:click={closeModal}>No</button>
     </div>
-    <div class="bg-dark"></div>
+    <div class="bg-dark" transition:fade={{ delay: 200, duration: 300 }}></div>
 {/if}
 
 {:else}
