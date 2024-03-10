@@ -24,10 +24,19 @@
 	let selectedOrigin = languages[0];
     let selectedTranslate = languages[1];
 
-    $: if(selectedOrigin == languages[0]){
-        selectedTranslate = languages[1];
-    } else {
-        selectedTranslate = languages[0];
+    $: {
+        if(selectedOrigin == languages[0]){
+            selectedTranslate = languages[1];
+        } else {
+            selectedTranslate = languages[0];
+        }
+    }
+    $: {
+        if(selectedTranslate == languages[0]){
+            regions = REGIONS.english;
+        } else {
+            regions = REGIONS.spanish;
+        }
     }
 
     let selectedContext = [];
