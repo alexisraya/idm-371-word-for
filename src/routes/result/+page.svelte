@@ -156,7 +156,9 @@
 </div>
 
 {#if isToastShowing}
+<div class="toast">
     <ToastMessage message={toastMessage} />
+</div>
 {/if}
 
 <div class="accuracy">
@@ -371,5 +373,12 @@
 
     .example-container {
         display: flex;
+    }
+
+    .toast {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 6rem;
     }
 </style>
