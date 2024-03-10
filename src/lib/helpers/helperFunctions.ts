@@ -5,7 +5,9 @@ export const removeDuplicates = (data: any[]) => {
 }
 
 export const getGradient = (country: string) => {
-    const regionCountry = country.toLowerCase();
+    let regionCountry = country.toLowerCase();
+    regionCountry = regionCountry.replace(/\s/g, '');
+    console.log(regionCountry);
     const countryInfo = GRADIENTS[regionCountry];
     if (countryInfo){
         return (countryInfo.source);
