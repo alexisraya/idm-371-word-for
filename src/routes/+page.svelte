@@ -211,9 +211,11 @@
         if(selectedOrigin == languages[1]){
             selectedTranslate = languages[1];
             selectedOrigin = languages[0];
+            regions = REGIONS.spanish;
         } else {
             selectedTranslate = languages[0];
             selectedOrigin = languages[1];
+            regions = REGIONS.english;
         }
     }
 
