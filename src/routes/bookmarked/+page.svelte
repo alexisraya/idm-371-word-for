@@ -450,6 +450,11 @@
         gap: 0.75rem;
     }
 
+    .language-filter-tag {
+        width: 6.5rem;
+        display: flex;
+    }
+
 
 /* dropdown styles */
 
