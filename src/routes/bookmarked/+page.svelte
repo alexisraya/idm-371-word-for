@@ -1,65 +1,75 @@
 <script>
     import BookmarkedItem from "$lib/BookmarkedItem.svelte";
-    import BookmarkItem from "$lib/BookmarkedItem.svelte";
     import bookmarkStore from "../../stores/bookmarkStore";
     import Tags from "$lib/Tags.svelte"
     import filters from "$lib/assets/filters.svg";
     import exit from '$lib/assets/exit.svg';
-    import { LANGUAGES } from "$lib/constants/languages";
     import { CONTEXTS } from "$lib/constants/contexts";
     import { REGIONS } from "$lib/constants/regions";
 
     import { fade } from 'svelte/transition';
 	import { slide } from 'svelte/transition';
 
-
-
-    let languages = LANGUAGES;
     let contexts = CONTEXTS;
     let regions = REGIONS.spanish;
+    /**
+   * @type {any[]}
+   */
     let selectedContext = [];
+    /**
+   * @type {any[]}
+   */
     let selectedRegion = [];
 
+    /**
+   * @type {Iterable<any> | null | undefined}
+   */
     let selectedTags = [];
 
-// Compute selected tags
-  $: {
-      selectedTags = selectedRegion.map(region => region.text);
-      selectedTags = [...new Set(selectedTags)]; // Filter out duplicates
+    let selectedLanguage = "";
 
-  }
+    // Compute selected tags
+    $: {
+        selectedTags = selectedRegion.map(region => region.text);
+        selectedTags = [...new Set(selectedTags)]; // Filter out duplicates
+    }
 
-  // Event handler for checkbox change
-  function handleCheckboxChange(event, region) {
-      if (event.target.checked) {
-      selectedRegion = [...selectedRegion, region];
-      } else {
-      selectedRegion = selectedRegion.filter(selected => selected !== region);
-      }
-  }
+    // Event handler for checkbox change
+    function handleCheckboxChange(event, region) {
+        if (event.target.checked) {
+        selectedRegion = [...selectedRegion, region];
+        } else {
+        selectedRegion = selectedRegion.filter(selected => selected !== region);
+        }
+    }
 
-  let selectedTagsContext = []; // Define selectedTagsContext array
+    /**
+     * @type {any[]}
+     */
+    let selectedTagsContext = []; // Define selectedTagsContext array
 
-  // Compute selected tags for Context
-  $: {
-      selectedTagsContext = selectedContext.map(context => context.text);
-      selectedTagsContext = [...new Set(selectedTagsContext)]; // Filter out duplicates
-  }
+    // Compute selected tags for Context
+    $: {
+        selectedTagsContext = selectedContext.map(context => context.text);
+        selectedTagsContext = [...new Set(selectedTagsContext)]; // Filter out duplicates
+    }
 
-  // Event handler for checkbox change for Context
-  function handleCheckboxChangeContext(event, context) {
-      if (event.target.checked) {
-          selectedContext = [...selectedContext, context];
-      } else {
-          selectedContext = selectedContext.filter(selected => selected !== context);
-      }
-  }
+    // Event handler for checkbox change for Context
+    function handleCheckboxChangeContext(event, context) {
+        if (event.target.checked) {
+            selectedContext = [...selectedContext, context];
+        } else {
+            selectedContext = selectedContext.filter(selected => selected !== context);
+        }
+    }
 
-    let bookmarkItems = {};
+    let bookmarkItems = [];
     bookmarkStore.subscribe(result => {
         bookmarkItems = result;
     });
-    console.log(bookmarkItems)
+    let filteredBookmarkItems = bookmarkItems;
+    let englishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "English");
+    let spanishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "Spanish");
     let dataLength = Object.keys(bookmarkItems).length
     let isEmpty = dataLength<0;
 
@@ -73,6 +83,25 @@
         isModalOpen = true;
     }
 
+    const applyFilter = () => {
+        filteredBookmarkItems = bookmarkItems;
+        if (selectedTagsContext.length > 0){
+            selectedTagsContext.forEach(context => {
+                filteredBookmarkItems = filteredBookmarkItems.filter(item => item.context === context);
+            });
+        }
+        if(selectedRegion.length > 0){
+            selectedRegion.forEach(region => {
+                filteredBookmarkItems = filteredBookmarkItems.filter(item => item.region === region.text);
+            });
+        }
+        if(selectedLanguage){
+            filteredBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === selectedLanguage);
+        }
+        englishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "English");
+        spanishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "Spanish");
+        closeModal();
+    }
 </script>
 
 <div class="page-container">
@@ -84,14 +113,26 @@
             </button>
         </div>
 {#if !isEmpty}
-    <div class="language-container">
-        <p>Language 1</p>
-    </div>
-    <div class="bookmarks-container">
-        {#each bookmarkItems as bookmarkItem}
-            <BookmarkedItem phrase={bookmarkItem.phrase} originLanguage={bookmarkItem.originLanguage} translateLanguage={bookmarkItem.translateLanguage} region={bookmarkItem.region} context={bookmarkItem.context} partSpeech={bookmarkItem.partSpeech} phoneticSpelling={bookmarkItem.phoneticSpelling} examples={bookmarkItem.examples} description={bookmarkItem.description}/>
-        {/each}
-    </div>
+    {#if englishBookmarkItems.length > 0}
+        <div class="language-container">
+            <p>English</p>
+        </div>
+        <div class="bookmarks-container">
+            {#each englishBookmarkItems as bookmarkItem}
+                <BookmarkedItem phrase={bookmarkItem.phrase} originLanguage={bookmarkItem.originLanguage} translateLanguage={bookmarkItem.translateLanguage} region={bookmarkItem.region} context={bookmarkItem.context} partSpeech={bookmarkItem.partSpeech} phoneticSpelling={bookmarkItem.phoneticSpelling} examples={bookmarkItem.examples} description={bookmarkItem.description}/>
+            {/each}
+        </div>
+    {/if}
+    {#if spanishBookmarkItems.length > 0}
+        <div class="language-container">
+            <p>Spanish</p>
+        </div>
+        <div class="bookmarks-container">
+            {#each spanishBookmarkItems as bookmarkItem}
+                <BookmarkedItem phrase={bookmarkItem.phrase} originLanguage={bookmarkItem.originLanguage} translateLanguage={bookmarkItem.translateLanguage} region={bookmarkItem.region} context={bookmarkItem.context} partSpeech={bookmarkItem.partSpeech} phoneticSpelling={bookmarkItem.phoneticSpelling} examples={bookmarkItem.examples} description={bookmarkItem.description}/>
+            {/each}
+        </div>
+    {/if}
 {:else}
     <p>No Bookmarks</p>
 {/if}
@@ -120,11 +161,11 @@
         </span>
         <fieldset class="flex">
             <div class="language-filter-tag">
-                <input type="radio" name="language" value="english" id="english">
+                <input type="radio" name="language" value="English" id="english" bind:group={selectedLanguage}>
                 <label for="english">English</label>
             </div>
             <div class="language-filter-tag">
-                <input type="radio" name="language" value="spanish" id="spanish">
+                <input type="radio" name="language" value="Spanish" id="spanish" bind:group={selectedLanguage}>
                 <label for="spanish">Spanish</label>
             </div>
         </fieldset>
@@ -184,7 +225,7 @@
     </details>
 </div>
 
-    <button class="dark-btn" on:click={closeModal}>Apply</button>
+    <button class="dark-btn" on:click={applyFilter}>Apply</button>
     </form>
 </div>
 <div class="bg-dark" transition:fade={{ delay: 200, duration: 300 }}></div>
