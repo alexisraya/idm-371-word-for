@@ -359,7 +359,7 @@
 
     .modal-container {
         width: 100%;
-        height: 90vh;
+        height: 85vh;
         display: flex;
         flex-direction: column;
         gap: 1rem;
@@ -629,7 +629,7 @@
     }
 
     .spacer {
-        height: calc(90vh - 9rem);
+        height: calc(85vh - 9rem);
         overflow-y: auto;
     }
 
