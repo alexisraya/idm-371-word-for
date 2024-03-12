@@ -7,8 +7,8 @@
     import gradient from '$lib/assets/gradient.svg';
     import filledBookmark from '$lib/assets/filledBookmark.svg';
     import { isBookmarked, updatebookmark } from "../../stores/bookmarkStore";
-  import ToastMessage from "$lib/ToastMessage.svelte";
-  import { getGradient } from "$lib/helpers/helperFunctions";
+    import ToastMessage from "$lib/ToastMessage.svelte";
+    import { getGradient } from "$lib/helpers/helperFunctions";
 
     let resultObj = {};
     resultData.subscribe(result => {
