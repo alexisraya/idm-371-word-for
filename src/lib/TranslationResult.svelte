@@ -49,7 +49,7 @@
                     <i class="subtitle-text">{partSpeech}</i>
                 </div>
                 <div class="tags">
-                    {#if region.length<=12 && region!="all regions"}
+                    {#if region.length>1 && region!="all regions"}
                         <Tags tagName={region}/>
                     {/if}
                     {#if context}

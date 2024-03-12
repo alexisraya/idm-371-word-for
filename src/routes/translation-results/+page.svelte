@@ -52,7 +52,9 @@
       {/each}
       
       {#each inputDataValue.contexts as context}
-        <Tags tagName={context.text} />
+        {#if context.text.length >1}
+          <Tags tagName={context.text} />
+        {/if}
       {/each}
     </div>
   </div>
