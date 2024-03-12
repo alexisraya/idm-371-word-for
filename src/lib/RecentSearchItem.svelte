@@ -6,7 +6,9 @@
     import { translatePhrase } from "./helpers/translate";
     import { goto } from "$app/navigation";
     import { deleteRecentSearchItem } from "../stores/recentSearchStore";
-  import { updateInputs } from "../stores/inputStore";
+    import { updateInputs } from "../stores/inputStore";
+    import { onMount } from "svelte";
+    import { updateLoading } from "../stores/loadingStore";
 
     export let phrase: string;
     export let region: string;
@@ -16,6 +18,7 @@
     export let dayTime: string;
 
     const handleSubmit = async() => {
+        updateLoading(true);
         resetFormData();
         let selectedRegions = [{text: region}];
         let selectedContexts = [{text: context}];

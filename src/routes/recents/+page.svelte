@@ -5,6 +5,8 @@
     import RecentSearchItem from "$lib/RecentSearchItem.svelte";
     import Skeleton from '$lib/Skeleton.svelte';
     import { fade , slide } from 'svelte/transition';
+    import { isLoading, updateLoading } from '../../stores/loadingStore';
+    import { onMount } from 'svelte';
 
     let recentSearches = {};
     recentSearchStore.subscribe(result => {
@@ -15,7 +17,11 @@
     let isEmpty = dataLength<0;
     let isModalOpen = false; // this is a boolean that tracks the "are you sure" modal
     let isEditModalOpen = false; // this is a boolean that tracks the "are you sure" modal
-    let isLoading = false; //TODO: implement loader
+
+    onMount(() => {
+        updateLoading(false);
+        console.log($isLoading);
+    });
 
     const closeModal = () => {
         isModalOpen = false;
@@ -44,6 +50,9 @@
     }
 </script>
 
+{#if $isLoading}
+<Skeleton />
+{:else}
 <div class="header-container">
     <h1>Recent Searches</h1>
     <button disabled={isEmpty} on:click={openEditModal}>
@@ -90,6 +99,8 @@
 {:else}
     <p class="empty-state">No recent searches</p>
 {/if}
+{/if}
+
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap');
