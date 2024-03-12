@@ -201,8 +201,14 @@
         align-items: center;
         justify-content: left;
         column-gap: 8px;
-        height: 1.5rem;
         margin-bottom: 0.25rem;
+        height: 1.5rem;
+        white-space: nowrap; /* Prevent text wrapping */
+        
+    }
+
+    .subtitle h3 {
+        padding: 0;
     }
 
     .subtitle i {
@@ -216,9 +222,16 @@
     }
 
     .subtitle-text{
+        min-height: 22px;
+        max-height: max-content;
         font-style: italic;
-        height: 22px;
         margin: 0;
+    }
+
+    .phonetic {
+        max-width: 16rem;
+        overflow: hidden; /* Hide overflowed text */
+        text-overflow: ellipsis;
     }
 
     .tags{

@@ -189,6 +189,12 @@
         margin: 0;
     }
 
+    .phonetic {
+        max-width: 15rem;
+        overflow: hidden; /* Hide overflowed text */
+        text-overflow: ellipsis;
+    }
+
     .tags{
         display: flex;
         flex-direction: row;
