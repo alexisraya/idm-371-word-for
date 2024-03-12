@@ -6,6 +6,7 @@
     import { translatePhrase } from "./helpers/translate";
     import { goto } from "$app/navigation";
     import { deleteRecentSearchItem } from "../stores/recentSearchStore";
+  import { updateInputs } from "../stores/inputStore";
 
     export let phrase: string;
     export let region: string;
@@ -16,6 +17,11 @@
 
     const handleSubmit = async() => {
         resetFormData();
+        let selectedRegions = [{text: region}];
+        let selectedContexts = [{text: context}];
+        console.log(selectedRegions)
+        console.log(selectedContexts)
+        updateInputs(originLanguage, translateLanguage, selectedRegions, selectedContexts, phrase);
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, context, region);
         if (response == null){
             alert("An error occurred, please try again.");
