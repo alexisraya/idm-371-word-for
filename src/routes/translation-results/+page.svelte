@@ -6,6 +6,8 @@
   import arrow from '$lib/assets/lineArrow.svg'
   import { GRADIENTS } from "$lib/constants/gradients";
   import { getGradient } from "$lib/helpers/helperFunctions";
+  import { onMount } from "svelte";
+  import { updateLoading } from "../../stores/loadingStore";
 
 
   
@@ -32,6 +34,10 @@
   const translationResults = JSON.parse(dataObject).translations;
 
   console.log(translationResults)
+
+  onMount(() => {
+    updateLoading(false);
+  });
 
 </script>
 
