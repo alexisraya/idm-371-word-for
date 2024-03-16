@@ -16,3 +16,15 @@ export const getGradient = (country: string) => {
         return (GRADIENTS.default.source);
     } 
 }
+
+export function setLocalStorageItem(key: string, value: string): void {
+    window.localStorage.setItem(key, value);
+}
+
+export function getLocalStorageItem(key: string): string | null {
+    return window.localStorage.getItem(key);
+}
+
+export function removeLocalStorageItem(key: string): void {
+    window.localStorage.removeItem(key);
+}
