@@ -161,7 +161,7 @@
         if (media.length<=0){
             return;
         }
-        const blob = new Blob(media, {'type' : 'audio/ogg; codecs=opus'});
+        const blob = new Blob(media, {'type' : 'audio/mp3; codecs=opus'});
         media = [];
         phrase = await speechToText(blob);
     }
