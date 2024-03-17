@@ -1,5 +1,5 @@
 import type BookmarkItem from "$lib/constants/bookmarkItem";
-import { arrayToString, getLocalStorageItem, setLocalStorageItem, stringToArry } from "$lib/helpers/helperFunctions";
+import { getLocalStorageItem, setLocalStorageItem } from "$lib/helpers/helperFunctions";
 import { writable } from "svelte/store";
 
 // Writable Store for bookmarks
@@ -8,6 +8,7 @@ const bookmarkStore = writable<BookmarkItem[]>([]);
 export const updatebookmark = (bookmarkItem: BookmarkItem) => {
   const existingItem = bookmarkStore.update((bookmarkItems) => {
     const index = bookmarkItems.findIndex((i) => i.phrase === bookmarkItem.phrase);
+    console.log(bookmarkItem);
     if (index === -1) {
       bookmarkItems.push(bookmarkItem);
     }
