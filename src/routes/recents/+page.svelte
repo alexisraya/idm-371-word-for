@@ -1,21 +1,30 @@
 <script>
     import exit from '$lib/assets/exit.svg';
     import dots from '$lib/assets/dots.svg';
-    import recentSearchStore, { deleteRecentStore } from "../../stores/recentSearchStore";
+    import recentSearchStore, { deleteRecentStore, updateRecentSearchStore } from "../../stores/recentSearchStore";
     import RecentSearchItem from "$lib/RecentSearchItem.svelte";
     import Skeleton from '$lib/Skeleton.svelte';
     import { fade , slide } from 'svelte/transition';
+	import { onDestroy, onMount } from 'svelte';
+	import { setPreviousPage } from '../../stores/pageStore';
+    import { isLoading, updateLoading } from '../../stores/loadingStore';
+ 
 
     let recentSearches = {};
     recentSearchStore.subscribe(result => {
         recentSearches = result;
     });
-    console.log(recentSearches)
-    let dataLength = Object.keys(recentSearches).length
-    let isEmpty = dataLength<0;
+    let isEmpty = false;
     let isModalOpen = false; // this is a boolean that tracks the "are you sure" modal
     let isEditModalOpen = false; // this is a boolean that tracks the "are you sure" modal
-    let isLoading = false; //TODO: implement loader
+    onMount(() => {
+        updateRecentSearchStore();
+        recentSearchStore.subscribe(result => {
+            recentSearches = result;
+        });
+        const dataLength = Object.keys(recentSearches).length
+        isEmpty = dataLength<0;
+    })
 
     const closeModal = () => {
         isModalOpen = false;
@@ -42,8 +51,15 @@
         isEmpty = true;
         closeModal();
     }
+
+    onDestroy(() => {
+        setPreviousPage("recents");
+    })
 </script>
 
+{#if $isLoading}
+<Skeleton />
+{:else}
 <div class="header-container">
     <h1>Recent Searches</h1>
     <button disabled={isEmpty} on:click={openEditModal}>
@@ -90,6 +106,8 @@
 {:else}
     <p class="empty-state">No recent searches</p>
 {/if}
+{/if}
+
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap');

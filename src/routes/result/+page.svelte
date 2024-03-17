@@ -1,52 +1,80 @@
-<script>
-    import { resultData } from "../../stores/translateStore";
+<script lang="ts">
+    import { resultData, updateResultData } from "../../stores/translateStore";
     import Tags from "$lib/Tags.svelte";
     import Speaker from "$lib/Speaker.svelte";
 
     import emptyBookmark from '$lib/assets/emptyBookmark.svg';
     import gradient from '$lib/assets/gradient.svg';
     import filledBookmark from '$lib/assets/filledBookmark.svg';
-    import { isBookmarked, updatebookmark } from "../../stores/bookmarkStore";
-  import ToastMessage from "$lib/ToastMessage.svelte";
-  import { getGradient } from "$lib/helpers/helperFunctions";
+    import { isBookmarked, updateBookmark } from "../../stores/bookmarkStore";
+    import ToastMessage from "$lib/ToastMessage.svelte";
+    import { getGradient } from "$lib/helpers/helperFunctions";
+	import { onDestroy, onMount } from "svelte";
+	import { setPreviousPage } from "../../stores/pageStore";
+	import BookmarkedItem from "$lib/BookmarkedItem.svelte";
 
     let resultObj = {};
-    resultData.subscribe(result => {
-        resultObj = result;
-    });
-    
-    resultObj = resultObj.result;
 
-    const word = resultObj.word;
-    const region = resultObj.region;
-    const context = resultObj.context;
-    const partSpeech = resultObj.partSpeech;
-    const phoneticSpelling = resultObj.phoneticSpelling;
-    const description = resultObj.description;
-    const examples = Object.values(resultObj.examples);
-    const originalLanguage = resultObj.originalLanguage;
-    const translateLanguage = resultObj.translateLanguage;
+    let word = "";
+    let region = "";
+    let context = "";
+    let partSpeech = "";
+    let phoneticSpelling = "";
+    let description = "";
+    let examples = {};
+    let originalLanguage = "";
+    let translateLanguage = "";
+    let newBookmarkItem = {
+        originLanguage: originalLanguage,
+        translateLanguage: translateLanguage,
+        phrase: word,
+        region: region,
+        context: context,
+        partSpeech: partSpeech,
+        phoneticSpelling: phoneticSpelling,
+        examples: examples,
+        description: description
+    };
+    let isInBookmarks = false;
 
-    let bookmarkItem = {
+    onMount(() => {
+        updateResultData();
+        resultData.subscribe(result => {
+            resultObj = result;
+        });
+        resultObj = resultObj.result;
+        word = resultObj.word;
+        region = resultObj.region;
+        context = resultObj.context;
+        partSpeech = resultObj.partSpeech;
+        phoneticSpelling = resultObj.phoneticSpelling;
+        description = resultObj.description;
+        examples = Object.values(resultObj.examples);
+        originalLanguage = resultObj.originalLanguage;
+        translateLanguage = resultObj.translateLanguage;
+
+        newBookmarkItem = {
             originLanguage: originalLanguage,
-            translateLanguage,
+            translateLanguage: translateLanguage,
             phrase: word,
-            region,
-            context,
-            partSpeech,
-            phoneticSpelling,
-            examples,
-            description
-    }
+            region: region,
+            context: context,
+            partSpeech: partSpeech,
+            phoneticSpelling: phoneticSpelling,
+            examples: examples,
+            description: description
+        }
 
-    let isInBookmarks = isBookmarked(bookmarkItem);
+        isInBookmarks = isBookmarked(newBookmarkItem);
+    })
 
     let bookmarkIcon = emptyBookmark;
 
     let toastMessage = ""
     let isToastShowing = false;
 
-    const source = getGradient(region);
+    const noEmojiRegion = region.slice(0,-5);
+    const source = getGradient(noEmojiRegion);
 
     $:{
         if(isInBookmarks){
@@ -65,7 +93,7 @@
     }
 
     const handleBookmark = () => {
-        updatebookmark(bookmarkItem);
+        updateBookmark(newBookmarkItem);
         isInBookmarks = !isInBookmarks;
         displayToast();
     }
@@ -111,6 +139,10 @@
             }
         }
     }
+
+    onDestroy(() => {
+        setPreviousPage("result");
+    })
 </script>
 
 <div class="container">

@@ -6,6 +6,7 @@
    
     import chevron from '$lib/assets/chevron.svg';
     import { resultData } from "../stores/translateStore";
+	import { setLocalStorageItem } from "./helpers/helperFunctions";
 
     export let description: string;
     export let partSpeech: string;
@@ -18,7 +19,7 @@
     export let translateLanguage: string;
 
     const handleClick = () => {
-        resultData.set({
+        const resultObj = {
             result: {
                 word,
                 region,
@@ -30,7 +31,9 @@
                 originalLanguage,
                 translateLanguage
             }
-        })
+        };
+        resultData.set(resultObj);
+        setLocalStorageItem("resultData", JSON.stringify(resultObj));
         goto('/result')
     };
 </script>
@@ -49,7 +52,7 @@
                     <i class="subtitle-text">{partSpeech}</i>
                 </div>
                 <div class="tags">
-                    {#if region.length<=12 && region!="all regions"}
+                    {#if region.length>1 && region!="all regions"}
                         <Tags tagName={region}/>
                     {/if}
                     {#if context}

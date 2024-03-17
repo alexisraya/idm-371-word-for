@@ -1,11 +1,32 @@
 <script>
     import logo from '$lib/assets/logo.svg'
     import arrow from '$lib/assets/arrow.svg'
+	import { previousPage } from '../stores/pageStore';
+	import { goto } from '$app/navigation';
 
     let isOpen = false;
 
     function toggleMenu() {
         isOpen = !isOpen;
+    }
+
+    function goHome() {
+        goto('/')
+    }
+
+    function goBack() {
+        const prevPage = $previousPage;
+        if(prevPage == "bookmarked"){
+            goto('/bookmarked')
+        }else if(prevPage == "translationResults"){
+            goto('/translation-results')
+        }else if(prevPage == "result"){
+            goto('/result')
+        }else if(prevPage == "recents"){
+            goto('/recents')
+        }else{
+            goto('/')
+        }
     }
 </script>
 
@@ -16,15 +37,19 @@
 <nav>
         <div class="back-container">
             <!-- NEED FUNCTIONALITY -->
-            <img src="{arrow}" alt="back-arrow">
+            <button on:click={goBack}>
+                <img src="{arrow}" alt="back-arrow">
+            </button>
         </div>
 
         <div class="logo-container">
             <!-- Does this link to home page? -->
-            <img src="{logo}" alt="word-for-logo">
+            <button on:click={goHome}>
+                <img src="{logo}" alt="word-for-logo">
+            </button>
         </div>
 
-        <div class="hamburger" on:click={toggleMenu} class:active={isOpen}>
+        <div class="hamburger" on:click={toggleMenu} on:keydown={toggleMenu} class:active={isOpen}>
             <span />
             <span />
             <span />
@@ -47,7 +72,10 @@
 </nav>
 
 <style>
-    nav {
+    button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
     }
 
     .nav-bg {
