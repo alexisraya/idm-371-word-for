@@ -6,11 +6,12 @@
     import emptyBookmark from '$lib/assets/emptyBookmark.svg';
     import gradient from '$lib/assets/gradient.svg';
     import filledBookmark from '$lib/assets/filledBookmark.svg';
-    import { isBookmarked, updatebookmark } from "../../stores/bookmarkStore";
+    import { isBookmarked, updateBookmark } from "../../stores/bookmarkStore";
     import ToastMessage from "$lib/ToastMessage.svelte";
     import { getGradient } from "$lib/helpers/helperFunctions";
 	import { onDestroy, onMount } from "svelte";
 	import { setPreviousPage } from "../../stores/pageStore";
+	import BookmarkedItem from "$lib/BookmarkedItem.svelte";
 
     let resultObj = {};
 
@@ -78,7 +79,18 @@
     }
 
     const handleBookmark = () => {
-        updatebookmark(bookmarkItem);
+        const newBookmarkItem: BookmarkedItem = {
+            originLanguage: originalLanguage,
+            translateLanguage: translateLanguage,
+            phrase: word,
+            region: region,
+            context: context,
+            partSpeech: partSpeech,
+            phoneticSpelling: phoneticSpelling,
+            examples: examples,
+            description: description
+        }
+        updateBookmark(newBookmarkItem);
         isInBookmarks = !isInBookmarks;
         displayToast();
     }

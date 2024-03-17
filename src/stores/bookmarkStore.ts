@@ -5,17 +5,15 @@ import { writable } from "svelte/store";
 // Writable Store for bookmarks
 const bookmarkStore = writable<BookmarkItem[]>([]);
 
-export const updatebookmark = (bookmarkItem: BookmarkItem) => {
+export const updateBookmark = (bookmarkItem: BookmarkItem) => {
   const existingItem = bookmarkStore.update((bookmarkItems) => {
     const index = bookmarkItems.findIndex((i) => i.phrase === bookmarkItem.phrase);
-    console.log(bookmarkItem);
     if (index === -1) {
       bookmarkItems.push(bookmarkItem);
     }
     else {
         bookmarkItems.splice(index, 1);
     }
-    console.log(JSON.stringify(bookmarkItems));
     setLocalStorageItem("bookmarkStore", JSON.stringify(bookmarkItems));
     return bookmarkItems;
   });
