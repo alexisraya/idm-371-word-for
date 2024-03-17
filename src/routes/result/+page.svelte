@@ -73,7 +73,8 @@
     let toastMessage = ""
     let isToastShowing = false;
 
-    const source = getGradient(region);
+    const noEmojiRegion = region.slice(0,-5);
+    const source = getGradient(noEmojiRegion);
 
     $:{
         if(isInBookmarks){

@@ -8,6 +8,7 @@
   import { getGradient } from "$lib/helpers/helperFunctions";
 	import { onDestroy, onMount } from "svelte";
 	import { setPreviousPage } from "../../stores/pageStore";
+  import { updateLoading } from "../../stores/loadingStore";
 
 
   
@@ -44,6 +45,10 @@
     setPreviousPage("translationResults");
   })
 
+  onMount(() => {
+    updateLoading(false);
+  });
+
 </script>
 
 <div class="page-container">
@@ -63,7 +68,9 @@
       {/each}
       
       {#each contexts as context}
-        <Tags tagName={context.text} />
+        {#if context.text.length >1}
+          <Tags tagName={context.text} />
+        {/if}
       {/each}
     </div>
   </div>

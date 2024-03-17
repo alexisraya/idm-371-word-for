@@ -17,6 +17,8 @@
     import { removeDuplicates, setLocalStorageItem } from '$lib/helpers/helperFunctions';
     import Skeleton from '$lib/Skeleton.svelte';
 	import { setPreviousPage } from '../stores/pageStore';
+    import { isLoading, updateLoading } from '../stores/loadingStore';
+
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -58,6 +60,7 @@
 
     // Call the function to set CSS custom properties
     onMount(async () => {
+        updateLoading(false);
         setCSSCustomProperties();
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         audioRecorder = new MediaRecorder(stream);
@@ -120,8 +123,6 @@
     $: originLanguage = selectedOrigin;
     $: translateLanguage = selectedTranslate;
 
-    let loading = false;
-
     const findDayTime = () => {
         const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const date = new Date();
@@ -136,7 +137,7 @@
     }
 
     const handleSubmit = async() => {
-        loading = true;
+        updateLoading(true);
         phrase = sanitize(phrase);
         const dayTime = findDayTime();
         resetFormData();
@@ -144,7 +145,7 @@
         updateInputs(originLanguage, translateLanguage, selectedRegion, selectedContext, phrase);
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
         if (response == null){
-            loading = false;
+            updateLoading(false);
             alert("An error occurred, please try again.");
         }
         else{
@@ -227,7 +228,7 @@
 
 </script>
 
-{#if loading === false}
+{#if $isLoading === false}
     <div class="home-form-container">
         <form on:submit|preventDefault={handleSubmit}>
             <div class="dropdown-container">

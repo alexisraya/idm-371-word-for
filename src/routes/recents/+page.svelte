@@ -7,6 +7,8 @@
     import { fade , slide } from 'svelte/transition';
 	import { onDestroy, onMount } from 'svelte';
 	import { setPreviousPage } from '../../stores/pageStore';
+    import { isLoading, updateLoading } from '../../stores/loadingStore';
+ 
 
     let recentSearches = {};
     recentSearchStore.subscribe(result => {
@@ -23,6 +25,7 @@
         const dataLength = Object.keys(recentSearches).length
         isEmpty = dataLength<0;
     })
+
     const closeModal = () => {
         isModalOpen = false;
         isEditModalOpen = false;
@@ -54,6 +57,9 @@
     })
 </script>
 
+{#if $isLoading}
+<Skeleton />
+{:else}
 <div class="header-container">
     <h1>Recent Searches</h1>
     <button disabled={isEmpty} on:click={openEditModal}>
@@ -100,6 +106,8 @@
 {:else}
     <p class="empty-state">No recent searches</p>
 {/if}
+{/if}
+
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap');

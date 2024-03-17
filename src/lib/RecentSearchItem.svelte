@@ -7,6 +7,9 @@
     import { goto } from "$app/navigation";
     import { deleteRecentSearchItem } from "../stores/recentSearchStore";
 	import { setLocalStorageItem } from "./helpers/helperFunctions";
+    import { updateInputs } from "../stores/inputStore";
+    import { onMount } from "svelte";
+    import { updateLoading } from "../stores/loadingStore";
 
     export let phrase: string;
     export let region: string;
@@ -16,7 +19,13 @@
     export let dayTime: string;
 
     const handleSubmit = async() => {
+        updateLoading(true);
         resetFormData();
+        let selectedRegions = [{text: region}];
+        let selectedContexts = [{text: context}];
+        console.log(selectedRegions)
+        console.log(selectedContexts)
+        updateInputs(originLanguage, translateLanguage, selectedRegions, selectedContexts, phrase);
         const response = await translatePhrase(phrase, originLanguage, translateLanguage, context, region);
         if (response == null){
             alert("An error occurred, please try again.");
