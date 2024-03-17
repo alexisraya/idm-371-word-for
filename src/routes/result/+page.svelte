@@ -24,6 +24,18 @@
     let examples = {};
     let originalLanguage = "";
     let translateLanguage = "";
+    let newBookmarkItem = {
+        originLanguage: originalLanguage,
+        translateLanguage: translateLanguage,
+        phrase: word,
+        region: region,
+        context: context,
+        partSpeech: partSpeech,
+        phoneticSpelling: phoneticSpelling,
+        examples: examples,
+        description: description
+    };
+    let isInBookmarks = false;
 
     onMount(() => {
         updateResultData();
@@ -40,9 +52,8 @@
         examples = Object.values(resultObj.examples);
         originalLanguage = resultObj.originalLanguage;
         translateLanguage = resultObj.translateLanguage;
-    })
-    
-    const newBookmarkItem: BookmarkedItem = {
+
+        newBookmarkItem = {
             originLanguage: originalLanguage,
             translateLanguage: translateLanguage,
             phrase: word,
@@ -52,9 +63,10 @@
             phoneticSpelling: phoneticSpelling,
             examples: examples,
             description: description
-    }
+        }
 
-    let isInBookmarks = isBookmarked(newBookmarkItem);
+        isInBookmarks = isBookmarked(newBookmarkItem);
+    })
 
     let bookmarkIcon = emptyBookmark;
 
