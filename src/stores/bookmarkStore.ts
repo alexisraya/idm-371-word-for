@@ -1,4 +1,4 @@
-import type BookmarkItem from "$lib/constants/BookmarkItem";
+import type BookmarkItem from "$lib/constants/bookmarkItem";
 import { arrayToString, getLocalStorageItem, setLocalStorageItem, stringToArry } from "$lib/helpers/helperFunctions";
 import { writable } from "svelte/store";
 
@@ -14,6 +14,7 @@ export const updatebookmark = (bookmarkItem: BookmarkItem) => {
     else {
         bookmarkItems.splice(index, 1);
     }
+    console.log(JSON.stringify(bookmarkItems));
     setLocalStorageItem("bookmarkStore", JSON.stringify(bookmarkItems));
     return bookmarkItems;
   });
