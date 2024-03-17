@@ -23,5 +23,5 @@ export const updateResultData = () => {
   const localResultData = getLocalStorageItem("resultData");
   if (localResultData === null){return}
   const localArr = JSON.parse(localResultData)
-  formData.set(localArr);
+  resultData.set(localArr);
 }

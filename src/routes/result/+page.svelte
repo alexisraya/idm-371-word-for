@@ -23,7 +23,7 @@
     let originalLanguage = "";
     let translateLanguage = "";
 
-    onMount(()=> {
+    onMount(() => {
         updateResultData();
         resultData.subscribe(result => {
             resultObj = result;
@@ -38,7 +38,7 @@
         examples = Object.values(resultObj.examples);
         originalLanguage = resultObj.originalLanguage;
         translateLanguage = resultObj.translateLanguage;
-    });
+    })
     let bookmarkItem = {
             originLanguage: originalLanguage,
             translateLanguage,
