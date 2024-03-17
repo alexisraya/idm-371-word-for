@@ -1,8 +1,11 @@
 import { GRADIENTS } from "$lib/constants/gradients";
 import bookmarkStore, { updateBookmarkStore } from "../../stores/bookmarkStore";
 import { updateInputData } from "../../stores/inputStore";
+import { updatePreviousPageData } from "../../stores/pageStore";
 import { updateRecentSearchStore } from "../../stores/recentSearchStore";
 import { updateFormData, updateResultData } from "../../stores/translateStore";
+import { browser } from '$app/environment';
+
 
 export const removeDuplicates = (data: any[]) => {
     return data.filter((value, index) => data.indexOf(value) === index);
@@ -21,15 +24,22 @@ export const getGradient = (country: string) => {
 }
 
 export function setLocalStorageItem(key: string, value: string): void {
-    window.localStorage.setItem(key, value);
+    if (browser){
+        window.localStorage.setItem(key, value);  
+    }
 }
 
 export function getLocalStorageItem(key: string): string | null {
-    return window.localStorage.getItem(key);
+    if (browser){
+        return window.localStorage.getItem(key);
+    }
+    return(null);
 }
 
 export function removeLocalStorageItem(key: string): void {
-    window.localStorage.removeItem(key);
+    if (browser){
+       window.localStorage.removeItem(key); 
+    }
 }
 
 export const arrayToString = (arr:any[]) => {
@@ -56,4 +66,5 @@ export const updateStores = () => {
     updateInputData();
     updateFormData();
     updateResultData();
+    updatePreviousPageData();
 }

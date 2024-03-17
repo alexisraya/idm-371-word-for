@@ -9,7 +9,8 @@
     import { isBookmarked, updatebookmark } from "../../stores/bookmarkStore";
     import ToastMessage from "$lib/ToastMessage.svelte";
     import { getGradient } from "$lib/helpers/helperFunctions";
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
+	import { setPreviousPage } from "../../stores/pageStore";
 
     let resultObj = {};
 
@@ -123,6 +124,10 @@
             }
         }
     }
+
+    onDestroy(() => {
+        setPreviousPage("result");
+    })
 </script>
 
 <div class="container">

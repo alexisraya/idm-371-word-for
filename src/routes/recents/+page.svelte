@@ -5,8 +5,8 @@
     import RecentSearchItem from "$lib/RecentSearchItem.svelte";
     import Skeleton from '$lib/Skeleton.svelte';
     import { fade , slide } from 'svelte/transition';
-	import { onMount } from 'svelte';
-	import { reverse } from 'dns';
+	import { onDestroy, onMount } from 'svelte';
+	import { setPreviousPage } from '../../stores/pageStore';
 
     let recentSearches = {};
     recentSearchStore.subscribe(result => {
@@ -48,6 +48,10 @@
         isEmpty = true;
         closeModal();
     }
+
+    onDestroy(() => {
+        setPreviousPage("recents");
+    })
 </script>
 
 <div class="header-container">

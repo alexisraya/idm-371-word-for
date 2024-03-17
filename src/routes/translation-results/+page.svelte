@@ -6,7 +6,8 @@
   import arrow from '$lib/assets/lineArrow.svg'
   import { GRADIENTS } from "$lib/constants/gradients";
   import { getGradient } from "$lib/helpers/helperFunctions";
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
+	import { setPreviousPage } from "../../stores/pageStore";
 
 
   
@@ -37,6 +38,10 @@
     }
     dataObject = formDataValue.value;
     translationResults = JSON.parse(dataObject).translations;
+  })
+
+  onDestroy(() => {
+    setPreviousPage("translationResults");
   })
 
 </script>

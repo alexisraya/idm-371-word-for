@@ -9,7 +9,8 @@
 
     import { fade } from 'svelte/transition';
 	import { slide } from 'svelte/transition';
-	import { afterUpdate, beforeUpdate, onMount } from "svelte";
+	import { afterUpdate, beforeUpdate, onDestroy, onMount } from "svelte";
+	import { setPreviousPage } from "../../stores/pageStore";
 
     let contexts = CONTEXTS;
     let regions = REGIONS.spanish;
@@ -110,6 +111,10 @@
         spanishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "Spanish");
         closeModal();
     }
+
+    onDestroy(() => {
+        setPreviousPage("bookmarked");
+    })
 </script>
 
 <div class="page-container">
