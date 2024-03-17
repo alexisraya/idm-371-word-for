@@ -38,7 +38,7 @@ export const textToSpeech = async(phrase:string) => {
 type Uploadable = string | Blob;
 
 export const speechToText = async (audioSrc: Blob) => {
-    const audioFile = new File([audioSrc], 'audio.ogg', { type: 'audio/ogg', lastModified: Date.now() });
+    const audioFile = new File([audioSrc], 'audio.mp3', { type: 'audio/mp3', lastModified: Date.now() });
 
     const transcript = await openai.audio.transcriptions.create({
         model: "whisper-1",
