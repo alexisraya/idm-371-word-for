@@ -179,8 +179,8 @@
         margin: 0 0 0.25rem;
     }
 
-    .title h2 {
-        text-transform: capitalize;
+    .title h2::first-letter {
+        text-transform: uppercase;
     }
 
     .title-container {

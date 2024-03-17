@@ -87,6 +87,7 @@
 </div>
 
 <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap');
 
   .language-overview {
     display: inline-flex;
@@ -126,10 +127,14 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    text-transform: capitalize;
+  }
+
+  .search-overview h1::first-letter {
+    text-transform: uppercase;
   }
 
   .search-overview {
+    max-width: 24.5rem;
     margin: 1.5rem 0 2rem ;
   }
 
@@ -187,7 +192,8 @@
 .tags {
         display: flex;
         flex-direction: row;
-        column-gap: 8px;
+        flex-wrap: wrap;
+        gap: 8px;
         margin-top: 0.5rem;
     }
 
