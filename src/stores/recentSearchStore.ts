@@ -22,7 +22,6 @@ export const deleteRecentSearchItem = (recentSearchItem: SearchItem) => {
     }
     return recentSearchItems;
   });
-  console.log(recentSearchStore)
 }
 
 export const deleteRecentStore = () => {

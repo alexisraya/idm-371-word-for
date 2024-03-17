@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
     import BookmarkedItem from "$lib/BookmarkedItem.svelte";
-    import bookmarkStore from "../../stores/bookmarkStore";
+    import bookmarkStore, { updateBookmarkStore } from "../../stores/bookmarkStore";
     import Tags from "$lib/Tags.svelte"
     import filters from "$lib/assets/filters.svg";
     import exit from '$lib/assets/exit.svg';
@@ -9,6 +9,7 @@
 
     import { fade } from 'svelte/transition';
 	import { slide } from 'svelte/transition';
+	import { afterUpdate, beforeUpdate, onMount } from "svelte";
 
     let contexts = CONTEXTS;
     let regions = REGIONS.spanish;
@@ -54,6 +55,23 @@
         selectedTagsContext = [...new Set(selectedTagsContext)]; // Filter out duplicates
     }
 
+    let bookmarkItems: any[] = [];
+    let filteredBookmarkItems: any[] = [];
+    let englishBookmarkItems: any[] = [];
+    let spanishBookmarkItems: any[] = [];
+    let isEmpty = false;
+    onMount(() => {
+        updateBookmarkStore();
+        bookmarkStore.subscribe(result => {
+            bookmarkItems = result;
+        });
+        filteredBookmarkItems = bookmarkItems
+        englishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "English");
+        spanishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "Spanish");
+        const dataLength = Object.keys(bookmarkItems).length
+        isEmpty = dataLength<0;
+    })
+
     // Event handler for checkbox change for Context
     function handleCheckboxChangeContext(event, context) {
         if (event.target.checked) {
@@ -62,16 +80,6 @@
             selectedContext = selectedContext.filter(selected => selected !== context);
         }
     }
-
-    let bookmarkItems = [];
-    bookmarkStore.subscribe(result => {
-        bookmarkItems = result;
-    });
-    let filteredBookmarkItems = bookmarkItems;
-    let englishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "English");
-    let spanishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "Spanish");
-    let dataLength = Object.keys(bookmarkItems).length
-    let isEmpty = dataLength<0;
 
     let isModalOpen = false; // filters modal
 

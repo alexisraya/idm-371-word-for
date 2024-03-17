@@ -10,7 +10,6 @@
     recentSearchStore.subscribe(result => {
         recentSearches = result;
     });
-    console.log(recentSearches)
     let dataLength = Object.keys(recentSearches).length
     let isEmpty = dataLength<0;
     let isModalOpen = false; // this is a boolean that tracks the "are you sure" modal

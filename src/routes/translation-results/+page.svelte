@@ -20,8 +20,6 @@
     inputDataValue = value;
   })
 
-  console.log(inputDataValue);
-
   let source = GRADIENTS.default.source;
   if (inputDataValue.regions.length !== 0){
     const region = inputDataValue.regions[0].text.slice(0,-5);
@@ -30,8 +28,6 @@
 
   const dataObject = formDataValue.value;
   const translationResults = JSON.parse(dataObject).translations;
-
-  console.log(translationResults)
 
 </script>
 
