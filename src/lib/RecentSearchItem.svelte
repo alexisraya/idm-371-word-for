@@ -22,23 +22,25 @@
     export let dayTime: string;
 
     const handleSubmit = async() => {
-        updateLoading(true);
-        resetFormData();
-        let selectedRegions = [{text: region}];
-        let selectedContexts = [{text: context}];
-        console.log(selectedRegions)
-        console.log(selectedContexts)
-        updateInputs(originLanguage, translateLanguage, selectedRegions, selectedContexts, phrase);
-        const response = await translatePhrase(phrase, originLanguage, translateLanguage, context, region);
-        if (response == null){
-            alert("An error occurred, please try again.");
-        }
-        else{
-            let result = response.response;
-            const resultObj = {value: result};
-            formData.set(resultObj);
-            setLocalStorageItem("formData", JSON.stringify(resultObj));
-            goto('/translation-results');
+        if($isEditing === false){
+            updateLoading(true);
+            resetFormData();
+            let selectedRegions = [{text: region}];
+            let selectedContexts = [{text: context}];
+            console.log(selectedRegions)
+            console.log(selectedContexts)
+            updateInputs(originLanguage, translateLanguage, selectedRegions, selectedContexts, phrase);
+            const response = await translatePhrase(phrase, originLanguage, translateLanguage, context, region);
+            if (response == null){
+                alert("An error occurred, please try again.");
+            }
+            else{
+                let result = response.response;
+                const resultObj = {value: result};
+                formData.set(resultObj);
+                setLocalStorageItem("formData", JSON.stringify(resultObj));
+                goto('/translation-results');
+            }
         }
     };
 
