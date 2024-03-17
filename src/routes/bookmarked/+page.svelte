@@ -66,6 +66,7 @@
         bookmarkStore.subscribe(result => {
             bookmarkItems = result;
         });
+        console.log(bookmarkItems);
         filteredBookmarkItems = bookmarkItems
         englishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "English");
         spanishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "Spanish");
