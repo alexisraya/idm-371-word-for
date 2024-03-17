@@ -10,7 +10,7 @@ export function resetInputData() {
 }
 
 export function updateInputs(
-    lang1: string, lang2: string, regions: any[], contexts: any[], phrase: string) {
+    lang1: string, lang2: string, regions: any[] | undefined, contexts: any[] | undefined, phrase: string) {
     
     resetInputData();
 
