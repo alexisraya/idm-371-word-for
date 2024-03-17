@@ -4,19 +4,21 @@
     import { CONTEXTS } from "$lib/constants/contexts";
     import { REGIONS } from "$lib/constants/regions";
     import { COLORS } from "$lib/constants/colors";
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import swapLanguage from '$lib/assets/swapLanguage.svg'
     import microphone from '$lib/assets/microphone.svg'
     import microphoneActive from '$lib/assets/microphoneActive.svg'
     import Tags from "$lib/Tags.svelte";
 
     import { formData, resetFormData } from "../stores/translateStore";
-    import { inputData, updateInputs } from "../stores/inputStore";
+    import { updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
     import { updateRecentSearch } from '../stores/recentSearchStore';
-    import { removeDuplicates } from '$lib/helpers/helperFunctions';
+    import { removeDuplicates, setLocalStorageItem } from '$lib/helpers/helperFunctions';
     import Skeleton from '$lib/Skeleton.svelte';
+	import { setPreviousPage } from '../stores/pageStore';
     import { isLoading, updateLoading } from '../stores/loadingStore';
+
 
     let languages = LANGUAGES;
     let contexts = CONTEXTS;
@@ -148,7 +150,9 @@
         }
         else{
             let result = response.response;
-            formData.set({ value: result });
+            let resultObj = {value: result};
+            formData.set(resultObj);
+            setLocalStorageItem("formData", JSON.stringify(resultObj))
             goto('./translation-results');
         }
     };
@@ -159,7 +163,6 @@
         }
         const blob = new Blob(media, {'type' : 'audio/ogg; codecs=opus'});
         media = [];
-        let src = window.URL.createObjectURL(blob);
         phrase = await speechToText(blob);
     }
 
@@ -218,6 +221,10 @@
             regions = REGIONS.english;
         }
     }
+
+    onDestroy(()=>{
+        setPreviousPage("home");
+    })
 
 </script>
 

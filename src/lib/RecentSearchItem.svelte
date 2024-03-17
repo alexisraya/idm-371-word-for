@@ -6,6 +6,7 @@
     import { translatePhrase } from "./helpers/translate";
     import { goto } from "$app/navigation";
     import { deleteRecentSearchItem } from "../stores/recentSearchStore";
+	import { setLocalStorageItem } from "./helpers/helperFunctions";
     import { updateInputs } from "../stores/inputStore";
     import { onMount } from "svelte";
     import { updateLoading } from "../stores/loadingStore";
@@ -31,7 +32,9 @@
         }
         else{
             let result = response.response;
-            formData.set({ value: result });
+            const resultObj = {value: result};
+            formData.set(resultObj);
+            setLocalStorageItem("formData", JSON.stringify(resultObj));
             goto('/translation-results');
         }
     };
