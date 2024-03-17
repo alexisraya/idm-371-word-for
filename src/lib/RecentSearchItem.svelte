@@ -37,8 +37,6 @@
     })
 
     const handleSubmit = async() => {
-        console.log("contextObj")
-        console.log(contextObj)
         updateLoading(true);
         resetFormData();
         updateInputs(originLanguage, translateLanguage, regionObj, contextObj, phrase);
