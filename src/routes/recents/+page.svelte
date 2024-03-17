@@ -84,7 +84,7 @@
         {/each}
     </div>
     {#if $isEditing}
-        <button on:click={finishEditing}>
+        <button transition:fade={{ delay: 100, duration: 200 }} class="dark-btn btn-spacing" on:click={finishEditing}>
             Done
         </button>
     {/if}
@@ -279,4 +279,10 @@
             display: block;
         }
      } */
+
+    .btn-spacing {
+        box-sizing: border-box;
+        max-width: calc(100vw - 3rem);
+        margin: 1rem auto;
+}
 </style>

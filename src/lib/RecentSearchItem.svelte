@@ -11,6 +11,8 @@
     import { onMount } from "svelte";
     import { updateLoading } from "../stores/loadingStore";
 	import { isEditing } from "../stores/editingStore";
+    import { fade , fly } from 'svelte/transition';
+
 
     export let phrase: string;
     export let region: string;
@@ -53,8 +55,8 @@
     }
 </script>
 
-<div class="container" on:click={handleSubmit} on:keydown={handleSubmit}>
-    <div class="text-container">
+<div class="container" transition:fly={{delay: 100, duration: 200 }}>
+    <div class="text-container" on:click={handleSubmit} on:keydown={handleSubmit}>
         <div class="align-container">
             <div class="languages-container">
                 <p>{originLanguage}</p>
@@ -78,7 +80,7 @@
         </div>
     </div>
     {#if $isEditing}
-    <button class="trash-icon-container" on:click={handleDelete}>
+    <button class="trash-icon-container" transition:fade={{ delay: 100, duration: 200 }} on:click={handleDelete}>
         <img src={trash} alt="trash">
     </button>
     {/if}
