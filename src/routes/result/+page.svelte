@@ -356,7 +356,7 @@
     .accuracy {
         width: calc(100vw - 3rem);
         max-width: 30rem;
-        margin: auto;
+        margin: 0 auto 2rem;
         height: 2.75rem;
         flex-shrink: 0;
 
@@ -408,7 +408,7 @@
     }
 
     .toast {
-        position: fixed;
+        position: absolute;
         left: 50%;
         transform: translateX(-50%);
         bottom: 6rem;
