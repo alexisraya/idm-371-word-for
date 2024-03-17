@@ -1,9 +1,11 @@
 <script lang="ts">
     import { textToSpeech } from "./helpers/translate";
     import speaker from '$lib/assets/speaker.png';
+    import speakerGray from '$lib/assets/speakerGray.png';
     import speakerFill from '$lib/assets/speakerFill.png';
 
     export let phrase: string;
+    export let isSpeakerGray: boolean;
     let isAudioPlaying = false;
     let speechOutput = '';
 
@@ -31,7 +33,11 @@
         {#if isAudioPlaying}
         <img class="speaker" alt="speaker icon" src={speakerFill} />
         {:else}
-        <img class="speaker" alt="speaker icon" src={speaker} />
+            {#if isSpeakerGray}
+            <img class="speakerGray" alt="speaker icon" src={speakerGray} />
+            {:else}
+            <img class="speaker" alt="speaker icon" src={speaker} />
+            {/if}
         {/if}
     </div>
 </button>
@@ -55,6 +61,11 @@
     .speaker{
         height: 30px;
         padding: 7px;
+    }
+
+    .speakerGray{
+        padding: 7px;
+        padding-left: 12px;
     }
 
     .speaker-container {
