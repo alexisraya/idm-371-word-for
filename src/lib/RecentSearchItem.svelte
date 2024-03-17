@@ -10,6 +10,7 @@
     import { updateInputs } from "../stores/inputStore";
     import { onMount } from "svelte";
     import { updateLoading } from "../stores/loadingStore";
+	import { isEditing } from "../stores/editingStore";
 
     export let phrase: string;
     export let region: string;
@@ -76,9 +77,11 @@
             {/if}
         </div>
     </div>
+    {#if $isEditing}
     <button class="trash-icon-container" on:click={handleDelete}>
         <img src={trash} alt="trash">
     </button>
+    {/if}
 </div>
 
 <style>

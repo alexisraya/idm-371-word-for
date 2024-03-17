@@ -8,6 +8,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { setPreviousPage } from '../../stores/pageStore';
     import { isLoading, updateLoading } from '../../stores/loadingStore';
+	import { isEditing, updateEditing } from '../../stores/editingStore';
  
 
     let recentSearches = {};
@@ -17,6 +18,7 @@
     let isEmpty = false;
     let isModalOpen = false; // this is a boolean that tracks the "are you sure" modal
     let isEditModalOpen = false; // this is a boolean that tracks the "are you sure" modal
+
     onMount(() => {
         updateRecentSearchStore();
         recentSearchStore.subscribe(result => {
@@ -46,6 +48,15 @@
         isModalOpen = false;
     }
 
+    const editSearches = () => {
+        closeEditModal();
+        updateEditing(true);
+    }
+
+    const finishEditing = () => {
+        updateEditing(false);
+    }
+
     const handleDelete = () => {
         deleteRecentStore();
         isEmpty = true;
@@ -72,6 +83,11 @@
             <RecentSearchItem phrase={recentSearch.phrase} region={recentSearch.selectedRegions} context={recentSearch.selectedContexts} originLanguage={recentSearch.originLanguage} translateLanguage={recentSearch.translateLanguage} dayTime={recentSearch.dayTime}/>
         {/each}
     </div>
+    {#if $isEditing}
+        <button on:click={finishEditing}>
+            Done
+        </button>
+    {/if}
     {#if isEditModalOpen}
         <!-- TODO: this is janky... fix in a later build -->
         <div class="modal-container" transition:slide={{ delay: 200, duration: 300 }}>
@@ -84,7 +100,7 @@
             <button class="empty-btn" disabled={isEmpty} on:click={openModal} >
                 <span>Clear all history</span>
             </button>
-            <button class="dark-btn" on:click={closeEditModal}>Edit</button>
+            <button class="dark-btn" on:click={editSearches}>Edit</button>
         </div>
         <div class="bg-dark" transition:fade={{ delay: 200, duration: 300 }}></div>
     {/if}
