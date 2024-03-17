@@ -1,21 +1,27 @@
 <script>
     import exit from '$lib/assets/exit.svg';
     import dots from '$lib/assets/dots.svg';
-    import recentSearchStore, { deleteRecentStore } from "../../stores/recentSearchStore";
+    import recentSearchStore, { deleteRecentStore, updateRecentSearchStore } from "../../stores/recentSearchStore";
     import RecentSearchItem from "$lib/RecentSearchItem.svelte";
     import Skeleton from '$lib/Skeleton.svelte';
     import { fade , slide } from 'svelte/transition';
+	import { onMount } from 'svelte';
 
     let recentSearches = {};
     recentSearchStore.subscribe(result => {
         recentSearches = result;
     });
-    let dataLength = Object.keys(recentSearches).length
-    let isEmpty = dataLength<0;
+    let isEmpty = false;
     let isModalOpen = false; // this is a boolean that tracks the "are you sure" modal
     let isEditModalOpen = false; // this is a boolean that tracks the "are you sure" modal
-    let isLoading = false; //TODO: implement loader
-
+    onMount(() => {
+        updateRecentSearchStore();
+        recentSearchStore.subscribe(result => {
+            recentSearches = result;
+        });
+        const dataLength = Object.keys(recentSearches).length
+        isEmpty = dataLength<0;
+    })
     const closeModal = () => {
         isModalOpen = false;
         isEditModalOpen = false;

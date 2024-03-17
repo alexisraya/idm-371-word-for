@@ -1,5 +1,6 @@
 import { GRADIENTS } from "$lib/constants/gradients";
 import bookmarkStore, { updateBookmarkStore } from "../../stores/bookmarkStore";
+import { updateRecentSearchStore } from "../../stores/recentSearchStore";
 
 export const removeDuplicates = (data: any[]) => {
     return data.filter((value, index) => data.indexOf(value) === index);
@@ -48,11 +49,6 @@ export const stringToArry = (str: string | null) => {
 }
 
 export const updateStores = () => {
-    let bookmarkItems = [];
-    bookmarkStore.subscribe(result => {
-        bookmarkItems = result;
-    });
-    if(bookmarkItems.length < 1){
-        updateBookmarkStore();
-    }
+    updateBookmarkStore();
+    updateRecentSearchStore();
 }
