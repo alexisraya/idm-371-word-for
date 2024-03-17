@@ -41,19 +41,20 @@
         originalLanguage = resultObj.originalLanguage;
         translateLanguage = resultObj.translateLanguage;
     })
-    let bookmarkItem = {
+    
+    const newBookmarkItem: BookmarkedItem = {
             originLanguage: originalLanguage,
-            translateLanguage,
+            translateLanguage: translateLanguage,
             phrase: word,
-            region,
-            context,
-            partSpeech,
-            phoneticSpelling,
-            examples,
-            description
+            region: region,
+            context: context,
+            partSpeech: partSpeech,
+            phoneticSpelling: phoneticSpelling,
+            examples: examples,
+            description: description
     }
 
-    let isInBookmarks = isBookmarked(bookmarkItem);
+    let isInBookmarks = isBookmarked(newBookmarkItem);
 
     let bookmarkIcon = emptyBookmark;
 
@@ -79,17 +80,6 @@
     }
 
     const handleBookmark = () => {
-        const newBookmarkItem: BookmarkedItem = {
-            originLanguage: originalLanguage,
-            translateLanguage: translateLanguage,
-            phrase: word,
-            region: region,
-            context: context,
-            partSpeech: partSpeech,
-            phoneticSpelling: phoneticSpelling,
-            examples: examples,
-            description: description
-        }
         updateBookmark(newBookmarkItem);
         isInBookmarks = !isInBookmarks;
         displayToast();
