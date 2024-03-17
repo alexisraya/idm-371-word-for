@@ -6,6 +6,7 @@
     import { translatePhrase } from "./helpers/translate";
     import { goto } from "$app/navigation";
     import { deleteRecentSearchItem } from "../stores/recentSearchStore";
+	import { setLocalStorageItem } from "./helpers/helperFunctions";
 
     export let phrase: string;
     export let region: string;
@@ -22,7 +23,9 @@
         }
         else{
             let result = response.response;
-            formData.set({ value: result });
+            const resultObj = {value: result};
+            formData.set(resultObj);
+            setLocalStorageItem("formData", JSON.stringify(resultObj));
             goto('/translation-results');
         }
     };

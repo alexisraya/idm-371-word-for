@@ -5,6 +5,7 @@
   import { resultData } from "../stores/translateStore";
   import speaker from '$lib/assets/speaker.png';
   import chevronBold from '$lib/assets/chevronBold.svg';
+	import { setLocalStorageItem } from "./helpers/helperFunctions";
 
     export let originLanguage: string;
     export let translateLanguage: string;
@@ -34,7 +35,7 @@
     }
 
     const handleClick = () => {
-        resultData.set({
+        const resultObj = {
             result: {
                 word: phrase,
                 region,
@@ -46,7 +47,9 @@
                 originalLanguage: originLanguage,
                 translateLanguage
             }
-        })
+        }
+        resultData.set(resultObj);
+        setLocalStorageItem("resultData", JSON.stringify(resultObj));
         goto('/result')
     };
 </script>

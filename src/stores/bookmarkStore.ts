@@ -8,15 +8,11 @@ const bookmarkStore = writable<BookmarkItem[]>([]);
 export const updatebookmark = (bookmarkItem: BookmarkItem) => {
   const existingItem = bookmarkStore.update((bookmarkItems) => {
     const index = bookmarkItems.findIndex((i) => i.phrase === bookmarkItem.phrase);
-    // let localStorageArr: string[] = [];
     if (index === -1) {
       bookmarkItems.push(bookmarkItem);
-      // const item = JSON.stringify(bookmarkItem);
-      // localStorageArr.push(item);
     }
     else {
         bookmarkItems.splice(index, 1);
-        // localStorageArr.splice(index, 1);
     }
     setLocalStorageItem("bookmarkStore", JSON.stringify(bookmarkItems));
     return bookmarkItems;

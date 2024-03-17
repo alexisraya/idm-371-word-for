@@ -1,33 +1,43 @@
-<script>
-  import { formData } from "../../stores/translateStore";
-  import { inputData } from "../../stores/inputStore"
+<script lang="ts">
+  import { formData, updateFormData } from "../../stores/translateStore";
+  import { inputData, updateInputData } from "../../stores/inputStore"
   import TranslationResult from "$lib/TranslationResult.svelte";
   import Tags from "$lib/Tags.svelte";
   import arrow from '$lib/assets/lineArrow.svg'
   import { GRADIENTS } from "$lib/constants/gradients";
   import { getGradient } from "$lib/helpers/helperFunctions";
+	import { onMount } from "svelte";
 
 
   
   // Subscribe to changes in the store
   let formDataValue = {};
-  formData.subscribe(value => {
-    formDataValue = value;
-  });
-
   let inputDataValue = {};
-  inputData.subscribe(value => {
-    inputDataValue = value;
-  })
-
+  let region = "all regions";
   let source = GRADIENTS.default.source;
-  if (inputDataValue.regions.length !== 0){
-    const region = inputDataValue.regions[0].text.slice(0,-5);
-    source = getGradient(region);
-  }
+  let regions: any[] = [];
+  let contexts: any[] = [];
+  let dataObject: any = null;
+  let translationResults: any[] = [];
 
-  const dataObject = formDataValue.value;
-  const translationResults = JSON.parse(dataObject).translations;
+  onMount(() => {
+    updateInputData();
+    inputData.subscribe(value => {
+      inputDataValue = value;
+    })
+    updateFormData();
+    formData.subscribe(value => {
+      formDataValue = value;
+    });
+    regions = inputDataValue.regions;
+    contexts = inputDataValue.contexts;
+    if (regions.length !== 0){
+      region = regions[0].text.slice(0,-5);
+      source = getGradient(region);
+    }
+    dataObject = formDataValue.value;
+    translationResults = JSON.parse(dataObject).translations;
+  })
 
 </script>
 
@@ -42,12 +52,12 @@
     </div>
     <h1>{inputDataValue.phrase}</h1>
     <!-- Tags -->
-    <div class={`tags ${(!inputDataValue.regions.length && !inputDataValue.contexts.length) ? 'no-tags' : ''}`}>
-      {#each inputDataValue.regions as region}
+    <div class={`tags ${(!regions.length && !contexts.length) ? 'no-tags' : ''}`}>
+      {#each regions as region}
         <Tags tagName={region.text} />
       {/each}
       
-      {#each inputDataValue.contexts as context}
+      {#each contexts as context}
         <Tags tagName={context.text} />
       {/each}
     </div>

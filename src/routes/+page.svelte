@@ -11,10 +11,10 @@
     import Tags from "$lib/Tags.svelte";
 
     import { formData, resetFormData } from "../stores/translateStore";
-    import { inputData, updateInputs } from "../stores/inputStore";
+    import { updateInputs } from "../stores/inputStore";
     import { speechToText, translatePhrase } from '$lib/helpers/translate';
     import { updateRecentSearch } from '../stores/recentSearchStore';
-    import { removeDuplicates } from '$lib/helpers/helperFunctions';
+    import { removeDuplicates, setLocalStorageItem } from '$lib/helpers/helperFunctions';
     import Skeleton from '$lib/Skeleton.svelte';
 
     let languages = LANGUAGES;
@@ -148,7 +148,9 @@
         }
         else{
             let result = response.response;
-            formData.set({ value: result });
+            let resultObj = {value: result};
+            formData.set(resultObj);
+            setLocalStorageItem("formData", JSON.stringify(resultObj))
             goto('./translation-results');
         }
     };

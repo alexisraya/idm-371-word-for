@@ -1,5 +1,5 @@
-<script>
-    import { resultData } from "../../stores/translateStore";
+<script lang="ts">
+    import { resultData, updateResultData } from "../../stores/translateStore";
     import Tags from "$lib/Tags.svelte";
     import Speaker from "$lib/Speaker.svelte";
 
@@ -9,24 +9,36 @@
     import { isBookmarked, updatebookmark } from "../../stores/bookmarkStore";
     import ToastMessage from "$lib/ToastMessage.svelte";
     import { getGradient } from "$lib/helpers/helperFunctions";
+	import { onMount } from "svelte";
 
     let resultObj = {};
-    resultData.subscribe(result => {
-        resultObj = result;
+
+    let word = "";
+    let region = "";
+    let context = "";
+    let partSpeech = "";
+    let phoneticSpelling = "";
+    let description = "";
+    let examples = {};
+    let originalLanguage = "";
+    let translateLanguage = "";
+
+    onMount(()=> {
+        updateResultData();
+        resultData.subscribe(result => {
+            resultObj = result;
+        });
+        resultObj = resultObj.result;
+        word = resultObj.word;
+        region = resultObj.region;
+        context = resultObj.context;
+        partSpeech = resultObj.partSpeech;
+        phoneticSpelling = resultObj.phoneticSpelling;
+        description = resultObj.description;
+        examples = Object.values(resultObj.examples);
+        originalLanguage = resultObj.originalLanguage;
+        translateLanguage = resultObj.translateLanguage;
     });
-    
-    resultObj = resultObj.result;
-
-    const word = resultObj.word;
-    const region = resultObj.region;
-    const context = resultObj.context;
-    const partSpeech = resultObj.partSpeech;
-    const phoneticSpelling = resultObj.phoneticSpelling;
-    const description = resultObj.description;
-    const examples = Object.values(resultObj.examples);
-    const originalLanguage = resultObj.originalLanguage;
-    const translateLanguage = resultObj.translateLanguage;
-
     let bookmarkItem = {
             originLanguage: originalLanguage,
             translateLanguage,
