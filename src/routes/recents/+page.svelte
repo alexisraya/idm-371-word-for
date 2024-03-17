@@ -84,9 +84,11 @@
         {/each}
     </div>
     {#if $isEditing}
+    <div class="done-container">
         <button transition:fade={{ delay: 100, duration: 200 }} class="dark-btn btn-spacing" on:click={finishEditing}>
             Done
         </button>
+    </div>
     {/if}
     {#if isEditModalOpen}
         <!-- TODO: this is janky... fix in a later build -->
@@ -285,4 +287,10 @@
         max-width: calc(100vw - 3rem);
         margin: 1rem auto;
 }
+
+    .done-container {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        background: linear-gradient(to top, rgb(255, 255, 255) 75%,rgba(255,255,255,0) 100%);    }
 </style>
