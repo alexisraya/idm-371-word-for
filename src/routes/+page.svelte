@@ -4,7 +4,7 @@
     import { CONTEXTS } from "$lib/constants/contexts";
     import { REGIONS } from "$lib/constants/regions";
     import { COLORS } from "$lib/constants/colors";
-    import { onDestroy, onMount } from 'svelte';
+    import { afterUpdate, onDestroy, onMount } from 'svelte';
     import swapLanguage from '$lib/assets/swapLanguage.svg'
     import microphone from '$lib/assets/microphone.svg'
     import microphoneActive from '$lib/assets/microphoneActive.svg'
@@ -26,21 +26,6 @@
     let colors = COLORS;
 	let selectedOrigin = languages[0];
     let selectedTranslate = languages[1];
-
-    $: {
-        if(selectedOrigin == languages[0]){
-            selectedTranslate = languages[1];
-        } else {
-            selectedTranslate = languages[0];
-        }
-    }
-    $: {
-        if(selectedTranslate == languages[0]){
-            regions = REGIONS.english;
-        } else {
-            regions = REGIONS.spanish;
-        }
-    }
 
     let selectedContext = [];
     let selectedRegion = [];
@@ -69,6 +54,37 @@
             handleTranscription();
         };
     });
+
+    afterUpdate(() => {
+        setTimeout(()=>{
+            if(selectedTranslate == languages[0]){
+                regions = REGIONS.english
+            }
+            if(selectedTranslate == languages[1]){
+                regions = REGIONS.spanish
+            }
+        }, 200)
+    })
+
+    const handleOriginLanguageChange = () => {
+        if(selectedOrigin == languages[0]){
+            selectedTranslate = languages[1];
+            regions = REGIONS.spanish
+        } else {
+            selectedTranslate = languages[0];
+            regions = REGIONS.english
+        }
+    }
+
+    const handleTranslateLanguageChange = () => {
+        if(selectedTranslate == languages[0]){
+            selectedOrigin = languages[1];
+            regions = REGIONS.english
+        } else {
+            selectedOrigin = languages[0];
+            regions = REGIONS.spanish
+        }
+    }
 
     const startRecording = () => {
         isRecording = true;
@@ -233,7 +249,7 @@
         <form on:submit|preventDefault={handleSubmit}>
             <div class="dropdown-container">
                 <div class="dropdown-language-container">
-                    <select class="dropdown-thin" bind:value={selectedOrigin}>
+                    <select class="dropdown-thin" bind:value={selectedOrigin} on:change={handleOriginLanguageChange}>
                         {#each languages as language}
                             <option value={language}>
                                 {language}
@@ -243,8 +259,8 @@
                     <div class="swap-icon-container" on:click={swapLanguages} on:keydown={swapLanguages}>
                         <img src={swapLanguage} alt="swap-languages">
                     </div>
-                    <select class="dropdown-thin" bind:value={selectedTranslate}>
-                        {#each languages.reverse() as language}
+                    <select class="dropdown-thin" bind:value={selectedTranslate} on:change={handleTranslateLanguageChange}>
+                        {#each languages as language}
                             <option value={language}>
                                 {language}
                             </option>
