@@ -8,6 +8,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { setPreviousPage } from '../../stores/pageStore';
     import { isLoading, updateLoading } from '../../stores/loadingStore';
+	import { isEditing, updateEditing } from '../../stores/editingStore';
  
 
     let recentSearches = {};
@@ -17,6 +18,7 @@
     let isEmpty = false;
     let isModalOpen = false; // this is a boolean that tracks the "are you sure" modal
     let isEditModalOpen = false; // this is a boolean that tracks the "are you sure" modal
+
     onMount(() => {
         updateRecentSearchStore();
         recentSearchStore.subscribe(result => {
@@ -46,6 +48,15 @@
         isModalOpen = false;
     }
 
+    const editSearches = () => {
+        closeEditModal();
+        updateEditing(true);
+    }
+
+    const finishEditing = () => {
+        updateEditing(false);
+    }
+
     const handleDelete = () => {
         deleteRecentStore();
         isEmpty = true;
@@ -71,7 +82,17 @@
         {#each recentSearches as recentSearch}
             <RecentSearchItem phrase={recentSearch.phrase} region={recentSearch.selectedRegions} context={recentSearch.selectedContexts} originLanguage={recentSearch.originLanguage} translateLanguage={recentSearch.translateLanguage} dayTime={recentSearch.dayTime}/>
         {/each}
+        {#if $isEditing}
+            <div class="bumper"></div>
+        {/if}
     </div>
+    {#if $isEditing}
+    <div class="done-container">
+        <button transition:fade={{ delay: 100, duration: 200 }} class="dark-btn btn-spacing" on:click={finishEditing}>
+            Done
+        </button>
+    </div>
+    {/if}
     {#if isEditModalOpen}
         <!-- TODO: this is janky... fix in a later build -->
         <div class="modal-container" transition:slide={{ delay: 200, duration: 300 }}>
@@ -84,7 +105,7 @@
             <button class="empty-btn" disabled={isEmpty} on:click={openModal} >
                 <span>Clear all history</span>
             </button>
-            <button class="dark-btn" on:click={closeEditModal}>Edit</button>
+            <button class="dark-btn" on:click={editSearches}>Edit</button>
         </div>
         <div class="bg-dark" transition:fade={{ delay: 200, duration: 300 }}></div>
     {/if}
@@ -250,6 +271,10 @@
         z-index: 11;
     }
 
+    .bumper {
+        height: 80px;
+    }
+
     /* @media screen and (min-width: 680px){
         .recent-item-container{
             display: flex;
@@ -263,4 +288,17 @@
             display: block;
         }
      } */
+
+    .btn-spacing {
+        box-sizing: border-box;
+        max-width: calc(100vw - 3rem);
+        margin: 1rem auto;
+    }
+
+    .done-container {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        background: linear-gradient(to top, rgb(255, 255, 255) 75%,rgba(255,255,255,0) 100%);    
+    }
 </style>

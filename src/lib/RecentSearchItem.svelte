@@ -10,6 +10,9 @@
     import { updateInputs } from "../stores/inputStore";
     import { onMount } from "svelte";
     import { updateLoading } from "../stores/loadingStore";
+	import { isEditing } from "../stores/editingStore";
+    import { fade , fly } from 'svelte/transition';
+
 
     export let phrase: string;
     export let region: string;
@@ -37,19 +40,25 @@
     })
 
     const handleSubmit = async() => {
-        updateLoading(true);
-        resetFormData();
-        updateInputs(originLanguage, translateLanguage, regionObj, contextObj, phrase);
-        const response = await translatePhrase(phrase, originLanguage, translateLanguage, context, region);
-        if (response == null){
-            alert("An error occurred, please try again.");
-        }
-        else{
-            let result = response.response;
-            const resultObj = {value: result};
-            formData.set(resultObj);
-            setLocalStorageItem("formData", JSON.stringify(resultObj));
-            goto('/translation-results');
+        if($isEditing === false){
+            updateLoading(true);
+            resetFormData();
+            let selectedRegions = [{text: region}];
+            let selectedContexts = [{text: context}];
+            console.log(selectedRegions)
+            console.log(selectedContexts)
+            updateInputs(originLanguage, translateLanguage, selectedRegions, selectedContexts, phrase);
+            const response = await translatePhrase(phrase, originLanguage, translateLanguage, context, region);
+            if (response == null){
+                alert("An error occurred, please try again.");
+            }
+            else{
+                let result = response.response;
+                const resultObj = {value: result};
+                formData.set(resultObj);
+                setLocalStorageItem("formData", JSON.stringify(resultObj));
+                goto('/translation-results');
+            }
         }
     };
 
@@ -66,8 +75,8 @@
     }
 </script>
 
-<div class="container" on:click={handleSubmit} on:keydown={handleSubmit}>
-    <div class="text-container">
+<div class="container" transition:fly={{delay: 100, duration: 200 }}>
+    <div class="text-container" on:click={handleSubmit} on:keydown={handleSubmit}>
         <div class="align-container">
             <div class="languages-container">
                 <p>{originLanguage}</p>
@@ -98,9 +107,11 @@
             {/if}
         </div>
     </div>
-    <button class="trash-icon-container" on:click={handleDelete}>
+    {#if $isEditing}
+    <button class="trash-icon-container" transition:fade={{ delay: 100, duration: 200 }} on:click={handleDelete}>
         <img src={trash} alt="trash">
     </button>
+    {/if}
 </div>
 
 <style>
