@@ -6,7 +6,7 @@
     import { translatePhrase } from "./helpers/translate";
     import { goto } from "$app/navigation";
     import { deleteRecentSearchItem } from "../stores/recentSearchStore";
-	import { setLocalStorageItem } from "./helpers/helperFunctions";
+	import { setLocalStorageItem, stringToArry } from "./helpers/helperFunctions";
     import { updateInputs } from "../stores/inputStore";
     import { onMount } from "svelte";
     import { updateLoading } from "../stores/loadingStore";
@@ -20,6 +20,24 @@
     export let originLanguage: string;
     export let translateLanguage: string;
     export let dayTime: string;
+
+    const contextArr = stringToArry(context);
+    const regionArr = stringToArry(region);
+    let contextObj: any[] = [];
+    let regionObj: any[] = [];
+
+    onMount(() => {
+        contextArr?.forEach(context =>{
+            if(context){
+                const obj = {text: context};
+                contextObj.push(obj);
+            }
+        })
+        regionArr?.forEach(region =>{
+            const obj = {text: region};
+            regionObj.push(obj);
+        })
+    })
 
     const handleSubmit = async() => {
         if($isEditing === false){
@@ -75,9 +93,17 @@
             <h1>{phrase}</h1>
         </div>
         <div class="tags">
-            <Tags tagName={region}/>
-            {#if context.length>0}
-                <Tags tagName={context}/>
+            {#if regionArr}
+                {#each regionArr as region}
+                    <Tags tagName={region}/>
+                {/each}
+            {/if}
+            {#if contextArr}
+                {#each contextArr as context}
+                    {#if context.length > 0}
+                        <Tags tagName={context}/>
+                    {/if}
+                {/each}
             {/if}
         </div>
     </div>

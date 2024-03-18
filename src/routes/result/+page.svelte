@@ -173,15 +173,19 @@
         </div>
         <div class="definition">
             <h3>EXAMPLES</h3>
-            <h4>{originalLanguage}</h4>
+            <div class="example-heading">
+                <h4>{originalLanguage}</h4>
+                <Speaker isSpeakerGray=true phrase={examples[0]} />
+            </div>
             <div class="example-container">
                 <p class="examples">{examples[0]}</p>
-                <Speaker phrase={examples[0]} />
             </div>
-            <h4>{translateLanguage}</h4>
+            <div class="example-heading">
+                <h4>{translateLanguage}</h4>
+                <Speaker isSpeakerGray=true phrase={examples[1]} />
+            </div>
             <div class="example-container">
                 <p class="examples">{examples[1]}</p>
-                <Speaker phrase={examples[1]} />
             </div>
         </div>
     </div>
@@ -207,6 +211,8 @@
 </div>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap');
+        
     h1 {
         color: var(--text-black, #141414);
 
@@ -412,5 +418,9 @@
         left: 50%;
         transform: translateX(-50%);
         bottom: 6rem;
+    }
+
+    .example-heading {
+        display: flex;
     }
 </style>

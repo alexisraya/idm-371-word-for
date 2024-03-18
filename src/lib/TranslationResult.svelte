@@ -6,7 +6,8 @@
    
     import chevron from '$lib/assets/chevron.svg';
     import { resultData } from "../stores/translateStore";
-	import { setLocalStorageItem } from "./helpers/helperFunctions";
+	import { setLocalStorageItem, stringToArry } from "./helpers/helperFunctions";
+	import { onMount } from "svelte";
 
     export let description: string;
     export let partSpeech: string;
@@ -17,6 +18,18 @@
     export let examples: {};
     export let originalLanguage: string;
     export let translateLanguage: string;
+
+    let contextArr: string[] = [];
+    let regionArr: string[] = [];
+
+    onMount(() =>{
+        if (context.includes(",")){
+            contextArr = stringToArry(context);
+        }
+        if (region.includes(",")){
+            regionArr = stringToArry(region);
+        }
+    })
 
     const handleClick = () => {
         const resultObj = {
@@ -52,10 +65,20 @@
                     <i class="subtitle-text">{partSpeech}</i>
                 </div>
                 <div class="tags">
-                    {#if region.length>1 && region!="all regions"}
+                    {#if regionArr.length>0}
+                        {#each regionArr as region}
+                            {#if region.length>1 && region!="all regions"}
+                                <Tags tagName={region}/>
+                            {/if}
+                        {/each}
+                    {:else if region.length>1 && region!="all regions"}
                         <Tags tagName={region}/>
                     {/if}
-                    {#if context}
+                    {#if contextArr.length>0}
+                        {#each contextArr as context}
+                            <Tags tagName={context}/>
+                        {/each}
+                    {:else if context.length>0}
                         <Tags tagName={context}/>
                     {/if}
                 </div>
