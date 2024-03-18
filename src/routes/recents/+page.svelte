@@ -82,6 +82,9 @@
         {#each recentSearches as recentSearch}
             <RecentSearchItem phrase={recentSearch.phrase} region={recentSearch.selectedRegions} context={recentSearch.selectedContexts} originLanguage={recentSearch.originLanguage} translateLanguage={recentSearch.translateLanguage} dayTime={recentSearch.dayTime}/>
         {/each}
+        {#if $isEditing}
+            <div class="bumper"></div>
+        {/if}
     </div>
     {#if $isEditing}
     <div class="done-container">
@@ -268,6 +271,10 @@
         z-index: 11;
     }
 
+    .bumper {
+        height: 80px;
+    }
+
     /* @media screen and (min-width: 680px){
         .recent-item-container{
             display: flex;
@@ -286,11 +293,12 @@
         box-sizing: border-box;
         max-width: calc(100vw - 3rem);
         margin: 1rem auto;
-}
+    }
 
     .done-container {
         position: fixed;
         width: 100%;
         bottom: 0;
-        background: linear-gradient(to top, rgb(255, 255, 255) 75%,rgba(255,255,255,0) 100%);    }
+        background: linear-gradient(to top, rgb(255, 255, 255) 75%,rgba(255,255,255,0) 100%);    
+    }
 </style>
