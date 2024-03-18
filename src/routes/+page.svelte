@@ -496,6 +496,8 @@
 
         /* Layout */
         margin: 0.25rem 0 0.5rem;
+        max-height: 250px; /* Adjust height as needed */
+        overflow-y: auto;
     }
 
     fieldset ul li{
