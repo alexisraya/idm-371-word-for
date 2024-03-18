@@ -9,7 +9,7 @@
 
     import { fade } from 'svelte/transition';
 	import { slide } from 'svelte/transition';
-	import { afterUpdate, beforeUpdate, onDestroy, onMount } from "svelte";
+	import { afterUpdate, onDestroy, onMount } from "svelte";
 	import { setPreviousPage } from "../../stores/pageStore";
 
     let contexts = CONTEXTS;
@@ -72,6 +72,14 @@
         spanishBookmarkItems = filteredBookmarkItems.filter(item => item.translateLanguage === "Spanish");
         const dataLength = Object.keys(bookmarkItems).length
         isEmpty = dataLength<0;
+    })
+
+    afterUpdate(()=>{
+        if(selectedLanguage == "English"){
+            regions = REGIONS.english
+        } else {
+            regions = REGIONS.spanish
+        }
     })
 
     // Event handler for checkbox change for Context
