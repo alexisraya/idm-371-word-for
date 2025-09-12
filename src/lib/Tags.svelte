@@ -15,11 +15,11 @@
     gap: 0.44388rem;
 
     border-radius: 1.64388rem;
-    border: 0.75px solid var(--Text-Black, #141414);
+    border: 0.75px solid var(--color-text-black);
   }
 
   .tag-name {
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
     margin: 0;
     /* Uppercase XSmall */
     font-family: "Fira Sans";

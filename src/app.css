@@ -1,1 +1,81 @@
 @import "remixicon/fonts/remixicon.css";
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
+
+:root {
+  --color-primary-black: #000000;
+  --color-text-black: #141414;
+  --color-slate-grey: #595959;
+  --color-stone-grey: #979797;
+  --color-cloud-grey: #f0f0f0;
+  --color-pure-white: #ffffff;
+  --color-navy-blue: #023871;
+  --color-dark-blue: #1d45a2;
+  --color-medium-blue: #006dca;
+  --color-light-blue: #5ba2da;
+  --color-aqua: #00bce4;
+  --color-green: #006f3a;
+  --color-red: #dd2235;
+  --color-orange: #ff8200;
+  --color-yellow: #ffc50e;
+}
+
+body {
+  font-family: "Fira Sans", sans-serif;
+  color: var(--color-primary-black);
+  background-color: var(--color-pure-white);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: var(--color-primary-black);
+  margin: 0;
+}
+
+h1 {
+  font-family: "Times New Roman";
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+h2 {
+  font-family: "Times New Roman";
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+h3 {
+  font-family: "Fira Sans";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+h4 {
+  color: var(--color-stone-grey);
+  font-family: "Fira Sans";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 1.25rem;
+}
+
+p {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+a {
+  text-decoration: none;
+}

@@ -439,8 +439,6 @@
 {/if}
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
-
   li {
     list-style: none;
   }
@@ -692,7 +690,7 @@
   }
 
   .translate-text-field::placeholder {
-    color: var(--stone-grey, #979797);
+    color: var(--color-stone-grey);
   }
 
   .translate-text-field:focus {
@@ -755,9 +753,9 @@
 
     /* Styles */
     border-radius: 1.5rem;
-    border: 0.66px solid var(--primary-black, #000);
+    border: 0.66px solid var(--color-primary-black);
     color: var(--white, #fff);
-    background: var(--primary-black, #000);
+    background: var(--color-primary-black);
 
     /* Font Styles */
     font-family: "Fira Sans";
@@ -771,7 +769,7 @@
   }
 
   .translate-button:disabled {
-    border: 1px solid var(--stone-grey, #979797);
+    border: 1px solid var(--color-stone-grey);
     background: var(--white, #fff);
     color: var(--stone-grey);
   }

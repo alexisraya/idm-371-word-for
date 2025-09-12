@@ -40,7 +40,7 @@
   <details class="dropdown-wide">
     <summary class="text-container">
       <div class="title">
-        <h1 class="result">{phrase}</h1>
+        <h2 class="result">{phrase}</h2>
         <Speaker {phrase} />
       </div>
       <div class="subtitle">
@@ -97,7 +97,7 @@
   .definition {
     overflow: hidden;
     -webkit-line-clamp: 2;
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
     margin: 0.25rem 0 1.5rem;
 
     /* Body Small */
@@ -116,18 +116,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    gap: 8px;
   }
 
   .result {
-    margin: 0;
-    color: var(--Text-Black, #141414);
-
-    /* H2 TNR */
-    font-family: "Times New Roman";
-    font-size: 1.5rem;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
   }
 
   .result::first-letter {
@@ -145,7 +138,7 @@
   }
 
   .subtitle i {
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
     /* Body Italic TNR */
     font-family: "Times New Roman";
     font-size: 1rem;
@@ -214,10 +207,6 @@
     list-style: none;
   }
 
-  h3 {
-    margin: 0;
-  }
-
   .dropdown-wide summary::after {
     /* Arrow */
     content: "";
@@ -245,7 +234,7 @@
   }
 
   .definition-title {
-    color: var(--Primary-Black, #000);
+    color: var(--color-primary-black);
 
     /* Uppercase Small */
     font-family: "Fira Sans";
@@ -263,7 +252,7 @@
     align-self: center;
     align-items: center;
     justify-content: center;
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
 
     /* Uppercase Heavy */
     font-family: "Fira Sans";
@@ -275,7 +264,7 @@
 
   .side-arrow {
     transform: rotate(-90deg);
-    fill: var(--Primary-Black, #000);
+    fill: var(--color-primary-black);
     width: 1.5rem;
     flex-shrink: 0;
   }

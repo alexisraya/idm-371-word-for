@@ -203,7 +203,7 @@
   <!-- TODO: this is janky... fix in a later build -->
   <div class="modal-container" transition:slide={{ delay: 200, duration: 300 }}>
     <div class="modal-header">
-      <h1 class="modal-title">Filters</h1>
+      <h2 class="modal-title">Filters</h2>
       <button class="modal-close-btn" on:click={closeModal}>
         <img src={exit} alt="exit symbol" />
       </button>
@@ -305,8 +305,6 @@
 {/if}
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
-
   .page-container {
     margin: 0 1.5rem;
     box-sizing: border-box;
@@ -316,19 +314,11 @@
     box-sizing: border-box;
   }
 
-  .language-container {
-    color: var(--Stone-Grey, #979797);
-
-    /* Body */
-    font-family: "Fira Sans";
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 300;
-    line-height: 1.25rem; /* 125% */
-  }
-
   .language-container p {
+    color: var(--color-stone-grey);
     margin: 0 0 1rem;
+    font-weight: 300;
+    line-height: 1.25rem;
   }
 
   .bookmarks-container {
@@ -348,16 +338,6 @@
     display: grid;
     grid-template-columns: 1fr 32px;
     align-items: center;
-  }
-
-  .header-container h1 {
-    color: var(--Text-Black, #141414);
-
-    font-family: "Times New Roman";
-    font-size: 2.5rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
   }
 
   .header-container img {
@@ -385,15 +365,7 @@
     box-sizing: border-box;
   }
   .modal-title {
-    color: var(--Text-Black, #141414);
-
-    /* H2 Fira */
     font-family: "Fira Sans";
-    font-size: 1.5rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin: 0;
   }
   .modal-close-btn {
     background-color: transparent;
@@ -413,8 +385,8 @@
     align-items: center;
 
     border-radius: 1.5rem;
-    background: var(--Primary-Black, #000);
-    color: var(--Pure-White, #fff);
+    background: var(--color-primary-black);
+    color: var(--color-pure-white);
 
     /* Body Alt */
     font-family: "Fira Sans";
@@ -464,9 +436,9 @@
     gap: 0.44388rem;
 
     border-radius: 1.64388rem;
-    background: var(--Cloud-Grey, #f0f0f0);
+    background: var(--color-cloud-grey);
 
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
 
     /* Body */
     font-family: "Fira Sans";
@@ -489,10 +461,10 @@
     gap: 0.44388rem;
 
     border-radius: 1.64388rem;
-    background: var(--Pure-White, #fff);
+    background: var(--color-pure-white);
     box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
 
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
 
     /* Body Alt */
     font-family: "Fira Sans";
@@ -503,7 +475,7 @@
   }
 
   .language-text {
-    color: var(--Stone-Grey, #979797);
+    color: var(--color-stone-grey);
     font-family: "Fira Sans";
     font-size: 1rem;
     font-style: normal;
@@ -562,7 +534,7 @@
 
     /* Style */
     list-style: none;
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
 
     /* Uppercase */
     font-family: "Fira Sans";
@@ -654,7 +626,7 @@
     left: 0;
     width: 12px; /* Width of the checkbox */
     height: 12px; /* Height of the checkbox */
-    border: 1px solid var(--primary-black, #000);
+    border: 1px solid var(--color-primary-black);
     border-radius: 3.55px;
     background-color: transparent;
     transition: transform 0.2s ease;
@@ -682,7 +654,7 @@
 
   input[type="checkbox"]:checked::before {
     /* Style + Animation */
-    background-color: var(--primary-black, #000);
+    background-color: var(--color-primary-black);
     transform: scale(0);
     animation: scaleIn 0.2s ease 1ms forwards;
   }

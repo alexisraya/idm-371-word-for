@@ -113,7 +113,7 @@
         transition:slide={{ delay: 200, duration: 300 }}
       >
         <div class="modal-header">
-          <h1 class="modal-title">Manage recent searches</h1>
+          <h2 class="modal-title">Manage recent searches</h2>
           <button class="modal-close-btn" on:click={closeEditModal}>
             <img src={exit} alt="exit symbol" />
           </button>
@@ -152,20 +152,6 @@
 {/if}
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
-
-  h1 {
-    color: var(--Text-Black, #141414);
-
-    /* H1 TNR */
-    font-family: "Times New Roman";
-    font-size: 2.5rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    margin: 0;
-  }
-
   button {
     background: none;
     color: inherit;
@@ -187,15 +173,7 @@
     margin-bottom: 8px;
   }
   .modal-title {
-    color: var(--Text-Black, #141414);
-
-    /* H2 Fira */
     font-family: "Fira Sans";
-    font-size: 1.5rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    margin: 0;
   }
   .modal-close-btn {
     background-color: transparent;
@@ -218,9 +196,9 @@
     align-items: center;
 
     border-radius: 1.5rem;
-    border: 1px solid var(--Primary-Black, #000);
+    border: 1px solid var(--color-primary-black);
 
-    color: var(--Primary-Black, #000);
+    color: var(--color-primary-black);
     /* Body Alt */
     font-family: "Fira Sans";
     font-size: 1rem;
@@ -239,8 +217,8 @@
     align-items: center;
 
     border-radius: 1.5rem;
-    background: var(--Primary-Black, #000);
-    color: var(--Pure-White, #fff);
+    background: var(--color-primary-black);
+    color: var(--color-pure-white);
 
     /* Body Alt */
     font-family: "Fira Sans";
@@ -272,7 +250,7 @@
     width: 100%;
     place-items: center;
 
-    color: var(--Slate-Grey, #595959);
+    color: var(--color-slate-grey);
 
     /* Body Small Alt Italic */
     font-family: "Fira Sans";

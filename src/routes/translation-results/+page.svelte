@@ -95,8 +95,6 @@
 </div>
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap");
-
   .language-overview {
     display: inline-flex;
     height: 1.4375rem;
@@ -106,7 +104,7 @@
   }
 
   .language-overview span {
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
 
     /* Body Italic TNR */
     font-family: "Times New Roman";
@@ -126,15 +124,9 @@
   }
 
   .search-overview h1 {
-    color: var(--Text-Black, #141414);
-
-    /* H1 Fira */
     margin: 0.5rem 0 0;
     font-family: "Fira Sans";
-    font-size: 2.5rem;
-    font-style: normal;
     font-weight: 400;
-    line-height: normal;
   }
 
   .search-overview h1::first-letter {

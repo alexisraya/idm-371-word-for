@@ -139,7 +139,7 @@
   }
 
   .alternative {
-    color: var(--text-black, #141414);
+    color: var(--color-text-black);
 
     /* Uppercase Small */
     font-family: "Fira Sans";
@@ -168,7 +168,7 @@
   .definition {
     overflow: hidden;
     -webkit-line-clamp: 2;
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
 
     /* Body Small */
     font-family: "Fira Sans";
@@ -184,7 +184,7 @@
   }
 
   .definition-title {
-    color: var(--Primary-Black, #000);
+    color: var(--color-primary-black);
 
     /* Uppercase Small */
     font-family: "Fira Sans";
@@ -214,14 +214,7 @@
   }
 
   .result {
-    margin: 0;
-    color: var(--Text-Black, #141414);
-    /* H2 TNR */
-    font-family: "Times New Roman";
-    font-size: 1.5rem;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
   }
 
   .subtitle {
@@ -240,7 +233,7 @@
   }
 
   .subtitle i {
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
     /* Body Italic TNR */
     font-family: "Times New Roman";
     font-size: 1rem;

@@ -27,7 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #006f3a;
+    background-color: var(--color-green);
     height: 44px;
     width: calc(100vw - 3rem);
     max-width: 30rem;
@@ -35,14 +35,7 @@
     column-gap: 8px;
     border-radius: 8px;
     margin: auto;
-    color: var(--Pure-White, #fff);
-
-    /* Body Alt */
-    font-family: "Fira Sans";
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    color: var(--color-pure-white);
   }
 
   .checkmark {

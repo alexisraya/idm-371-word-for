@@ -104,7 +104,7 @@
       </div>
     </div>
     <div class="title">
-      <h1>{phrase}</h1>
+      <h2>{phrase}</h2>
     </div>
     <div class="tags">
       {#if regionArr}
@@ -133,11 +133,6 @@
 </div>
 
 <style>
-  p,
-  h1 {
-    margin: 0;
-  }
-
   .trash-icon-container {
     position: absolute;
     right: 1.5rem;
@@ -151,7 +146,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 0.5px solid var(--Stone-Grey, #979797);
+    border-bottom: 0.5px solid var(--color-stone-grey);
     cursor: pointer;
   }
 
@@ -170,11 +165,8 @@
     column-gap: 8px;
   }
   .languages-container p {
-    color: var(--Text-Black, #141414);
-
     /* Body Italic TNR */
     font-family: "Times New Roman";
-    font-size: 1rem;
     font-style: italic;
     font-weight: 400;
     line-height: normal;
@@ -192,18 +184,11 @@
     align-items: center;
   }
 
-  .title h1 {
-    color: var(--Text-Black, #141414);
-
-    /* H2 Fira */
+  .title h2 {
     font-family: "Fira Sans";
-    font-size: 1.5rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
   }
 
-  .title h1::first-letter {
+  .title h2::first-letter {
     text-transform: capitalize;
   }
   .tags {
@@ -216,12 +201,10 @@
   }
 
   .dayTime p {
-    color: var(--Stone-Grey, #979797);
+    color: var(--color-stone-grey);
 
     /* Body XSmall */
-    font-family: "Fira Sans";
     font-size: 0.75rem;
-    font-style: normal;
     font-weight: 300;
     line-height: 1.125rem; /* 150% */
   }
