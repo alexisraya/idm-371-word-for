@@ -31,14 +31,15 @@
     formData.subscribe(value => {
       formDataValue = value;
     });
+    console.log("formdata", $formData)
     regions = inputDataValue.regions;
     contexts = inputDataValue.contexts;
     if (regions.length !== 0){
       region = regions[0].text.slice(0,-5);
       source = getGradient(region);
     }
-    dataObject = formDataValue.value;
-    translationResults = JSON.parse(dataObject).translations;
+    translationResults = formDataValue;
+    console.log("translation results", translationResults);
   })
 
   onDestroy(() => {

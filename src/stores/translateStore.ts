@@ -15,13 +15,20 @@ export const resetFormData = () => {
 export const updateFormData = () => {
   const localFormData = getLocalStorageItem("formData");
   if (localFormData === null){return}
-  const localArr = JSON.parse(localFormData)
-  formData.set(localArr);
+  const outer = JSON.parse(localFormData);
+  const localArr = JSON.parse(outer.value);
+  formData.set(localArr.results);
 }
 
 export const updateResultData = () => {
   const localResultData = getLocalStorageItem("resultData");
+  console.log("LOCAL RESULT DATA");
+  console.log(localResultData);
   if (localResultData === null){return}
-  const localArr = JSON.parse(localResultData)
+  const outer = JSON.parse(localResultData);
+  console.log("OUTER");
+  console.log(outer);
+  const localArr = outer.result;
+  console.log("LOCAL ARR", localArr);
   resultData.set(localArr);
 }

@@ -1,49 +1,89 @@
 <script lang="ts">
-    import { textToSpeech } from "./helpers/translate";
-    import speaker from '$lib/assets/speaker.png';
-    import speakerGray from '$lib/assets/speakerGray.png';
-    import speakerFill from '$lib/assets/speakerFill.png';
+  import { onDestroy, createEventDispatcher } from 'svelte';
+  import RemixIcon from './RemixIcon.svelte';
 
-    export let phrase: string;
-    export let isSpeakerGray: boolean;
-    let isAudioPlaying = false;
-    let speechOutput = '';
+  export let phrase = '';
+  export let voice = 'alloy';
+  export let color = '#141414';
 
-    const handleSpeak = async() => {
-        isAudioPlaying = true;
-        if (speechOutput !==''){
-            let audio = new Audio(speechOutput);
-            await audio.play();
-        }
-        else{
-            try {
-                speechOutput = await textToSpeech(phrase);
-            } catch (error) {
-                console.error('Error:', error);
-                speechOutput = 'Error occurred during text-to-speech conversion.';
-            }
-        }
+  const dispatch = createEventDispatcher();
 
-        setTimeout(() => {isAudioPlaying = false}, 1000)
+  let isAudioPlaying = false;
+  let isLoading = false;
+  let objectUrl: string | null = null;
+  let audio: HTMLAudioElement | null = null;
+
+  async function textToSpeechClient(text: string, voice = 'alloy'): Promise<string> {
+    const res = await fetch('/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, voice })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const blob = await res.blob();
+    return URL.createObjectURL(blob);
+  }
+
+  async function handleSpeak() {
+    if (!phrase.trim() || isAudioPlaying || isLoading) return;
+
+    try {
+      isLoading = true;
+
+      if (!objectUrl) {
+        objectUrl = await textToSpeechClient(phrase, voice);
+        // optional: let parent know we have an audio URL
+        dispatch('ready', { url: objectUrl, phrase, voice });
+      }
+
+      if (audio) {
+        audio.pause();
+        audio = null;
+      }
+
+      audio = new Audio(objectUrl);
+      audio.onended = () => (isAudioPlaying = false);
+      audio.onerror = () => (isAudioPlaying = false);
+      isAudioPlaying = true;
+      await audio.play();
+    } catch (e) {
+      console.error('TTS error', e);
+    } finally {
+      isLoading = false;
     }
+  }
+
+  // reset audio if phrase or voice changes
+  let lastKey = '';
+  $: {
+    const key = `${phrase}::${voice}`;
+    if (key !== lastKey) {
+      if (audio) { audio.pause(); audio = null; }
+      if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = null; }
+      isAudioPlaying = false;
+      lastKey = key;
+    }
+  }
+
+  onDestroy(() => {
+    if (audio) { audio.pause(); audio = null; }
+    if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = null; }
+  });
 </script>
 
-<button on:click={handleSpeak}>
-    <div class="speaker-container">
-        {#if isAudioPlaying}
-        <img class="speaker" alt="speaker icon" src={speakerFill} />
-        {:else}
-            {#if isSpeakerGray}
-            <img class="speakerGray" alt="speaker icon" src={speakerGray} />
-            {:else}
-            <img class="speaker" alt="speaker icon" src={speaker} />
-            {/if}
-        {/if}
-    </div>
+<button
+  aria-label="Play pronunciation"
+  on:click={handleSpeak}
+  disabled={!phrase.trim() || isAudioPlaying || isLoading}
+>
+  {#if isLoading}
+    <RemixIcon name="volume-up-line" color="#595959"/>
+  {:else if isAudioPlaying}
+    <RemixIcon name="volume-up-fill" />
+  {:else}
+    <RemixIcon name="volume-up-line" color={color}/>
+  {/if}
 </button>
-{#if speechOutput!== ''}
-    <audio autoplay><source type="audio/mpeg" src={speechOutput}></audio>
-{/if}
 
 
 <style>
@@ -56,21 +96,5 @@
 
     button:hover{
         cursor: pointer;
-    }
-
-    .speaker{
-        height: 30px;
-        padding: 7px;
-    }
-
-    .speakerGray{
-        padding: 7px;
-        padding-left: 12px;
-    }
-
-    .speaker-container {
-        max-height: 1.5rem;
-        display: flex;
-        align-items: center;
     }
 </style>

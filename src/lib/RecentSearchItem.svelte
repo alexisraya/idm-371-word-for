@@ -3,7 +3,6 @@
     import translateArrow from '$lib/assets/translateArrow.svg'
     import trash from '$lib/assets/trash.svg'
     import { formData, resetFormData } from "../stores/translateStore";
-    import { translatePhrase } from "./helpers/translate";
     import { goto } from "$app/navigation";
     import { deleteRecentSearchItem } from "../stores/recentSearchStore";
 	import { setLocalStorageItem, stringToArry } from "./helpers/helperFunctions";
@@ -12,6 +11,7 @@
     import { updateLoading } from "../stores/loadingStore";
 	import { isEditing } from "../stores/editingStore";
     import { fade , fly } from 'svelte/transition';
+  import { translatePhraseClient } from "./client/translate";
 
 
     export let phrase: string;
@@ -45,19 +45,28 @@
             resetFormData();
             let selectedRegions = [{text: region}];
             let selectedContexts = [{text: context}];
-            console.log(selectedRegions)
-            console.log(selectedContexts)
             updateInputs(originLanguage, translateLanguage, selectedRegions, selectedContexts, phrase);
-            const response = await translatePhrase(phrase, originLanguage, translateLanguage, context, region);
-            if (response == null){
-                alert("An error occurred, please try again.");
-            }
-            else{
-                let result = response.response;
-                const resultObj = {value: result};
+
+            try {
+                const data = await translatePhraseClient({
+                    phrase,
+                    origin: originLanguage,
+                    translateLang: translateLanguage,
+                    contexts: context,
+                    regions: region
+                });
+
+                // keep the same shape your results page expects (stringified JSON in value)
+                const result = JSON.stringify(data);
+                const resultObj = { value: result };
+                console.log("resultobj", resultObj);
                 formData.set(resultObj);
                 setLocalStorageItem("formData", JSON.stringify(resultObj));
-                goto('/translation-results');
+                goto('./translation-results');
+            } catch (e) {
+                alert("An error occurred, please try again.");
+            } finally {
+                updateLoading(false);
             }
         }
     };
