@@ -1,16 +1,10 @@
 {
-	"/": [],
-	"/api/stt": [
-		"src/routes/api/stt/+server.ts"
-	],
-	"/api/translate": [
-		"src/routes/api/translate/+server.ts"
-	],
-	"/api/tts": [
-		"src/routes/api/tts/+server.ts"
-	],
-	"/bookmarked": [],
-	"/recents": [],
-	"/result": [],
-	"/translation-results": []
+  "/": [],
+  "/api/stt": ["src/routes/api/stt/+server.ts"],
+  "/api/translate": ["src/routes/api/translate/+server.ts"],
+  "/api/tts": ["src/routes/api/tts/+server.ts"],
+  "/bookmarked": [],
+  "/recents": [],
+  "/result": [],
+  "/translation-results": []
 }

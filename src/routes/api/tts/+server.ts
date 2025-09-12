@@ -1,5 +1,5 @@
-import type { RequestHandler } from './$types';
-import { openai } from '$lib/server/openai';
+import type { RequestHandler } from "./$types";
+import { openai } from "$lib/server/openai";
 
 export const POST: RequestHandler = async ({ request }) => {
   const { text, voice = "alloy" } = await request.json();
@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request }) => {
   const audio = await openai.audio.speech.create({
     model: "gpt-4o-mini-tts",
     voice,
-    input: text
+    input: text,
   });
 
   const buf = Buffer.from(await audio.arrayBuffer());

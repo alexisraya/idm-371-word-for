@@ -1,12 +1,12 @@
 <script>
-	import { onMount } from "svelte";
-    import Nav from "../lib/Nav.svelte";
-	import { updateStores } from "$lib/helpers/helperFunctions";
-    import '../app.css';
+  import { onMount } from "svelte";
+  import Nav from "../lib/Nav.svelte";
+  import { updateStores } from "$lib/helpers/helperFunctions";
+  import "../app.css";
 
-    onMount(async() => {
-        updateStores();
-    })
+  onMount(async () => {
+    updateStores();
+  });
 </script>
 
 <Nav />
