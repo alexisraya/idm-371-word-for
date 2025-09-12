@@ -3,15 +3,13 @@
     import Tags from "$lib/Tags.svelte";
     import Speaker from "$lib/Speaker.svelte";
 
-    import emptyBookmark from '$lib/assets/emptyBookmark.svg';
     import gradient from '$lib/assets/gradient.svg';
-    import filledBookmark from '$lib/assets/filledBookmark.svg';
     import { isBookmarked, updateBookmark } from "../../stores/bookmarkStore";
     import ToastMessage from "$lib/ToastMessage.svelte";
     import { getGradient } from "$lib/helpers/helperFunctions";
 	import { onDestroy, onMount } from "svelte";
 	import { setPreviousPage } from "../../stores/pageStore";
-	import BookmarkedItem from "$lib/BookmarkedItem.svelte";
+    import RemixIcon from "$lib/RemixIcon.svelte";
 
     let resultObj = {};
 
@@ -42,7 +40,6 @@
         resultData.subscribe(result => {
             resultObj = result;
         });
-        resultObj = resultObj.result;
         word = resultObj.word;
         region = resultObj.region;
         context = resultObj.context;
@@ -68,8 +65,6 @@
         isInBookmarks = isBookmarked(newBookmarkItem);
     })
 
-    let bookmarkIcon = emptyBookmark;
-
     let toastMessage = ""
     let isToastShowing = false;
 
@@ -78,11 +73,9 @@
 
     $:{
         if(isInBookmarks){
-            bookmarkIcon = filledBookmark
             toastMessage = "Bookmarked!"
         }
         else{
-            bookmarkIcon = emptyBookmark;
             toastMessage = "Bookmark Removed!"
         }
     }
@@ -151,7 +144,7 @@
             <h1 class="result">{word}</h1>
             <Speaker phrase={word} />
             <button on:click={handleBookmark}>
-                <img class="bookmark icon" alt="bookmark icon" src={bookmarkIcon} />
+                <RemixIcon name={isInBookmarks ? "bookmark-fill" : "bookmark-line"} />
             </button>
         </div>
         <div class="subtitle">
@@ -175,14 +168,14 @@
             <h3>EXAMPLES</h3>
             <div class="example-heading">
                 <h4>{originalLanguage}</h4>
-                <Speaker isSpeakerGray=true phrase={examples[0]} />
+                <Speaker phrase={examples[0]} color="#979797"/>
             </div>
             <div class="example-container">
                 <p class="examples">{examples[0]}</p>
             </div>
             <div class="example-heading">
                 <h4>{translateLanguage}</h4>
-                <Speaker isSpeakerGray=true phrase={examples[1]} />
+                <Speaker phrase={examples[1]} color="#979797"/>
             </div>
             <div class="example-container">
                 <p class="examples">{examples[1]}</p>
@@ -422,5 +415,6 @@
 
     .example-heading {
         display: flex;
+        gap: 8px;
     }
 </style>

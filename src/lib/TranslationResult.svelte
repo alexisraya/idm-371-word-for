@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { COLORS } from "./constants/colors";
     import Tags from "./Tags.svelte";
     import Speaker from "./Speaker.svelte";
     import { goto } from '$app/navigation';
@@ -23,12 +22,15 @@
     let regionArr: string[] = [];
 
     onMount(() =>{
+        console.log(resultData);
         if (context.includes(",")){
             contextArr = stringToArry(context);
         }
         if (region.includes(",")){
             regionArr = stringToArry(region);
         }
+        console.log(contextArr);
+        console.log(regionArr);
     })
 
     const handleClick = () => {

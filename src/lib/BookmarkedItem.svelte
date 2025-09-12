@@ -1,11 +1,10 @@
 <script lang="ts">
   import Tags from "./Tags.svelte";
-  import { textToSpeech } from "./helpers/translate";
   import { goto } from '$app/navigation';
   import { resultData } from "../stores/translateStore";
-  import speaker from '$lib/assets/speaker.png';
   import chevronBold from '$lib/assets/chevronBold.svg';
-	import { setLocalStorageItem } from "./helpers/helperFunctions";
+  import { setLocalStorageItem } from "./helpers/helperFunctions";
+  import Speaker from "./Speaker.svelte";
 
     export let originLanguage: string;
     export let translateLanguage: string;
@@ -17,22 +16,6 @@
     export let examples: any[];
     export let description: string;
 
-    let speechOutput = '';
-
-    const handleSpeak = async() => {
-        if (speechOutput !==''){
-            let audio = new Audio(speechOutput);
-            audio.play();
-        }
-        else{
-            try {
-                speechOutput = await textToSpeech(phrase);
-            } catch (error) {
-                console.error('Error:', error);
-                speechOutput = 'Error occurred during text-to-speech conversion.';
-            }
-        }
-    }
 
     const handleClick = () => {
         const resultObj = {
@@ -58,12 +41,7 @@
         <summary class="text-container">
             <div class="title">
                 <h1 class="result">{phrase}</h1>
-                <button on:click={handleSpeak}>
-                    <img class="speaker" alt="speacker icon" src={speaker} />
-                </button>
-                {#if speechOutput!== ''}
-                    <audio autoplay><source type="audio/mpeg" src={speechOutput}></audio>
-                {/if}
+                <Speaker phrase={phrase} />
             </div>
             <div class="subtitle">
                 <i class="subtitle-text phonetic">{phoneticSpelling}</i>
@@ -153,11 +131,6 @@
 
     .result::first-letter {
         text-transform: uppercase;
-    }
-
-    .speaker{
-        height: 30px;
-        padding: 7px 7px 0;
     }
 
     .subtitle{

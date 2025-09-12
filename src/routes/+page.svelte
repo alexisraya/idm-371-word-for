@@ -12,7 +12,7 @@
 
     import { formData, resetFormData } from "../stores/translateStore";
     import { updateInputs } from "../stores/inputStore";
-    import { speechToText, translatePhrase } from '$lib/helpers/translate';
+    import { translatePhraseClient } from '$lib/client/translate';
     import { updateRecentSearch } from '../stores/recentSearchStore';
     import { removeDuplicates, setLocalStorageItem } from '$lib/helpers/helperFunctions';
     import Skeleton from '$lib/Skeleton.svelte';
@@ -35,6 +35,18 @@
     let audioRecorder: null;
     let isRecording = false;
 
+
+    async function speechToTextClient(audioBlob: Blob) {
+        const fd = new FormData();
+        // MediaRecorder in Chrome usually gives webm/opus
+        fd.append(
+            "audio",
+            new File([audioBlob], "audio.webm", { type: audioBlob.type || "audio/webm" })
+        );
+        const res = await fetch("/api/stt", { method: "POST", body: fd });
+        if (!res.ok) throw new Error(await res.text());
+        return res.text(); // transcript
+    }
     // Function to set CSS variables for colors from colors.ts
     const setCSSCustomProperties = () => {
         const css_root = document.documentElement;
@@ -152,34 +164,52 @@
         return(dayTime);
     }
 
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         updateLoading(true);
         phrase = sanitize(phrase);
         const dayTime = findDayTime();
+
         resetFormData();
-        updateRecentSearch({phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions, dayTime});
+        updateRecentSearch({ phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions, dayTime });
         updateInputs(originLanguage, translateLanguage, selectedRegion, selectedContext, phrase);
-        const response = await translatePhrase(phrase, originLanguage, translateLanguage, selectedContexts, selectedRegions);
-        if (response == null){
-            updateLoading(false);
-            alert("An error occurred, please try again.");
-        }
-        else{
-            let result = response.response;
-            let resultObj = {value: result};
+
+        try {
+            const data = await translatePhraseClient({
+            phrase,
+            origin: originLanguage,
+            translateLang: translateLanguage,
+            contexts: selectedContexts,
+            regions: selectedRegions
+            });
+
+            // keep the same shape your results page expects (stringified JSON in value)
+            const result = JSON.stringify(data);
+            const resultObj = { value: result };
+            console.log("resultobj", resultObj);
             formData.set(resultObj);
-            setLocalStorageItem("formData", JSON.stringify(resultObj))
+            setLocalStorageItem("formData", JSON.stringify(resultObj));
             goto('./translation-results');
+        } catch (e) {
+            alert("An error occurred, please try again.");
+        } finally {
+            updateLoading(false);
         }
     };
 
-    const handleTranscription = async() => {
-        if (media.length<=0){
-            return;
-        }
-        const blob = new Blob(media, {'type' : 'audio/mp3; codecs=opus'});
+    const handleTranscription = async () => {
+        if (media.length <= 0) return;
+
+        // Use a webm container (works with MediaRecorder + Chrome)
+        const blob = new Blob(media, { type: 'audio/webm' });
         media = [];
-        phrase = await speechToText(blob);
+
+        try {
+            const text = await speechToTextClient(blob);
+            phrase = text;
+        } catch (e) {
+            console.error(e);
+            alert("Transcription failed. Please try again.");
+        }
     }
 
     const handleAudio = () => {
