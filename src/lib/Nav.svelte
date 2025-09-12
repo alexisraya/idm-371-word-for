@@ -1,8 +1,8 @@
 <script>
   import logo from "$lib/assets/logo.svg";
-  import arrow from "$lib/assets/arrow.svg";
   import { previousPage } from "../stores/pageStore";
   import { goto } from "$app/navigation";
+  import RemixIcon from "./RemixIcon.svelte";
 
   let isOpen = false;
 
@@ -28,6 +28,10 @@
       goto("/");
     }
   }
+
+  function handleNavClick() {
+    isOpen = false;
+  }
 </script>
 
 <div class="shadow" class:active={isOpen} />
@@ -38,7 +42,7 @@
   <div class="back-container">
     <!-- NEED FUNCTIONALITY -->
     <button on:click={goBack}>
-      <img src={arrow} alt="back-arrow" />
+      <RemixIcon name="arrow-left-s-line" size="50px" />
     </button>
   </div>
 
@@ -65,11 +69,11 @@
 
     <ul>
       <hr />
-      <li><a href="/">Translate</a></li>
+      <li><a href="/" on:click={handleNavClick}>Translate</a></li>
       <hr />
-      <li><a href="/bookmarked">Bookmarks</a></li>
+      <li><a href="/bookmarked" on:click={handleNavClick}>Bookmarks</a></li>
       <hr />
-      <li><a href="/recents">Recent Searches</a></li>
+      <li><a href="/recents" on:click={handleNavClick}>Recent Searches</a></li>
       <hr />
       <!-- <li><a href="/about">About</a></li> -->
     </ul>

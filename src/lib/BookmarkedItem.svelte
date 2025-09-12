@@ -2,9 +2,11 @@
   import Tags from "./Tags.svelte";
   import { goto } from "$app/navigation";
   import { resultData } from "../stores/translateStore";
-  import chevronBold from "$lib/assets/chevronBold.svg";
   import { setLocalStorageItem } from "./helpers/helperFunctions";
   import Speaker from "./Speaker.svelte";
+  import { onMount } from "svelte";
+  import { REGIONS } from "./constants/regions";
+  import RemixIcon from "./RemixIcon.svelte";
 
   export let originLanguage: string;
   export let translateLanguage: string;
@@ -15,6 +17,27 @@
   export let phoneticSpelling: string;
   export let examples: any[];
   export let description: string;
+
+  let regions: string[] = [];
+  let contexts: string[] = [];
+
+  // Helper function to find region with emoji
+  const getRegionWithEmoji = (regionName: string): string => {
+    const allRegions = [...REGIONS.spanish, ...REGIONS.english];
+    const foundRegion = allRegions.find(
+      (region) =>
+        region.text.toLowerCase().includes(regionName.toLowerCase()) ||
+        regionName
+          .toLowerCase()
+          .includes(region.text.toLowerCase().split(" ")[0])
+    );
+    return foundRegion ? foundRegion.text : regionName;
+  };
+
+  onMount(() => {
+    contexts = context?.split(", ");
+    regions = region?.split(", ");
+  });
 
   const handleClick = () => {
     const resultObj = {
@@ -49,17 +72,19 @@
         <i class="subtitle-text">{partSpeech}</i>
       </div>
       <div class="tags">
-        <Tags tagName={region} />
-        {#if context}
-          <Tags tagName={context} />
-        {/if}
+        {#each regions as r}
+          <Tags tagName={getRegionWithEmoji(r)} />
+        {/each}
+        {#each contexts as c}
+          <Tags tagName={c} />
+        {/each}
       </div>
     </summary>
     <p class="definition-title">Definitions</p>
     <p class="definition">{description}</p>
     <button class="learn-more-btn" on:click={handleClick}>
       Learn More
-      <img class="side-arrow" src={chevronBold} alt="chevron" />
+      <RemixIcon name="arrow-right-s-line" />
     </button>
   </details>
 </div>
@@ -75,18 +100,6 @@
   button:hover {
     cursor: pointer;
   }
-
-  /* .container{
-        padding: 24px;
-        width: 342px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        border: .5px;
-        border-color: black;
-        box-shadow: 0px 5px 15px 4px rgba(0, 0, 0, 0.10);
-        border-radius: 20px;
-    } */
 
   .text-container {
     max-width: 270px;
@@ -171,12 +184,6 @@
     column-gap: 8px;
   }
 
-  .text-container {
-    max-width: 270px;
-    display: flex;
-    flex-direction: column;
-  }
-
   .dropdown-wide {
     /* Reset. */
     border: unset;
@@ -184,6 +191,7 @@
     /* Layout */
     display: flex;
     position: relative;
+    flex-direction: row;
 
     padding: 24px;
     min-height: 2.75rem;
@@ -196,6 +204,11 @@
     background: var(--white);
     color: var(--text-black);
     box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
+  }
+
+  .dropdown-wide[open] {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .dropdown-wide summary {
@@ -216,7 +229,7 @@
     margin-top: -0.25rem;
     /* margin-left: 19.5rem; */
     margin-left: calc(100% - 4.5rem);
-    background: url("$lib/assets/chevron.svg"), no-repeat;
+    background: url("$lib/assets/arrow-down-s-line.svg"), no-repeat;
     background-size: 2rem auto;
     position: absolute;
     transition: 0.2s;

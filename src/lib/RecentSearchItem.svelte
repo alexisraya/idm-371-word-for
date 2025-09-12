@@ -1,7 +1,5 @@
 <script lang="ts">
   import Tags from "./Tags.svelte";
-  import translateArrow from "$lib/assets/translateArrow.svg";
-  import trash from "$lib/assets/trash.svg";
   import { formData, resetFormData } from "../stores/translateStore";
   import { goto } from "$app/navigation";
   import { deleteRecentSearchItem } from "../stores/recentSearchStore";
@@ -12,6 +10,7 @@
   import { isEditing } from "../stores/editingStore";
   import { fade, fly } from "svelte/transition";
   import { translatePhraseClient } from "./client/translate";
+  import RemixIcon from "./RemixIcon.svelte";
 
   export let phrase: string;
   export let region: string;
@@ -94,9 +93,7 @@
     <div class="align-container">
       <div class="languages-container">
         <p>{originLanguage}</p>
-        <div class="arrow-icon-container">
-          <img src={translateArrow} alt="translate arrow sign" />
-        </div>
+        <RemixIcon name="arrow-right-long-line" />
         <p>{translateLanguage}</p>
       </div>
       <div class="dayTime">
@@ -127,7 +124,7 @@
       transition:fade={{ delay: 100, duration: 200 }}
       on:click={handleDelete}
     >
-      <img src={trash} alt="trash" />
+      <RemixIcon name="delete-bin-7-fill" size="18px" color="#595959" />
     </button>
   {/if}
 </div>
@@ -136,7 +133,7 @@
   .trash-icon-container {
     position: absolute;
     right: 1.5rem;
-    bottom: 1.25rem;
+    bottom: 1.5rem;
   }
 
   .container {

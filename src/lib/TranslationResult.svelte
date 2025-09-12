@@ -2,11 +2,10 @@
   import Tags from "./Tags.svelte";
   import Speaker from "./Speaker.svelte";
   import { goto } from "$app/navigation";
-
-  import chevron from "$lib/assets/chevron.svg";
   import { resultData } from "../stores/translateStore";
   import { setLocalStorageItem, stringToArry } from "./helpers/helperFunctions";
   import { onMount } from "svelte";
+  import RemixIcon from "./RemixIcon.svelte";
 
   export let description: string;
   export let partSpeech: string;
@@ -88,7 +87,7 @@
     <p class="definition">{description}</p>
   </div>
   <div class="arrow-container" on:click={handleClick} on:keydown={handleClick}>
-    <img class="arrow" alt="arrow icon" src={chevron} />
+    <RemixIcon name="arrow-right-s-line" size="32px" />
   </div>
 </div>
 

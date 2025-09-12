@@ -1,7 +1,7 @@
 <script lang="ts">
-  import check from "$lib/assets/check.svg";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
+  import RemixIcon from "./RemixIcon.svelte";
 
   export let message: string;
   let visible = true;
@@ -15,7 +15,7 @@
 
 {#if visible}
   <article class="toast-container" role="alert" transition:fade>
-    <img class="checkmark" src={check} alt="checkmark" />
+    <RemixIcon name="checkbox-circle-line" color="#FFFFFF" />
     <p>{message}</p>
   </article>
 {/if}
@@ -35,6 +35,9 @@
     column-gap: 8px;
     border-radius: 8px;
     margin: auto;
+  }
+
+  .toast-container p {
     color: var(--color-pure-white);
   }
 

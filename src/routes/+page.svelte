@@ -5,7 +5,6 @@
   import { REGIONS } from "$lib/constants/regions";
   import { COLORS } from "$lib/constants/colors";
   import { afterUpdate, onDestroy, onMount } from "svelte";
-  import swapLanguage from "$lib/assets/swapLanguage.svg";
   import microphone from "$lib/assets/microphone.svg";
   import microphoneActive from "$lib/assets/microphoneActive.svg";
   import Tags from "$lib/Tags.svelte";
@@ -21,6 +20,7 @@
   import Skeleton from "$lib/Skeleton.svelte";
   import { setPreviousPage } from "../stores/pageStore";
   import { isLoading, updateLoading } from "../stores/loadingStore";
+  import RemixIcon from "$lib/RemixIcon.svelte";
 
   let languages = LANGUAGES;
   let contexts = CONTEXTS;
@@ -322,7 +322,7 @@
             on:click={swapLanguages}
             on:keydown={swapLanguages}
           >
-            <img src={swapLanguage} alt="swap-languages" />
+            <RemixIcon name="arrow-left-right-line" />
           </div>
           <select
             class="dropdown-thin"
@@ -496,7 +496,7 @@
     margin-top: -0.25rem;
     margin-left: 17.825rem;
     /* margin-left: calc(100vw - 3rem); */
-    background: url("$lib/assets/chevron.svg"), no-repeat;
+    background: url("$lib/assets/arrow-drop-down-line.svg"), no-repeat;
     background-size: 2rem auto;
     position: absolute;
     transition: 0.2s;
@@ -539,7 +539,7 @@
 
     /* Arrow */
     appearance: none;
-    background-image: url("$lib/assets/chevron.svg");
+    background-image: url("$lib/assets/arrow-drop-down-line.svg");
     background-repeat: no-repeat;
     background-position: right 0.7rem top 50%;
     background-size: 2rem auto;

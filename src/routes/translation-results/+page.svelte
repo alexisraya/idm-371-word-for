@@ -3,12 +3,12 @@
   import { inputData, updateInputData } from "../../stores/inputStore";
   import TranslationResult from "$lib/TranslationResult.svelte";
   import Tags from "$lib/Tags.svelte";
-  import arrow from "$lib/assets/lineArrow.svg";
   import { GRADIENTS } from "$lib/constants/gradients";
   import { getGradient } from "$lib/helpers/helperFunctions";
   import { onDestroy, onMount } from "svelte";
   import { setPreviousPage } from "../../stores/pageStore";
   import { updateLoading } from "../../stores/loadingStore";
+  import RemixIcon from "$lib/RemixIcon.svelte";
 
   // Subscribe to changes in the store
   let formDataValue = {};
@@ -53,9 +53,7 @@
   <div class="search-overview">
     <div class="language-overview">
       <span><i>{inputDataValue.lang1}</i></span>
-      <div class="arrow-container">
-        <img src={arrow} alt="arrow" />
-      </div>
+      <RemixIcon name="arrow-right-long-line" />
       <span><i>{inputDataValue.lang2}</i></span>
     </div>
     <h1>{inputDataValue.phrase}</h1>

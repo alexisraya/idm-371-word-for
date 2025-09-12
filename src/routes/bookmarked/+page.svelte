@@ -4,8 +4,6 @@
     updateBookmarkStore,
   } from "../../stores/bookmarkStore";
   import Tags from "$lib/Tags.svelte";
-  import filters from "$lib/assets/filters.svg";
-  import exit from "$lib/assets/exit.svg";
   import { CONTEXTS } from "$lib/constants/contexts";
   import { REGIONS } from "$lib/constants/regions";
 
@@ -13,6 +11,7 @@
   import { slide } from "svelte/transition";
   import { afterUpdate, onDestroy, onMount } from "svelte";
   import { setPreviousPage } from "../../stores/pageStore";
+  import RemixIcon from "$lib/RemixIcon.svelte";
 
   let contexts = CONTEXTS;
   let regions = REGIONS.spanish;
@@ -149,7 +148,7 @@
     <div class="header-container">
       <h1>Bookmarks</h1>
       <button disabled={isEmpty} on:click={openModal}>
-        <img src={filters} alt="filters" />
+        <RemixIcon name="sound-module-line" size="30px" />
       </button>
     </div>
     {#if !isEmpty}
@@ -205,7 +204,7 @@
     <div class="modal-header">
       <h2 class="modal-title">Filters</h2>
       <button class="modal-close-btn" on:click={closeModal}>
-        <img src={exit} alt="exit symbol" />
+        <RemixIcon name="close-large-line" />
       </button>
     </div>
     <form action="">
@@ -559,7 +558,7 @@
     margin-top: -0.25rem;
     /* margin-left: 17.825rem; */
     margin-left: calc(100vw - 5rem);
-    background: url("$lib/assets/chevron.svg"), no-repeat;
+    background: url("$lib/assets/arrow-down-s-line.svg"), no-repeat;
     background-size: 2rem auto;
     position: absolute;
     transition: 0.2s;

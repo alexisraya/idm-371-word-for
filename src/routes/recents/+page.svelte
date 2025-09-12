@@ -1,6 +1,4 @@
 <script>
-  import exit from "$lib/assets/exit.svg";
-  import dots from "$lib/assets/dots.svg";
   import recentSearchStore, {
     deleteRecentStore,
     updateRecentSearchStore,
@@ -12,6 +10,7 @@
   import { setPreviousPage } from "../../stores/pageStore";
   import { isLoading, updateLoading } from "../../stores/loadingStore";
   import { isEditing, updateEditing } from "../../stores/editingStore";
+  import RemixIcon from "$lib/RemixIcon.svelte";
 
   let recentSearches = {};
   recentSearchStore.subscribe((result) => {
@@ -76,7 +75,7 @@
   <div class="header-container">
     <h1>Recent Searches</h1>
     <button disabled={isEmpty} on:click={openEditModal}>
-      <img class="dots" src={dots} alt="edit-searches" />
+      <RemixIcon name="more-2-line" size="43px" />
     </button>
   </div>
   {#if !isEmpty}
@@ -115,7 +114,7 @@
         <div class="modal-header">
           <h2 class="modal-title">Manage recent searches</h2>
           <button class="modal-close-btn" on:click={closeEditModal}>
-            <img src={exit} alt="exit symbol" />
+            <RemixIcon name="close-large-line" />
           </button>
         </div>
         <button class="empty-btn" disabled={isEmpty} on:click={openModal}>
@@ -132,11 +131,11 @@
         transition:slide={{ delay: 200, duration: 300 }}
       >
         <div class="modal-header">
-          <h1 class="modal-title">
+          <h2 class="modal-title">
             Would you like to clear all recent searches?
-          </h1>
+          </h2>
           <button class="modal-close-btn" on:click={closeModal}>
-            <img src={exit} alt="exit symbol" />
+            <RemixIcon name="close-large-line" />
           </button>
         </div>
         <button class="empty-btn" on:click={handleDelete}
@@ -160,10 +159,6 @@
     font: inherit;
     cursor: pointer;
     outline: inherit;
-  }
-
-  .dots {
-    padding: 0.44rem 1.25rem;
   }
 
   .modal-header {
