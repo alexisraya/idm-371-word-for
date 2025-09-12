@@ -202,6 +202,7 @@
         align-items: center;
         /* height: 1.75rem; */
         margin: 0 0 0.25rem;
+        gap: 8px;
     }
 
     .title h2::first-letter {
