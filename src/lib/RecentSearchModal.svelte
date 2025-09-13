@@ -4,7 +4,6 @@
 
 <div>
   <button>
-    <img src={exit} alt="exit symbol" />
     <RemixIcon name="close-large-line" />
   </button>
   <h1>Would you like to clear all recent searches</h1>
