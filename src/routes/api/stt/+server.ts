@@ -1,5 +1,5 @@
-import type { RequestHandler } from './$types';
-import { openai } from '$lib/server/openai';
+import type { RequestHandler } from "./$types";
+import { openai } from "$lib/server/openai";
 
 export const POST: RequestHandler = async ({ request }) => {
   const form = await request.formData();
@@ -7,8 +7,10 @@ export const POST: RequestHandler = async ({ request }) => {
 
   const t = await openai.audio.transcriptions.create({
     model: "gpt-4o-mini-transcribe",
-    file
+    file,
   });
 
-  return new Response(t.text, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+  return new Response(t.text, {
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  });
 };

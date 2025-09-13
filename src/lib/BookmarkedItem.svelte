@@ -1,293 +1,291 @@
 <script lang="ts">
   import Tags from "./Tags.svelte";
-  import { goto } from '$app/navigation';
+  import { goto } from "$app/navigation";
   import { resultData } from "../stores/translateStore";
-  import chevronBold from '$lib/assets/chevronBold.svg';
   import { setLocalStorageItem } from "./helpers/helperFunctions";
   import Speaker from "./Speaker.svelte";
+  import { onMount } from "svelte";
+  import { REGIONS } from "./constants/regions";
+  import RemixIcon from "./RemixIcon.svelte";
 
-    export let originLanguage: string;
-    export let translateLanguage: string;
-    export let phrase: string;
-    export let region: string;
-    export let context: string;
-    export let partSpeech: string;
-    export let phoneticSpelling: string;
-    export let examples: any[];
-    export let description: string;
+  export let originLanguage: string;
+  export let translateLanguage: string;
+  export let phrase: string;
+  export let region: string;
+  export let context: string;
+  export let partSpeech: string;
+  export let phoneticSpelling: string;
+  export let examples: any[];
+  export let description: string;
 
+  let regions: string[] = [];
+  let contexts: string[] = [];
 
-    const handleClick = () => {
-        const resultObj = {
-            result: {
-                word: phrase,
-                region,
-                context,
-                partSpeech,
-                phoneticSpelling,
-                description,
-                examples,
-                originalLanguage: originLanguage,
-                translateLanguage
-            }
-        }
-        resultData.set(resultObj);
-        setLocalStorageItem("resultData", JSON.stringify(resultObj));
-        goto('/result')
+  // Helper function to find region with emoji
+  const getRegionWithEmoji = (regionName: string): string => {
+    const allRegions = [...REGIONS.spanish, ...REGIONS.english];
+    const foundRegion = allRegions.find(
+      (region) =>
+        region.text.toLowerCase().includes(regionName.toLowerCase()) ||
+        regionName
+          .toLowerCase()
+          .includes(region.text.toLowerCase().split(" ")[0])
+    );
+    return foundRegion ? foundRegion.text : regionName;
+  };
+
+  onMount(() => {
+    contexts = context?.split(", ");
+    regions = region?.split(", ");
+  });
+
+  const handleClick = () => {
+    const resultObj = {
+      result: {
+        word: phrase,
+        region,
+        context,
+        partSpeech,
+        phoneticSpelling,
+        description,
+        examples,
+        originalLanguage: originLanguage,
+        translateLanguage,
+      },
     };
+    resultData.set(resultObj);
+    setLocalStorageItem("resultData", JSON.stringify(resultObj));
+    goto("/result");
+  };
 </script>
+
 <div class="bookmark-container">
-    <details class="dropdown-wide">
-        <summary class="text-container">
-            <div class="title">
-                <h1 class="result">{phrase}</h1>
-                <Speaker phrase={phrase} />
-            </div>
-            <div class="subtitle">
-                <i class="subtitle-text phonetic">{phoneticSpelling}</i>
-                <h3>•</h3>
-                <i class="subtitle-text">{partSpeech}</i>
-            </div>
-            <div class="tags">
-                <Tags tagName={region}/>
-                {#if context}
-                <Tags tagName={context}/>
-                {/if}
-            </div>
-        </summary>
-        <p class="definition-title">Definitions</p>
-        <p class="definition">{description}</p>
-        <button class="learn-more-btn" on:click={handleClick}>
-            Learn More
-            <img class="side-arrow" src="{chevronBold}" alt="chevron">
-        </button>
-    </details>
+  <details class="dropdown-wide">
+    <summary class="text-container">
+      <div class="title">
+        <h2 class="result">{phrase}</h2>
+        <Speaker {phrase} />
+      </div>
+      <div class="subtitle">
+        <i class="subtitle-text phonetic">{phoneticSpelling}</i>
+        <h3>•</h3>
+        <i class="subtitle-text">{partSpeech}</i>
+      </div>
+      <div class="tags">
+        {#each regions as r}
+          <Tags tagName={getRegionWithEmoji(r)} />
+        {/each}
+        {#each contexts as c}
+          <Tags tagName={c} />
+        {/each}
+      </div>
+    </summary>
+    <p class="definition-title">Definitions</p>
+    <p class="definition">{description}</p>
+    <button class="learn-more-btn" on:click={handleClick}>
+      Learn More
+      <RemixIcon name="arrow-right-s-line" />
+    </button>
+  </details>
 </div>
+
 <style>
-    button{
-        border: 0;
-        padding: 0;
-        margin: 0;
-        background-color: transparent;
-    }
+  button {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+  }
 
-    button:hover{
-        cursor: pointer;
-    }
+  button:hover {
+    cursor: pointer;
+  }
 
-    /* .container{
-        padding: 24px;
-        width: 342px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        border: .5px;
-        border-color: black;
-        box-shadow: 0px 5px 15px 4px rgba(0, 0, 0, 0.10);
-        border-radius: 20px;
-    } */
+  .text-container {
+    max-width: 270px;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .text-container{
-        max-width: 270px;
-        display: flex;
-        flex-direction: column;
-    }
+  .definition {
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    color: var(--color-text-black);
+    margin: 0.25rem 0 1.5rem;
 
-    .definition{
-        overflow: hidden;
-        -webkit-line-clamp: 2;
-        color: var(--Text-Black, #141414);
-        margin: 0.25rem 0 1.5rem;
+    /* Body Small */
+    font-family: "Fira Sans";
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.125rem; /* 128.571% */
+  }
 
-        /* Body Small */
-        font-family: "Fira Sans";
-        font-size: 0.875rem;
-        font-style: normal;
-        font-weight: 300;
-        line-height: 1.125rem; /* 128.571% */
-    }
+  .definition::first-letter {
+    text-transform: uppercase;
+  }
 
-    .definition::first-letter {
-        text-transform: uppercase;
-    }
+  .title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
 
-    .title{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
+  .result {
+    font-weight: 700;
+  }
 
-    .result{
-        margin: 0;
-        color: var(--Text-Black, #141414);
+  .result::first-letter {
+    text-transform: uppercase;
+  }
 
-        /* H2 TNR */
-        font-family: "Times New Roman";
-        font-size: 1.5rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-    }
+  .subtitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    column-gap: 8px;
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
 
-    .result::first-letter {
-        text-transform: uppercase;
-    }
+  .subtitle i {
+    color: var(--color-text-black);
+    /* Body Italic TNR */
+    font-family: "Times New Roman";
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: normal;
+  }
 
-    .subtitle{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: left;
-        column-gap: 8px;
-        height: 1.5rem;
-        margin-bottom: 0.5rem;
-    }
+  .subtitle-text {
+    font-style: italic;
+    height: 22px;
+    margin: 0;
+  }
 
-    .subtitle i {
-        color: var(--Text-Black, #141414);
-        /* Body Italic TNR */
-        font-family: "Times New Roman";
-        font-size: 1rem;
-        font-style: italic;
-        font-weight: 400;
-        line-height: normal;
-    }
+  .subtitle-text {
+    font-style: italic;
+    height: 22px;
+    margin: 0;
+  }
 
-    .subtitle-text{
-        font-style: italic;
-        height: 22px;
-        margin: 0;
-    }
+  .phonetic {
+    max-width: 15rem;
+    overflow: hidden; /* Hide overflowed text */
+    text-overflow: ellipsis;
+  }
 
-    .subtitle-text{
-        font-style: italic;
-        height: 22px;
-        margin: 0;
-    }
+  .tags {
+    display: flex;
+    flex-direction: row;
+    column-gap: 8px;
+  }
 
-    .phonetic {
-        max-width: 15rem;
-        overflow: hidden; /* Hide overflowed text */
-        text-overflow: ellipsis;
-    }
+  .dropdown-wide {
+    /* Reset. */
+    border: unset;
 
-    .tags{
-        display: flex;
-        flex-direction: row;
-        column-gap: 8px;
-    }
+    /* Layout */
+    display: flex;
+    position: relative;
+    flex-direction: row;
 
+    padding: 24px;
+    min-height: 2.75rem;
+    justify-content: space-between;
+    align-items: center;
 
+    /* Style */
+    list-style-type: none;
+    border-radius: 1.5rem;
+    background: var(--white);
+    color: var(--text-black);
+    box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
+  }
 
-    .text-container{
-        max-width: 270px;
-        display: flex;
-        flex-direction: column;
-    }
+  .dropdown-wide[open] {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
+  .dropdown-wide summary {
+    /* Layout */
+    display: flex; /* also removes the list marker */
+    align-items: top;
 
-    .dropdown-wide {
-        /* Reset. */
-        border: unset;
+    /* Style */
+    list-style: none;
+  }
 
-        /* Layout */
-        display: flex;
-        position: relative;
+  .dropdown-wide summary::after {
+    /* Arrow */
+    content: "";
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin-top: -0.25rem;
+    /* margin-left: 19.5rem; */
+    margin-left: calc(100% - 4.5rem);
+    background: url("$lib/assets/arrow-down-s-line.svg"), no-repeat;
+    background-size: 2rem auto;
+    position: absolute;
+    transition: 0.2s;
+  }
 
-        padding: 24px;
-        min-height: 2.75rem;
-        justify-content: space-between;
-        align-items: center;
-        
-        /* Style */
-        list-style-type: none;
-        border-radius: 1.5rem;
-        background: var(--white);
-        color: var(--text-black);
-        box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
-    }
+  .dropdown-wide summary::-webkit-details-marker {
+    /* Remove default arrow on safari */
+    display: none;
+  }
 
-    .dropdown-wide summary {
-        /* Layout */
-        display: flex; /* also removes the list marker */
-        align-items: top;
+  .dropdown-wide[open] > summary::after {
+    /* Arrow Animation */
+    transform-origin: center;
+    transform: rotate(180deg);
+  }
 
-        /* Style */
-        list-style: none;
-        
-    }
+  .definition-title {
+    color: var(--color-primary-black);
 
-    h3 {
-        margin: 0;
-    }
+    /* Uppercase Small */
+    font-family: "Fira Sans";
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+    margin: 2rem 0 0.35rem;
+  }
 
-    .dropdown-wide summary::after {
-        /* Arrow */
-        content: '';
-        width: 32px;
-        height: 32px;
-        padding: 0;
-        margin-top: -0.25rem;
-        /* margin-left: 19.5rem; */
-        margin-left: calc(100% - 4.5rem);
-        background: url('$lib/assets/chevron.svg'), no-repeat;
-        background-size: 2rem auto;
-        position: absolute;
-        transition: 0.2s;
-    }
+  .learn-more-btn {
+    display: flex;
+    width: 100%;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-black);
 
-    .dropdown-wide summary::-webkit-details-marker {
-        /* Remove default arrow on safari */
-        display: none;
-    }
+    /* Uppercase Heavy */
+    font-family: "Fira Sans";
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
 
-    .dropdown-wide[open] > summary::after {
-        /* Arrow Animation */
-        transform-origin: center;
-        transform: rotate(180deg);
-    }
+  .side-arrow {
+    transform: rotate(-90deg);
+    fill: var(--color-primary-black);
+    width: 1.5rem;
+    flex-shrink: 0;
+  }
 
-    .definition-title {
-        color: var(--Primary-Black, #000);
-
-        /* Uppercase Small */
-        font-family: "Fira Sans";
-        font-size: 0.875rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        text-transform: uppercase;
-        margin: 2rem 0 0.35rem;
-    }
-
-    .learn-more-btn{
-        display: flex;
-        width: 100%;
-        align-self: center;
-        align-items: center;
-        justify-content: center;
-        color: var(--Text-Black, #141414);
-
-        /* Uppercase Heavy */
-        font-family: "Fira Sans";
-        font-size: 1rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: normal;
-    }
-
-    .side-arrow {
-        transform: rotate(-90deg);
-        fill: var(--Primary-Black, #000);
-        width: 1.5rem;
-        flex-shrink: 0;
-    }
-
-    .bookmark-container {
-        box-sizing: border-box;
-        width: 100%;
-        max-width: 342px;
-        margin-bottom: 1.5rem;
-    }
-    
+  .bookmark-container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 342px;
+    margin-bottom: 1.5rem;
+  }
 </style>

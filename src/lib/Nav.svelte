@@ -1,201 +1,223 @@
 <script>
-    import logo from '$lib/assets/logo.svg'
-    import arrow from '$lib/assets/arrow.svg'
-	import { previousPage } from '../stores/pageStore';
-	import { goto } from '$app/navigation';
+  import logo from "$lib/assets/logo.svg";
+  import { previousPage } from "../stores/pageStore";
+  import { goto } from "$app/navigation";
+  import RemixIcon from "./RemixIcon.svelte";
 
-    let isOpen = false;
+  let isOpen = false;
 
-    function toggleMenu() {
-        isOpen = !isOpen;
+  function toggleMenu() {
+    isOpen = !isOpen;
+  }
+
+  function goHome() {
+    goto("/");
+  }
+
+  function goBack() {
+    const prevPage = $previousPage;
+    if (prevPage == "bookmarked") {
+      goto("/bookmarked");
+    } else if (prevPage == "translationResults") {
+      goto("/translation-results");
+    } else if (prevPage == "result") {
+      goto("/result");
+    } else if (prevPage == "recents") {
+      goto("/recents");
+    } else {
+      goto("/");
     }
+  }
 
-    function goHome() {
-        goto('/')
-    }
-
-    function goBack() {
-        const prevPage = $previousPage;
-        if(prevPage == "bookmarked"){
-            goto('/bookmarked')
-        }else if(prevPage == "translationResults"){
-            goto('/translation-results')
-        }else if(prevPage == "result"){
-            goto('/result')
-        }else if(prevPage == "recents"){
-            goto('/recents')
-        }else{
-            goto('/')
-        }
-    }
+  function handleNavClick() {
+    isOpen = false;
+  }
 </script>
 
-<div class="shadow" class:active={isOpen}></div>
+<div class="shadow" class:active={isOpen} />
 
-<div class="nav-bg"></div>
+<div class="nav-bg" />
 
 <nav>
-        <div class="back-container">
-            <!-- NEED FUNCTIONALITY -->
-            <button on:click={goBack}>
-                <img src="{arrow}" alt="back-arrow">
-            </button>
-        </div>
+  <div class="back-container">
+    <!-- NEED FUNCTIONALITY -->
+    <button on:click={goBack}>
+      <RemixIcon name="arrow-left-s-line" size="42px" />
+    </button>
+  </div>
 
-        <div class="logo-container">
-            <!-- Does this link to home page? -->
-            <button on:click={goHome}>
-                <img src="{logo}" alt="word-for-logo">
-            </button>
-        </div>
+  <div class="logo-container">
+    <!-- Does this link to home page? -->
+    <button on:click={goHome}>
+      <img src={logo} alt="word-for-logo" />
+    </button>
+  </div>
 
-        <div class="hamburger" on:click={toggleMenu} on:keydown={toggleMenu} class:active={isOpen}>
-            <span />
-            <span />
-            <span />
-        </div>
+  <div
+    class="hamburger"
+    on:click={toggleMenu}
+    on:keydown={toggleMenu}
+    role="button"
+    tabindex="0"
+    aria-label={isOpen ? "Close menu" : "Open menu"}
+  >
+    <div class="icon-container">
+      {#if !isOpen}
+        <RemixIcon name="menu-line" size="32px" />
+      {:else}
+        <RemixIcon name="close-line" size="32px" />
+      {/if}
+    </div>
+  </div>
 
-        <div class="menu" class:active={isOpen}>
-            <img src="{logo}" alt="word-for-logo">
+  <div class="menu" class:active={isOpen}>
+    <img src={logo} alt="word-for-logo" />
 
-            <ul>
-                <hr>
-                <li><a href="/">Translate</a></li>
-                <hr>
-                <li><a href="/bookmarked">Bookmarks</a></li>
-                <hr>
-                <li><a href="/recents">Recent Searches</a></li>
-                <hr>
-                <!-- <li><a href="/about">About</a></li> -->
-            </ul>
-        </div>
+    <ul>
+      <hr />
+      <li><a href="/" on:click={handleNavClick}>Translate</a></li>
+      <hr />
+      <li><a href="/bookmarked" on:click={handleNavClick}>Bookmarks</a></li>
+      <hr />
+      <li><a href="/recents" on:click={handleNavClick}>Recent Searches</a></li>
+      <hr />
+      <!-- <li><a href="/about">About</a></li> -->
+    </ul>
+  </div>
 </nav>
 
 <style>
-    button {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-    }
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
 
-    .nav-bg {
-        height: 4.25rem;
-        background: linear-gradient(180deg, #FFFFFF 70%, rgba(243, 243, 243, 0.00) 100%);
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
+  .nav-bg {
+    height: 4.25rem;
+    background: linear-gradient(
+      180deg,
+      #ffffff 70%,
+      rgba(243, 243, 243, 0) 100%
+    );
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
 
-    .back-container {
-        position: fixed;
-        top: 1rem;
-        left: 1rem;
-        padding: 0.5rem 0.9rem;
-        z-index: 1;
-    }
+  .back-container {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.75rem;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    box-sizing: border-box;
+  }
 
-    .logo-container {
-        position: fixed;
-        top: 1rem;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 0.5rem 0;
-        z-index: 1;
-    }
+  .logo-container {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.75rem;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.5rem;
+    box-sizing: border-box;
+  }
 
-    .menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 17.625rem;
-        height: 100%;
-        background-color: #fff;
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        z-index: 9;
-    }
+  .menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 17.625rem;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 9;
+  }
 
-    .menu.active {
-        transform: translateX(0%);
-    }
+  .menu.active {
+    transform: translateX(0%);
+  }
 
-    .menu img {
-        padding: 1.5rem 2rem 0;
-    }
+  .menu img {
+    padding: 1.5rem 2rem 0;
+  }
 
-    .menu hr {
-        background-color: var(--cloud-grey);
-        border-top: 0.0625rem var(--cloud-grey);
-    }
+  .menu hr {
+    background-color: var(--cloud-grey);
+    border-top: 0.0625rem var(--cloud-grey);
+  }
 
-    .menu ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+  .menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-    .menu li {
-        margin: 0;
-        padding: 0.75rem 1.5rem;
-        margin-bottom: 10px;
-    }
+  .menu li {
+    margin: 0;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 10px;
+  }
 
-    .menu a {
-        text-decoration: none;
-        font-size: 18px;
-        color: var(--text-black);
-        font-family: "Fira Sans";
-        font-size: 1.5rem;
-        font-style: normal;
-        font-weight: 200;
-        line-height: normal;
-    }
+  .menu a {
+    text-decoration: none;
+    font-size: 18px;
+    color: var(--text-black);
+    font-family: "Fira Sans";
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 200;
+    line-height: normal;
+  }
 
-    .hamburger {
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        padding: 0.68rem;
-        z-index: 10;
-        cursor: pointer;
-    }
+  .hamburger {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.75rem;
+    z-index: 10;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    box-sizing: border-box;
+  }
 
-    .hamburger span {
-        display: block;
-        width: 1.7rem;
-        height: 1.5px;
-        background-color: var(--primary-black);
-        margin-bottom: 8.25px;
-        border-radius: 1px;
-        transition: transform 0.3s ease;
-    }
+  .icon-container {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .hamburger.active span:nth-child(1) {
-        transform: translateY(11px) rotate(45deg);
-    }
+  .shadow {
+    position: fixed;
+    background-color: black;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    z-index: 2;
+    transition: 0.2s opacity;
+  }
 
-    .hamburger.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-    }
-
-    .shadow {
-        position: fixed;
-        background-color: black;
-        opacity: 0;
-        width: 0;
-        height: 0;
-        z-index: 2;
-        transition: 0.2s opacity;
-    }
-
-    .shadow.active {
-        width: 100vw;
-        height: 100vh;
-        opacity: 0.75;
-    }
+  .shadow.active {
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.75;
+  }
 </style>

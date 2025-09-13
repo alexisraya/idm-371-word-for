@@ -1,17 +1,15 @@
 <script lang="ts">
   import { formData, updateFormData } from "../../stores/translateStore";
-  import { inputData, updateInputData } from "../../stores/inputStore"
+  import { inputData, updateInputData } from "../../stores/inputStore";
   import TranslationResult from "$lib/TranslationResult.svelte";
   import Tags from "$lib/Tags.svelte";
-  import arrow from '$lib/assets/lineArrow.svg'
   import { GRADIENTS } from "$lib/constants/gradients";
   import { getGradient } from "$lib/helpers/helperFunctions";
-	import { onDestroy, onMount } from "svelte";
-	import { setPreviousPage } from "../../stores/pageStore";
+  import { onDestroy, onMount } from "svelte";
+  import { setPreviousPage } from "../../stores/pageStore";
   import { updateLoading } from "../../stores/loadingStore";
+  import RemixIcon from "$lib/RemixIcon.svelte";
 
-
-  
   // Subscribe to changes in the store
   let formDataValue = {};
   let inputDataValue = {};
@@ -24,52 +22,49 @@
 
   onMount(() => {
     updateInputData();
-    inputData.subscribe(value => {
+    inputData.subscribe((value) => {
       inputDataValue = value;
-    })
+    });
     updateFormData();
-    formData.subscribe(value => {
+    formData.subscribe((value) => {
       formDataValue = value;
     });
-    console.log("formdata", $formData)
+    console.log("formdata", $formData);
     regions = inputDataValue.regions;
     contexts = inputDataValue.contexts;
-    if (regions.length !== 0){
-      region = regions[0].text.slice(0,-5);
+    if (regions.length !== 0) {
+      region = regions[0].text.slice(0, -5);
       source = getGradient(region);
     }
     translationResults = formDataValue;
     console.log("translation results", translationResults);
-  })
+  });
 
   onDestroy(() => {
     setPreviousPage("translationResults");
-  })
+  });
 
   onMount(() => {
     updateLoading(false);
   });
-
 </script>
 
 <div class="page-container">
   <div class="search-overview">
     <div class="language-overview">
-        <span><i>{inputDataValue.lang1}</i></span>
-        <div class="arrow-container">
-          <img src="{arrow}" alt="arrow">
-        </div>
-        <span><i>{inputDataValue.lang2}</i></span>
+      <span><i>{inputDataValue.lang1}</i></span>
+      <RemixIcon name="arrow-right-long-line" />
+      <span><i>{inputDataValue.lang2}</i></span>
     </div>
     <h1>{inputDataValue.phrase}</h1>
     <!-- Tags -->
-    <div class={`tags ${(!regions.length && !contexts.length) ? 'no-tags' : ''}`}>
+    <div class={`tags ${!regions.length && !contexts.length ? "no-tags" : ""}`}>
       {#each regions as region}
         <Tags tagName={region.text} />
       {/each}
-      
+
       {#each contexts as context}
-        {#if context.text.length >1}
+        {#if context.text.length > 1}
           <Tags tagName={context.text} />
         {/if}
       {/each}
@@ -78,18 +73,26 @@
 
   <div class="results-container">
     {#each translationResults as result}
-        <TranslationResult description={result.definition} partSpeech={result.part_of_speech} phoneticSpelling={result.phonetic_spelling} word={result.translation} region={result.region} context={result.context} examples={result.examples} originalLanguage={result.original_language} translateLanguage={result.translate_language}/>
+      <TranslationResult
+        description={result.definition}
+        partSpeech={result.part_of_speech}
+        phoneticSpelling={result.phonetic_spelling}
+        word={result.translation}
+        region={result.region}
+        context={result.context}
+        examples={result.examples}
+        originalLanguage={result.original_language}
+        translateLanguage={result.translate_language}
+      />
     {/each}
   </div>
 </div>
 
 <div class="gradient-bg">
-  <img src="{source}" alt="gradient">
+  <img src={source} alt="gradient" />
 </div>
 
 <style>
-      @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap');
-
   .language-overview {
     display: inline-flex;
     height: 1.4375rem;
@@ -99,7 +102,7 @@
   }
 
   .language-overview span {
-    color: var(--Text-Black, #141414);
+    color: var(--color-text-black);
 
     /* Body Italic TNR */
     font-family: "Times New Roman";
@@ -119,15 +122,9 @@
   }
 
   .search-overview h1 {
-    color: var(--Text-Black, #141414);
-
-    /* H1 Fira */
     margin: 0.5rem 0 0;
     font-family: "Fira Sans";
-    font-size: 2.5rem;
-    font-style: normal;
     font-weight: 400;
-    line-height: normal;
   }
 
   .search-overview h1::first-letter {
@@ -136,7 +133,7 @@
 
   .search-overview {
     max-width: 24.5rem;
-    margin: 1.5rem 0 2rem ;
+    margin: 1.5rem 0 2rem;
   }
 
   .results-container:nth-child(-n + 1) {
@@ -157,7 +154,7 @@
     rotate: -40deg;
     filter: blur(56px);
     z-index: -1;
-    animation: fadeInAnimation cubic-bezier(.39, -1.05, .58, 1.95) 1s;
+    animation: fadeInAnimation cubic-bezier(0.39, -1.05, 0.58, 1.95) 1s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
     transform-origin: center;
@@ -165,44 +162,43 @@
 
   @media screen and (width > 900px) {
     .gradient-bg img {
-    bottom: -45rem;
-    left: 10%;
-    position: fixed;
-    scale: 200%;
-    rotate: -10deg;
-    filter: blur(60px);
-    z-index: -1;
-    animation: fadeInAnimation cubic-bezier(.39, -1.05, .58, 1.95) 1s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    transform-origin: center;
-  }
+      bottom: -45rem;
+      left: 10%;
+      position: fixed;
+      scale: 200%;
+      rotate: -10deg;
+      filter: blur(60px);
+      z-index: -1;
+      animation: fadeInAnimation cubic-bezier(0.39, -1.05, 0.58, 1.95) 1s;
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+      transform-origin: center;
+    }
   }
 
   @keyframes fadeInAnimation {
     0% {
       opacity: 0;
-      transform: scale3d(.75,.75,1);
+      transform: scale3d(0.75, 0.75, 1);
     }
     100% {
       opacity: 1;
-      transform: scale3d(1,1,1);
+      transform: scale3d(1, 1, 1);
     }
-}
+  }
 
-.tags {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 0.5rem;
-    }
+  .tags {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 0.5rem;
+  }
 
-    .no-tags {
-      display: flex;
-      flex-direction: row;
-      column-gap: 8px;
-      margin-top: 0;
-    }
-
+  .no-tags {
+    display: flex;
+    flex-direction: row;
+    column-gap: 8px;
+    margin-top: 0;
+  }
 </style>
