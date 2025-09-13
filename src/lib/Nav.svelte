@@ -42,7 +42,7 @@
   <div class="back-container">
     <!-- NEED FUNCTIONALITY -->
     <button on:click={goBack}>
-      <RemixIcon name="arrow-left-s-line" size="50px" />
+      <RemixIcon name="arrow-left-s-line" size="42px" />
     </button>
   </div>
 
@@ -57,11 +57,17 @@
     class="hamburger"
     on:click={toggleMenu}
     on:keydown={toggleMenu}
-    class:active={isOpen}
+    role="button"
+    tabindex="0"
+    aria-label={isOpen ? "Close menu" : "Open menu"}
   >
-    <span />
-    <span />
-    <span />
+    <div class="icon-container">
+      {#if !isOpen}
+        <RemixIcon name="menu-line" size="32px" />
+      {:else}
+        <RemixIcon name="close-line" size="32px" />
+      {/if}
+    </div>
   </div>
 
   <div class="menu" class:active={isOpen}>
@@ -103,8 +109,13 @@
     position: fixed;
     top: 1rem;
     left: 1rem;
-    padding: 0.5rem 0.9rem;
+    padding: 0.75rem;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    box-sizing: border-box;
   }
 
   .logo-container {
@@ -112,8 +123,13 @@
     top: 1rem;
     left: 50%;
     transform: translateX(-50%);
-    padding: 0.5rem 0;
+    padding: 0.75rem;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    box-sizing: border-box;
   }
 
   .menu {
@@ -169,31 +185,24 @@
     position: fixed;
     top: 1rem;
     right: 1rem;
-    padding: 0.68rem;
+    padding: 0.75rem;
     z-index: 10;
     cursor: pointer;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    box-sizing: border-box;
   }
 
-  .hamburger span {
-    display: block;
-    width: 1.7rem;
-    height: 1.5px;
-    background-color: var(--primary-black);
-    margin-bottom: 8.25px;
-    border-radius: 1px;
-    transition: transform 0.3s ease;
-  }
-
-  .hamburger.active span:nth-child(1) {
-    transform: translateY(11px) rotate(45deg);
-  }
-
-  .hamburger.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .hamburger.active span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+  .icon-container {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .shadow {
