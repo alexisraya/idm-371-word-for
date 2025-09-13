@@ -128,7 +128,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 2.75rem;
+    height: 3.5rem;
     box-sizing: border-box;
   }
 
