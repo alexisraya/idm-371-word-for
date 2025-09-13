@@ -503,7 +503,8 @@
     box-sizing: border-box;
 
     /* Layout */
-    display: flex;
+    /* display: flex; */
+    /* flex-direction: row; */
     width: 100%;
     /* max-width: 19.5rem; */
     /* max-width: calc(100vw - 1rem); */
@@ -523,6 +524,11 @@
     font-style: normal;
     font-weight: 300;
     line-height: 1.25rem;
+  }
+
+  .dropdown-wide[open] {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .dropdown-wide summary {

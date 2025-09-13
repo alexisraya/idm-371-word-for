@@ -448,7 +448,8 @@
     border: unset;
 
     /* Layout */
-    display: flex;
+    /* display: flex;
+    flex-direction: row; */
     width: 100%;
     max-width: 19.5rem;
     /* max-width: calc(100vw - 1rem); */
@@ -470,6 +471,11 @@
     font-style: normal;
     font-weight: 300;
     line-height: 1.25rem;
+  }
+
+  .dropdown-wide[open] {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .dropdown-wide summary {
@@ -519,12 +525,12 @@
 
     /* Layout */
     box-sizing: border-box;
-    display: flex;
+    /* display: flex; */
     height: 2.75rem;
     width: 8.875rem;
     padding: 0 1rem;
-    justify-content: space-between;
-    align-items: center;
+    /* justify-content: space-between; */
+    /* align-items: center; */
 
     /* Style */
     border-radius: 1.5rem;
@@ -582,14 +588,10 @@
 
   fieldset {
     /* Reset */
-    margin-inline-start: 0;
-    margin-inline-end: 0;
-    padding-block-start: 0;
-    padding-block-end: 0;
-    padding-inline-start: 0;
-    padding-inline-end: 0;
+    margin: 0;
+    padding: 0;
     border: none;
-    min-inline-size: min-content;
+    width: 100%;
   }
 
   fieldset ul {
@@ -605,7 +607,7 @@
 
   fieldset ul li {
     /* Layout */
-    padding: 0.5rem 0;
+    padding: 0.5rem 1rem 0.5rem 0;
   }
 
   input[type="checkbox"] {
